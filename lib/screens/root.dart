@@ -37,22 +37,26 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> widgetOptions = <Widget>[
-      HomePage(),
-      BMIPage(),
-      HomePage(),
-      TCABSSKPage(),
-      ProfilePage(),
-      // other pages here, replace duplicate later
-    ];
-    var page = widgetOptions.elementAt(_selectedIndex);
+    bool submitted = false;
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       future: getUserInfo(),
       builder: (context, snapshot) {
-        Map<String, dynamic> data =
-            snapshot.data!.data() as Map<String, dynamic>;
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            submitted = data['BSSK'] != null;
+            final List<Widget> widgetOptions = <Widget>[
+              HomePage(),
+              BMIPage(),
+              HomePage(),
+              TCABSSKPage(
+                submitted: submitted,
+              ),
+              ProfilePage(),
+              // other pages here, replace duplicate later
+            ];
+            var page = widgetOptions.elementAt(_selectedIndex);
             return Scaffold(
               appBar: _selectedIndex == 2
                   ? AppBar(

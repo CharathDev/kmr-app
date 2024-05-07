@@ -1,365 +1,225 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:kmrapp/screens/login.dart';
 import 'material.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final user = FirebaseAuth.instance.currentUser!;
+
+  final TextEditingController nameController = new TextEditingController();
+
+  final TextEditingController icController = new TextEditingController();
+
+  final TextEditingController phoneNumberController =
+      new TextEditingController();
+
+  final TextEditingController emailController = new TextEditingController();
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    return snapshot;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Image.asset(
-            'lib/assets/images/profile.png',
-            width: 200,
-          ),
-          Expanded(
-            child: DefaultTabController(
-              length: 3,
-              child: Scaffold(
-                appBar: AppBar(
-                  leadingWidth: 0,
-                  toolbarHeight: 0,
-                  bottom: MyTabBar(
-                    child: TabBar(
-                      padding: EdgeInsets.fromLTRB(
-                          MediaQuery.of(context).size.width * 0.05,
-                          0,
-                          MediaQuery.of(context).size.width * 0.05,
-                          0),
-                      tabs: [
-                        Tab(text: "Details"),
-                        Tab(text: "Ongoing Appointments"),
-                        Tab(text: "Past Appointments"),
+        body: FutureBuilder(
+      future: getUserInfo(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData &&
+            snapshot.connectionState != ConnectionState.done) {
+          return CircularProgressIndicator();
+        } else {
+          final data = snapshot.data!.data()!;
+          nameController.text = data["fullName"];
+          icController.text = data["icNumber"];
+          phoneNumberController.text = data["phoneNumber"];
+          emailController.text = data["email"];
+          return Column(
+            children: [
+              Image.asset(
+                'lib/assets/images/profile.png',
+                width: 200,
+              ),
+              Expanded(
+                child: DefaultTabController(
+                  length: 1,
+                  child: Scaffold(
+                    appBar: AppBar(
+                      leadingWidth: 0,
+                      toolbarHeight: 0,
+                      bottom: MyTabBar(
+                        child: TabBar(
+                          padding: EdgeInsets.fromLTRB(
+                              MediaQuery.of(context).size.width * 0.05,
+                              0,
+                              MediaQuery.of(context).size.width * 0.05,
+                              0),
+                          tabs: [
+                            Tab(text: "Details"),
+                          ],
+                        ),
+                      ),
+                    ),
+                    body: TabBarView(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: ListView(
+                            children: [
+                              SizedBox(
+                                height: 50,
+                              ),
+                              TextField(
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 30),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  labelText: 'Full Name',
+                                  hintText: data["fullName"],
+                                ),
+                                controller: nameController,
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              TextField(
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 30),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    labelText: 'IC Number',
+                                    hintText: data["icNumber"]),
+                                controller: icController,
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              TextField(
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 30),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    labelText: 'Phone Number',
+                                    hintText: data["phoneNumber"]),
+                                controller: phoneNumberController,
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              TextField(
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 30),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    labelText: 'E-mail',
+                                    hintText: data["email"]),
+                                controller: emailController,
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    print("breh");
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(user.uid)
+                                        .update({
+                                      "fullName": nameController.text,
+                                      "icNumber": icController.text,
+                                      "phoneNumber": phoneNumberController.text,
+                                      "email": emailController.text,
+                                    });
+                                  });
+                                },
+                                style: ButtonStyle(
+                                  overlayColor: MaterialStateProperty.all(
+                                      Colors.transparent),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 50),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff966FD6),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Text(
+                                    'Update Profile',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    FirebaseAuth.instance.signOut();
+                                    Navigator.pop(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => LoginPage()));
+                                  });
+                                },
+                                style: ButtonStyle(
+                                  overlayColor: MaterialStateProperty.all(
+                                      Colors.transparent),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 50),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red[600],
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Text(
+                                    'Log Out',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
-                body: TabBarView(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: ListView(
-                        children: [
-                          SizedBox(
-                            height: 50,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 30),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              labelText: 'Full Name',
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 30),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                                labelText: 'IC Number'),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 30),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              labelText: 'Phone Number',
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 30),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                                labelText: 'E-mail'),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 50),
-                              decoration: BoxDecoration(
-                                color: Colors.red[600],
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Text(
-                                'Log Out',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text('12/03/24 | 2:00 PM - 3:00 PM'),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    color: Color(0xFFC7E9E6),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: 60,
-                                          padding: EdgeInsets.all(5),
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 64, 255, 191),
-                                              borderRadius:
-                                                  BorderRadius.circular(50)),
-                                          child: Icon(
-                                            Ionicons.person,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 25,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Klinik Mesra Remaja ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            Text(
-                                              ' KK Kota Putera',
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text('12/03/24 | 2:00 PM - 3:00 PM'),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    color: Color(0xFFC7E9E6),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: 60,
-                                          padding: EdgeInsets.all(5),
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 64, 255, 191),
-                                              borderRadius:
-                                                  BorderRadius.circular(50)),
-                                          child: Icon(
-                                            Ionicons.person,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 25,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Klinik Mesra Remaja ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            Text(
-                                              ' KK Kota Putera',
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text('12/03/24 | 2:00 PM - 3:00 PM'),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    color: Color(0xFFC7E9E6),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: 60,
-                                          padding: EdgeInsets.all(5),
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 64, 255, 191),
-                                              borderRadius:
-                                                  BorderRadius.circular(50)),
-                                          child: Icon(
-                                            Ionicons.person,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 25,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Klinik Mesra Remaja ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            Text(
-                                              ' KK Kota Putera',
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
+            ],
+          );
+        }
+      },
+    ));
   }
 }

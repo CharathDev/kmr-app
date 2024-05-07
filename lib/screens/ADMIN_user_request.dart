@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +9,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 class ADMINUserRequestPage extends StatefulWidget {
   ADMINUserRequestPage(
       {super.key,
+      required this.id,
       required this.name,
       required this.email,
       required this.ic,
@@ -18,6 +22,7 @@ class ADMINUserRequestPage extends StatefulWidget {
   final Map<String, dynamic> values;
   final bool reviewed;
   final Function reviewedUser;
+  final String id;
   static final List<String> title = [
     "A. Biodata",
     "B. Medical/Surgical History",
@@ -1130,7 +1135,7 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
             Expanded(
               child: FormBuilderCheckboxGroup(
                   enabled: false,
-                  initialValue: widget.values['j1'],
+                  initialValue: (widget.values['j1']).cast<String>(),
                   name: "j1",
                   decoration: InputDecoration(border: InputBorder.none),
                   options: [
@@ -1794,8 +1799,8 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                                               Navigator.pop(context);
                                               setState(() {
                                                 submitted = true;
-                                                widget.reviewedUser(
-                                                    widget.name, doctors);
+                                                widget.reviewedUser(widget.name,
+                                                    doctors, widget.id);
                                               });
                                             },
                                           ),

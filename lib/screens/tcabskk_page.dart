@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 
 class TCABSSKPage extends StatefulWidget {
-  TCABSSKPage({super.key});
+  bool submitted;
+  TCABSSKPage({super.key, required this.submitted});
   static final List<String> title = [
     "A. Biodata",
     "B. Medical/Surgical History",
@@ -30,8 +33,56 @@ class TCABSSKPage extends StatefulWidget {
 
 class _TCABSSKPageState extends State<TCABSSKPage> {
   final user = FirebaseAuth.instance.currentUser!;
+  String recommendedStaff = '';
 
-  int section = 1;
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getRecommendedStaffInfo(
+      String doc) async {
+    return await FirebaseFirestore.instance
+        .collection('staff')
+        .doc(doc)
+        .collection('members')
+        .doc('0')
+        .get();
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getStaffInfo(
+      String staffCateogry) async {
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>> staffList = [];
+    await FirebaseFirestore.instance
+        .collection('staff')
+        .doc(staffCateogry)
+        .collection('members')
+        .get()
+        .then((querySnapshot) {
+      for (var docSnapshot in querySnapshot.docs) {
+        staffList.add(docSnapshot);
+      }
+    });
+    return staffList;
+  }
+
+  Future<String> getRecommendedStaffListName() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .then((value) {
+      var staffData = value.data()!;
+      for (var doctor in staffData['doctors']) {
+        recommendedStaff += doctor + ", ";
+      }
+    });
+    return recommendedStaff;
+  }
+
+  int section = 0;
   ScrollController listScrollController = ScrollController();
 
   Map<String, dynamic> values = {
@@ -129,7 +180,6 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
 
   changeValues(name, value) {
     values[name] = value;
-    print(values[name]);
   }
 
   @override
@@ -1396,860 +1446,808 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
     ];
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd \n h:mm:ss a').format(now);
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          leadingWidth: 0,
-          toolbarHeight: 0,
-          bottom: MyTabBar(
-            child: TabBar(
-              padding: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width * 0.15,
-                  0,
-                  MediaQuery.of(context).size.width * 0.15,
-                  0),
-              tabs: [
-                Tab(text: "TCA"),
-                Tab(text: "BSSK"),
-              ],
-            ),
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: 30,
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Recommended for You!',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFC7E9E6),
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/images/profile.png',
-                                      width: 75,
-                                      height: 75,
-                                    ),
-                                    SizedBox(width: 15.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Dr. Ahmad Lee',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '3 years++ experience in...',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const TCAAppointmentPage()),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Ionicons.chevron_forward_outline,
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFC7E9E6),
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/images/profile.png',
-                                      width: 75,
-                                      height: 75,
-                                    ),
-                                    SizedBox(width: 15.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Dr. Ahmad Lee II',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '3 years++ experience in...',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const TCAAppointmentPage()),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Ionicons.chevron_forward_outline,
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.black),
-                                  children: <TextSpan>[
-                                    TextSpan(text: 'Based on your previous '),
-                                    TextSpan(
-                                      text: 'BSSK results',
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.black),
-                                    ),
-                                    TextSpan(text: ', it looks like our '),
-                                    TextSpan(
-                                      text: 'Occupational Therapist',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    TextSpan(
-                                        text:
-                                            ' will be the best option for you.'),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                'Counsellor',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFC7E9E6),
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/images/profile.png',
-                                      width: 75,
-                                      height: 75,
-                                    ),
-                                    SizedBox(width: 15.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Dr. Ahmad Lee',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '3 years++ experience in...',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const TCAAppointmentPage()),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Ionicons.chevron_forward_outline,
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFC7E9E6),
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/images/profile.png',
-                                      width: 75,
-                                      height: 75,
-                                    ),
-                                    SizedBox(width: 15.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Dr. Ahmad Lee II',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '3 years++ experience in...',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const TCAAppointmentPage()),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Ionicons.chevron_forward_outline,
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                'Medical Officer',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFC7E9E6),
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/images/profile.png',
-                                      width: 75,
-                                      height: 75,
-                                    ),
-                                    SizedBox(width: 15.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Dr. Ahmad Lee',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '3 years++ experience in...',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const TCAAppointmentPage()),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Ionicons.chevron_forward_outline,
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFC7E9E6),
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/images/profile.png',
-                                      width: 75,
-                                      height: 75,
-                                    ),
-                                    SizedBox(width: 15.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Dr. Ahmad Lee II',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '3 years++ experience in...',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const TCAAppointmentPage()),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Ionicons.chevron_forward_outline,
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              )
-                            ],
-                          )
+    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        future: getUserInfo(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
+              var snapshotReference = snapshot.data!.reference;
+              return DefaultTabController(
+                length: 2,
+                child: Scaffold(
+                  appBar: AppBar(
+                    leadingWidth: 0,
+                    toolbarHeight: 0,
+                    bottom: MyTabBar(
+                      child: TabBar(
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.width * 0.15,
+                            0,
+                            MediaQuery.of(context).size.width * 0.15,
+                            0),
+                        tabs: [
+                          Tab(text: "BSSK"),
+                          Tab(text: "TCA"),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 30,
-              ),
-              child: section < TCABSSKPage.title.length
-                  ? Form(
-                      key: _formKey,
-                      child: ListView(
-                        controller: listScrollController,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.1,
-                                right: MediaQuery.of(context).size.width * 0.1),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                      style: TextStyle(
-                                          fontFamily: "LeagueSpartan",
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          color: Colors.black),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text:
-                                                "This form consists of 11 sections "),
-                                        TextSpan(
-                                            text: "(A - K).",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold))
-                                      ]),
-                                ),
-                                Text(
-                                  "Please fill in your information in each section accordingly.",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "LeagueSpartan",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.02,
-                                    right: MediaQuery.of(context).size.width *
-                                        0.02),
-                                child: Stack(
-                                  alignment: Alignment.topCenter,
+                  ),
+                  body: TabBarView(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 30,
+                        ),
+                        child: section < TCABSSKPage.title.length &&
+                                !widget.submitted
+                            ? Form(
+                                key: _formKey,
+                                child: ListView(
+                                  controller: listScrollController,
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 15, left: 4, right: 4),
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: Color(0xffd9d9d9),
-                                                  width: 3)),
-                                          padding: EdgeInsets.all(8),
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                top: 30, left: 10, right: 20),
-                                            child: ListView.builder(
-                                                shrinkWrap: true,
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                itemCount:
-                                                    questions[section].length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          SizedBox(
-                                                            width: 24,
-                                                            child: Text(
-                                                                "${index + 1})"),
-                                                          ),
-                                                          Expanded(
-                                                            child: Text(questions[
-                                                                        section]
-                                                                    .elementAt(
-                                                                        index)[
-                                                                'text']),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 15),
-                                                        child: questions[
-                                                                section]
-                                                            .elementAt(
-                                                                index)['child'],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                    ],
-                                                  );
-                                                }),
-                                          )),
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFededeb),
-                                        borderRadius: BorderRadius.circular(30),
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          RichText(
+                                            textAlign: TextAlign.center,
+                                            text: TextSpan(
+                                                style: TextStyle(
+                                                    fontFamily: "LeagueSpartan",
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                    color: Colors.black),
+                                                children: <TextSpan>[
+                                                  TextSpan(
+                                                      text:
+                                                          "This form consists of 11 sections "),
+                                                  TextSpan(
+                                                      text: "(A - K).",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold))
+                                                ]),
+                                          ),
+                                          Text(
+                                            "Please fill in your information in each section accordingly.",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: "LeagueSpartan",
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                color: Colors.black),
+                                          ),
+                                        ],
                                       ),
-                                      child: Text(TCABSSKPage.title[section]),
-                                    )
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.02,
+                                              right: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.02),
+                                          child: Stack(
+                                            alignment: Alignment.topCenter,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 15, left: 4, right: 4),
+                                                child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
+                                                            color: Color(
+                                                                0xffd9d9d9),
+                                                            width: 3)),
+                                                    padding: EdgeInsets.all(8),
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          top: 30,
+                                                          left: 10,
+                                                          right: 20),
+                                                      child: ListView.builder(
+                                                          shrinkWrap: true,
+                                                          physics:
+                                                              NeverScrollableScrollPhysics(),
+                                                          itemCount:
+                                                              questions[section]
+                                                                  .length,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int index) {
+                                                            return Column(
+                                                              children: [
+                                                                Row(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width: 24,
+                                                                      child: Text(
+                                                                          "${index + 1})"),
+                                                                    ),
+                                                                    Expanded(
+                                                                      child: Text(questions[
+                                                                              section]
+                                                                          .elementAt(
+                                                                              index)['text']),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              15),
+                                                                  child: questions[
+                                                                          section]
+                                                                      .elementAt(
+                                                                          index)['child'],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 20,
+                                                                ),
+                                                              ],
+                                                            );
+                                                          }),
+                                                    )),
+                                              ),
+                                              Container(
+                                                width: double.infinity,
+                                                padding: EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFFededeb),
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                ),
+                                                child: Text(
+                                                    TCABSSKPage.title[section]),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 20,
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.1,
+                                              right: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.1),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: 120,
+                                                child: Stack(
+                                                  alignment: Alignment.center,
+                                                  fit: StackFit.expand,
+                                                  children: [
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(40),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.grey)),
+                                                    ),
+                                                    Material(
+                                                      color: Colors.transparent,
+                                                      child: InkWell(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(40),
+                                                        onTap: () {
+                                                          if (listScrollController
+                                                              .hasClients) {
+                                                            final position =
+                                                                listScrollController
+                                                                    .position
+                                                                    .minScrollExtent;
+                                                            listScrollController
+                                                                .animateTo(
+                                                              position,
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          1),
+                                                              curve: Curves
+                                                                  .easeInOut,
+                                                            );
+                                                          }
+                                                          if (!_formKey
+                                                              .currentState!
+                                                              .validate()) {
+                                                            return;
+                                                          }
+
+                                                          _formKey.currentState!
+                                                              .save();
+                                                          setState(() {
+                                                            section += 1;
+
+                                                            if (section == 11) {
+                                                              widget.submitted =
+                                                                  true;
+                                                              final bsskRef =
+                                                                  FirebaseFirestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'users')
+                                                                      .doc(user
+                                                                          .uid);
+                                                              bsskRef.update({
+                                                                'BSSK': values,
+                                                              });
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'reviews')
+                                                                  .doc(user.uid)
+                                                                  .set({
+                                                                'fullName': data[
+                                                                    'fullName'],
+                                                                'email': data[
+                                                                    'email'],
+                                                                'icNumber': data[
+                                                                    'icNumber'],
+                                                                'phoneNumber': data[
+                                                                    'phoneNumber'],
+                                                                'BSSK': values,
+                                                                'reviewed':
+                                                                    false,
+                                                                'id': user.uid
+                                                              });
+                                                            }
+                                                          });
+                                                        },
+                                                        child: Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Text(
+                                                                  section == 10
+                                                                      ? "Submit"
+                                                                      : "Next",
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          "LeagueSpartan",
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: Colors
+                                                                          .grey),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 20,
+                                                                ),
+                                                                Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 10.0,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          150,
+                                                                          111,
+                                                                          214),
+                                                                ),
+                                                              ],
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
                                   ],
                                 ),
-                              ),
-                              Padding(
+                              )
+                            : Padding(
                                 padding: EdgeInsets.only(
-                                    top: 20,
                                     left:
                                         MediaQuery.of(context).size.width * 0.1,
                                     right: MediaQuery.of(context).size.width *
                                         0.1),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                child: Column(
                                   children: [
                                     Container(
-                                      height: 40,
-                                      width: 120,
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        fit: StackFit.expand,
+                                      padding:
+                                          EdgeInsets.fromLTRB(20, 0, 20, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 2.0,
+                                              color: Color(0xffd9d9d9)),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(40),
-                                                border: Border.all(
-                                                    color: Colors.grey)),
+                                          Image.asset(
+                                            "lib/assets/images/thumbsup.png",
+                                            width: 200,
+                                            height: 200,
                                           ),
-                                          Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              borderRadius:
-                                                  BorderRadius.circular(40),
-                                              onTap: () {
-                                                if (listScrollController
-                                                    .hasClients) {
-                                                  final position =
-                                                      listScrollController
-                                                          .position
-                                                          .minScrollExtent;
-                                                  listScrollController
-                                                      .animateTo(
-                                                    position,
-                                                    duration:
-                                                        Duration(seconds: 1),
-                                                    curve: Curves.easeInOut,
-                                                  );
-                                                }
-                                                if (!_formKey.currentState!
-                                                    .validate()) {
-                                                  return;
-                                                }
-
-                                                _formKey.currentState!.save();
-                                                setState(() {
-                                                  section += 1;
-
-                                                  if (section == 11) {
-                                                    final bsskRef =
-                                                        FirebaseFirestore
-                                                            .instance
-                                                            .collection('users')
-                                                            .doc(user.uid);
-                                                    bsskRef.update({
-                                                      'BSSK': values,
-                                                    });
-                                                    print(values);
-                                                  }
-                                                });
-                                              },
-                                              child: Align(
-                                                  alignment: Alignment.center,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        section == 10
-                                                            ? "Submit"
-                                                            : "Next",
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                "LeagueSpartan",
-                                                            fontSize: 16,
-                                                            color: Colors.grey),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 20,
-                                                      ),
-                                                      Icon(
-                                                        Icons.arrow_forward_ios,
-                                                        size: 10.0,
-                                                        color: Color.fromARGB(
-                                                            255, 150, 111, 214),
-                                                      ),
-                                                    ],
-                                                  )),
+                                          Text(
+                                            "Your response on",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: "LeagueSpartan",
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                color: Colors.black),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 10, bottom: 10),
+                                            child: Text(
+                                              formattedDate,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: "Poppins",
+                                                  fontSize: 20,
+                                                  color: Colors.black),
                                             ),
+                                          ),
+                                          Text(
+                                            "has been recorded.",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: "LeagueSpartan",
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                color: Colors.black),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            "Thanks for filling up the form!",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: "LeagueSpartan",
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                color: Colors.black),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      ),
-                    )
-                  : Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.1,
-                          right: MediaQuery.of(context).size.width * 0.1),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 2.0, color: Color(0xffd9d9d9)),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "lib/assets/images/thumbsup.png",
-                                  width: 200,
-                                  height: 200,
-                                ),
-                                Text(
-                                  "Your response on",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "LeagueSpartan",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      color: Colors.black),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                                  child: Text(
-                                    formattedDate,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: "Poppins",
-                                        fontSize: 20,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                                Text(
-                                  "has been recorded.",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "LeagueSpartan",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "Thanks for filling up the form!",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: "LeagueSpartan",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 40,
-                                width: 150,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(40),
-                                        color: Color(0xff966fd6),
-                                      ),
+                                    SizedBox(
+                                      height: 20,
                                     ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(40),
-                                        onTap: () {
-                                          if (listScrollController.hasClients) {
-                                            final position =
-                                                listScrollController
-                                                    .position.minScrollExtent;
-                                            listScrollController.animateTo(
-                                              position,
-                                              duration: Duration(seconds: 1),
-                                              curve: Curves.easeInOut,
-                                            );
-                                          }
-                                          ;
-                                          setState(() {
-                                            section = 0;
-                                          });
-                                        },
-                                        child: Align(
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 40,
+                                          width: 150,
+                                          child: Stack(
                                             alignment: Alignment.center,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "Start again",
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          "LeagueSpartan",
-                                                      fontSize: 16,
-                                                      color: Colors.white),
+                                            fit: StackFit.expand,
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                  color: Color(0xff966fd6),
                                                 ),
-                                              ],
-                                            )),
-                                      ),
+                                              ),
+                                              Material(
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                  onTap: () {
+                                                    if (listScrollController
+                                                        .hasClients) {
+                                                      final position =
+                                                          listScrollController
+                                                              .position
+                                                              .minScrollExtent;
+                                                      listScrollController
+                                                          .animateTo(
+                                                        position,
+                                                        duration: Duration(
+                                                            seconds: 1),
+                                                        curve: Curves.easeInOut,
+                                                      );
+                                                    }
+
+                                                    setState(() {
+                                                      section = 0;
+                                                      widget.submitted = false;
+                                                    });
+                                                  },
+                                                  child: Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            "Start again",
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    "LeagueSpartan",
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                  ],
+                                ),
+                              ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 30,
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          'Recommended for You!',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            itemCount: data['doctors'].length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  FutureBuilder<
+                                                          DocumentSnapshot<
+                                                              Map<String,
+                                                                  dynamic>>>(
+                                                      future:
+                                                          getRecommendedStaffInfo(
+                                                              data['doctors']
+                                                                  [index]),
+                                                      builder:
+                                                          ((context, snapshot) {
+                                                        if (!snapshot.hasData &&
+                                                            snapshot.connectionState !=
+                                                                ConnectionState
+                                                                    .done) {
+                                                          return CircularProgressIndicator();
+                                                        } else {
+                                                          Map<String, dynamic>
+                                                              staffData =
+                                                              snapshot.data!
+                                                                      .data()
+                                                                  as Map<String,
+                                                                      dynamic>;
+                                                          return StaffInfo(
+                                                            staffData: snapshot
+                                                                .data!
+                                                                .reference,
+                                                            staffName:
+                                                                staffData[
+                                                                    "name"],
+                                                            staffID: "0",
+                                                            userData:
+                                                                snapshotReference,
+                                                          );
+                                                        }
+                                                      }))
+                                                ],
+                                              );
+                                            }),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        FutureBuilder(
+                                            future:
+                                                getRecommendedStaffListName(),
+                                            builder: (context, string) {
+                                              if (!string.hasData &&
+                                                  string.connectionState !=
+                                                      ConnectionState.done) {
+                                                return CircularProgressIndicator();
+                                              } else {
+                                                var data = string.data!;
+                                                return RichText(
+                                                  textAlign: TextAlign.center,
+                                                  text: TextSpan(
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.black),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                          text:
+                                                              'Based on your previous '),
+                                                      TextSpan(
+                                                        text: 'BSSK results',
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      TextSpan(
+                                                          text:
+                                                              ', it looks like our '),
+                                                      TextSpan(
+                                                        text: data,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      TextSpan(
+                                                          text:
+                                                              'will be the best option for you.'),
+                                                    ],
+                                                  ),
+                                                );
+                                              }
+                                            }),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        Text(
+                                          'Counsellor',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        FutureBuilder(
+                                            future: getStaffInfo("Counsellor"),
+                                            builder: (context, list) {
+                                              if (!list.hasData &&
+                                                  list.connectionState !=
+                                                      ConnectionState.done) {
+                                                return CircularProgressIndicator();
+                                              } else {
+                                                final staffList = list.data!;
+                                                return ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    shrinkWrap: true,
+                                                    itemCount: staffList.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      var staffData =
+                                                          staffList[index]
+                                                              .data();
+                                                      return Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          StaffInfo(
+                                                            staffData:
+                                                                staffList[index]
+                                                                    .reference,
+                                                            staffName:
+                                                                staffData[
+                                                                    "name"],
+                                                            staffID: "0",
+                                                            userData:
+                                                                snapshotReference,
+                                                          )
+                                                        ],
+                                                      );
+                                                    });
+                                              }
+                                            }),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        Text(
+                                          'Medical Officer',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        FutureBuilder(
+                                            future:
+                                                getStaffInfo("Medical Officer"),
+                                            builder: (context, list) {
+                                              if (!list.hasData &&
+                                                  list.connectionState !=
+                                                      ConnectionState.done) {
+                                                return CircularProgressIndicator();
+                                              } else {
+                                                final staffList = list.data!;
+                                                return ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    shrinkWrap: true,
+                                                    itemCount: staffList.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      var staffData =
+                                                          staffList[index]
+                                                              .data();
+                                                      return Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          StaffInfo(
+                                                            staffData:
+                                                                staffList[index]
+                                                                    .reference,
+                                                            staffName:
+                                                                staffData[
+                                                                    "name"],
+                                                            staffID: "0",
+                                                            userData:
+                                                                snapshotReference,
+                                                          )
+                                                        ],
+                                                      );
+                                                    });
+                                              }
+                                            }),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        Text(
+                                          'Occupational Therapist',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        FutureBuilder(
+                                            future: getStaffInfo(
+                                                "Occupational Therapist"),
+                                            builder: (context, list) {
+                                              if (!list.hasData &&
+                                                  list.connectionState !=
+                                                      ConnectionState.done) {
+                                                return CircularProgressIndicator();
+                                              } else {
+                                                final staffList = list.data!;
+                                                return ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    shrinkWrap: true,
+                                                    itemCount: staffList.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      var staffData =
+                                                          staffList[index]
+                                                              .data();
+                                                      return Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          StaffInfo(
+                                                            staffData:
+                                                                staffList[index]
+                                                                    .reference,
+                                                            staffName:
+                                                                staffData[
+                                                                    "name"],
+                                                            staffID: "0",
+                                                            userData:
+                                                                snapshotReference,
+                                                          )
+                                                        ],
+                                                      );
+                                                    });
+                                              }
+                                            }),
+                                        SizedBox(
+                                          height: 20,
+                                        )
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
+                    ],
+                  ),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            } else {
+              return const Center(child: Text('Something went wrong'));
+            }
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        });
   }
 }
 
@@ -2467,6 +2465,88 @@ class _MyTextFieldState extends State<MyTextField> {
         hintText: widget.hinttext,
         border: OutlineInputBorder(),
         contentPadding: EdgeInsets.only(left: 10),
+      ),
+    );
+  }
+}
+
+class StaffInfo extends StatefulWidget {
+  final String staffName;
+  final String staffID;
+  final DocumentReference staffData;
+  final DocumentReference userData;
+  const StaffInfo(
+      {super.key,
+      required this.staffData,
+      required this.staffName,
+      required this.staffID,
+      required this.userData});
+
+  @override
+  State<StaffInfo> createState() => _StaffInfoState();
+}
+
+class _StaffInfoState extends State<StaffInfo> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Color(0xFFC7E9E6),
+        borderRadius: BorderRadius.circular(50),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Image.asset(
+            'lib/assets/images/profile.png',
+            width: 75,
+            height: 75,
+          ),
+          SizedBox(width: 15.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.staffName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '3 years++ experience in...',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TCAAppointmentPage(
+                          staffData: widget.staffData,
+                          userData: widget.userData,
+                        )),
+              );
+            },
+            icon: Icon(
+              Ionicons.chevron_forward_outline,
+              color: Colors.grey,
+            ),
+          )
+        ],
       ),
     );
   }

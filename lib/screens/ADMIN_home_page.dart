@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'material.dart';
@@ -451,123 +452,160 @@ class ADMINHomePage extends StatefulWidget {
 }
 
 class _ADMINHomePageState extends State<ADMINHomePage> {
-  reviewedUser(name, doctors) {
+  reviewedUser(name, doctors, id) {
     setState(() {
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(id)
+          .update({'doctors': doctors});
       for (Map<String, dynamic> i in ADMINHomePage.newRecords) {
         if (i['name'] == name) {
           ADMINHomePage.newRecords[ADMINHomePage.newRecords.indexOf(i)]
               ['doctors'] = doctors;
-          print(ADMINHomePage.newRecords);
           break;
         }
       }
     });
   }
 
+  Future<List<Map<String, dynamic>>> getUserList() async {
+    final List<Map<String, dynamic>> userList = [];
+    await FirebaseFirestore.instance
+        .collection("reviews")
+        .get()
+        .then((querySnapshot) {
+      for (var docSnapshot in querySnapshot.docs) {
+        userList.add(docSnapshot.data());
+      }
+    });
+    return userList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Text(
-            "User Requests",
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
-          ),
-          Expanded(
-            child: DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                appBar: AppBar(
-                  leadingWidth: 0,
-                  toolbarHeight: 0,
-                  bottom: MyTabBar(
-                    child: TabBar(
-                      padding: EdgeInsets.fromLTRB(
-                          MediaQuery.of(context).size.width * 0.15,
-                          0,
-                          MediaQuery.of(context).size.width * 0.15,
-                          0),
-                      tabs: [
-                        Tab(text: "New"),
-                        Tab(text: "Reviewed"),
-                      ],
+        body: FutureBuilder<List<Map<String, dynamic>>>(
+      future: getUserList(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            return Column(
+              children: [
+                Text(
+                  "User Requests",
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                ),
+                Expanded(
+                  child: DefaultTabController(
+                    length: 2,
+                    child: Scaffold(
+                      appBar: AppBar(
+                        leadingWidth: 0,
+                        toolbarHeight: 0,
+                        bottom: MyTabBar(
+                          child: TabBar(
+                            padding: EdgeInsets.fromLTRB(
+                                MediaQuery.of(context).size.width * 0.15,
+                                0,
+                                MediaQuery.of(context).size.width * 0.15,
+                                0),
+                            tabs: [
+                              Tab(text: "New"),
+                              Tab(text: "Reviewed"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      body: TabBarView(
+                        children: [
+                          GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                childAspectRatio: 3.5,
+                              ),
+                              primary: false,
+                              padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * 0.1,
+                                right: MediaQuery.of(context).size.width * 0.1,
+                                top: 20,
+                              ),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  margin: const EdgeInsets.all(10.0),
+                                  child: UserRecords(
+                                    id: snapshot.data![index]['id'],
+                                    name: snapshot.data![index]['fullName'],
+                                    email: snapshot.data![index]['email'],
+                                    ic: snapshot.data![index]['icNumber'],
+                                    values: snapshot.data![index]['BSSK'],
+                                    reviewed: snapshot.data![index]['reviewed'],
+                                    colour: Color(0xffe7ffce),
+                                    reviewedUser: reviewedUser,
+                                  ),
+                                );
+                              }),
+                          GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                childAspectRatio: 3.5,
+                              ),
+                              primary: false,
+                              padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * 0.1,
+                                right: MediaQuery.of(context).size.width * 0.1,
+                                top: 20,
+                              ),
+                              itemCount: ADMINHomePage.oldRecords.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  margin: const EdgeInsets.all(10.0),
+                                  child: UserRecords(
+                                    name: ADMINHomePage.oldRecords[index]
+                                        ['name'],
+                                    email: ADMINHomePage.oldRecords[index]
+                                        ['email'],
+                                    ic: ADMINHomePage.oldRecords[index]['ic'],
+                                    values: ADMINHomePage.oldRecords[index]
+                                        ['values'],
+                                    reviewed: ADMINHomePage.oldRecords[index]
+                                        ['reviewed'],
+                                    colour: Color(0xffd9d9d9),
+                                    reviewedUser: reviewedUser,
+                                    id: "",
+                                  ),
+                                );
+                              }),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                body: TabBarView(
-                  children: [
-                    GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          childAspectRatio: 3.5,
-                        ),
-                        primary: false,
-                        padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.1,
-                          right: MediaQuery.of(context).size.width * 0.1,
-                          top: 20,
-                        ),
-                        itemCount: ADMINHomePage.newRecords.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: const EdgeInsets.all(10.0),
-                            child: UserRecords(
-                              name: ADMINHomePage.newRecords[index]['name'],
-                              email: ADMINHomePage.newRecords[index]['email'],
-                              ic: ADMINHomePage.newRecords[index]['ic'],
-                              values: ADMINHomePage.newRecords[index]['values'],
-                              reviewed: ADMINHomePage.newRecords[index]
-                                  ['reviewed'],
-                              colour: Color(0xffe7ffce),
-                              reviewedUser: reviewedUser,
-                            ),
-                          );
-                        }),
-                    GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          childAspectRatio: 3.5,
-                        ),
-                        primary: false,
-                        padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.1,
-                          right: MediaQuery.of(context).size.width * 0.1,
-                          top: 20,
-                        ),
-                        itemCount: ADMINHomePage.oldRecords.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: const EdgeInsets.all(10.0),
-                            child: UserRecords(
-                              name: ADMINHomePage.oldRecords[index]['name'],
-                              email: ADMINHomePage.oldRecords[index]['email'],
-                              ic: ADMINHomePage.oldRecords[index]['ic'],
-                              values: ADMINHomePage.oldRecords[index]['values'],
-                              reviewed: ADMINHomePage.oldRecords[index]
-                                  ['reviewed'],
-                              colour: Color(0xffd9d9d9),
-                              reviewedUser: reviewedUser,
-                            ),
-                          );
-                        }),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          } else {
+            return const Center(child: Text('Something went wrong'));
+          }
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    ));
   }
 }
 
 class UserRecords extends StatelessWidget {
   const UserRecords({
     super.key,
+    required this.id,
     required this.name,
     required this.email,
     required this.ic,
@@ -579,6 +617,7 @@ class UserRecords extends StatelessWidget {
   final String name;
   final String email;
   final String ic;
+  final String id;
   final Map<String, dynamic> values;
   final bool reviewed;
   final Color colour;
@@ -595,6 +634,7 @@ class UserRecords extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => ADMINUserRequestPage(
+                        id: id,
                         name: name,
                         email: email,
                         ic: ic,
