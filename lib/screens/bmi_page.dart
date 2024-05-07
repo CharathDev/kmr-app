@@ -3,6 +3,8 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BMIPage extends StatefulWidget {
   const BMIPage({super.key});
@@ -24,6 +26,25 @@ class BMIPage extends StatefulWidget {
   @override
   State<BMIPage> createState() => _BMIPageState();
 }
+
+class BMIDataUpload {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> uploadBMI(Map<String, dynamic> bmiData) async {
+    User? currentUser = _auth.currentUser;
+    if (currentUser != null) {
+      await _firestore.collection('users').doc(currentUser.uid).collection('bmiRecords').add({
+        ...bmiData,
+        'timestamp': FieldValue.serverTimestamp() // Adds the time of data upload
+      });
+      print('Firebase: Data successfully uploaded for user ${currentUser.uid}');
+    } else {
+      throw Exception('No user logged in');
+    }
+  }
+}
+
 
 class _BMIPageState extends State<BMIPage> {
   late int month;
@@ -366,74 +387,66 @@ class _BMIPageState extends State<BMIPage> {
                                         borderRadius: BorderRadius.circular(40),
                                       ),
                                     ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(40),
-                                        onTap: () {
-                                          setState(() {
-                                            // save data into local list, put into firebase in the future
-                                            BMIPage.records.insert(0, {
-                                              'BMI': BMI.toString(),
-                                              'status': BMI < 18.5
-                                                  ? "Underweight"
-                                                  : BMI < 25.0
-                                                      ? "Normal"
-                                                      : BMI < 30.0
-                                                          ? "Overweight"
-                                                          : BMI < 35
-                                                              ? "Obese"
-                                                              : BMI < 40
-                                                                  ? "Moderately Obese"
-                                                                  : "Extremely Obese",
-                                              'date': '14/03/2024',
-                                              'time': '2:30pm',
-                                              'gender': gender,
-                                              'age': age,
-                                              'height': height,
-                                              'weight': weight,
-                                              'healthyweight1': healthyweight1
-                                                  .toStringAsFixed(1),
-                                              'healthyweight2': healthyweight2
-                                                  .toStringAsFixed(1),
-                                            });
+                                   Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(40),
+                                      onTap: () async {
+                                        // Define the recordData outside of setState to use it for Firebase upload.
+                                        var recordData = {
+                                          'BMI': BMI.toString(),
+                                          'status': BMI < 18.5 ? "Underweight" : BMI < 25.0 ? "Normal" : BMI < 30.0 ? "Overweight" : BMI >= 35 ? "Obese" : "Extremely Obese",
+                                          'date': date,
+                                          'time': '2:30pm',
+                                          'gender': gender,
+                                          'age': age,
+                                          'height': height,
+                                          'weight': weight,
+                                          'healthyweight1': healthyweight1.toStringAsFixed(1),
+                                          'healthyweight2': healthyweight2.toStringAsFixed(1),
+                                        };
 
-                                            // change calculator values back to default
-                                            calculated = false;
-                                            month = 2;
-                                            year = "2024";
-                                            gender = "Male";
-                                            age = "20";
-                                            height = "170";
-                                            weight = "60";
-                                            date = "23/3/2024";
-                                            BMI = 20.8;
-                                            healthyweight1 = 55.2;
-                                            healthyweight2 = 78;
-                                          });
-                                          if (listScrollController.hasClients) {
-                                            final position =
-                                                listScrollController
-                                                    .position.minScrollExtent;
-                                            listScrollController.animateTo(
-                                              position,
-                                              duration: Duration(seconds: 1),
-                                              curve: Curves.easeInOut,
-                                            );
-                                          }
-                                        },
-                                        child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "Save",
-                                            style: TextStyle(
-                                                fontFamily: "LeagueSpartan",
-                                                fontSize: 20,
-                                                color: Colors.white),
-                                          ),
+                                        setState(() {
+                                          print('Data saved locally');
+                                          // Save the full data into local list
+                                          BMIPage.records.insert(0, recordData);
+
+                                          // Reset calculator values back to default
+                                          calculated = false;
+                                          month = 2;
+                                          year = "2024";
+                                          gender = "Male";
+                                          age = "20";
+                                          height = "170";
+                                          weight = "60";
+                                          date = "23/3/2024";
+                                          BMI = 20.8;
+                                          healthyweight1 = 55.2;
+                                          healthyweight2 = 78;
+                                        });
+
+                                        // Attempt to upload full data to Firebase
+                                        try {
+                                          await BMIDataUpload().uploadBMI(recordData);
+                                          print('Data uploaded to Firebase');
+                                        } catch (e) {
+                                          print('Failed to upload data to Firebase: $e');
+                                        }
+                                      },
+                                      child: const Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Save",
+                                          style: TextStyle(
+                                              fontFamily: "LeagueSpartan",
+                                              fontSize: 20,
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ),
+                                  ),
+
+
                                   ],
                                 ),
                               ),
