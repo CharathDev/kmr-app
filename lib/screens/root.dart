@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/ADMIN_home_page.dart';
 import 'package:kmrapp/screens/bmi_page.dart';
+import 'package:kmrapp/screens/infographics.dart';
 import 'package:kmrapp/screens/profile_page.dart';
 import 'package:kmrapp/screens/tcabskk_page.dart';
 import 'package:kmrapp/screens/home_page.dart';
@@ -47,7 +48,7 @@ class _RootPageState extends State<RootPage> {
                 snapshot.data!.data() as Map<String, dynamic>;
             submitted = data['BSSK'] != null;
             final List<Widget> widgetOptions = <Widget>[
-              HomePage(),
+              Infographics(),
               BMIPage(),
               HomePage(),
               TCABSSKPage(
@@ -154,11 +155,11 @@ class _RootPageState extends State<RootPage> {
                                 ),
                                 Text(
                                   _selectedIndex == 0
-                                      ? 'Kajian Kepuasan'
+                                      ? 'Infographics'
                                       : _selectedIndex == 1
                                           ? 'BMI Calculator'
                                           : _selectedIndex == 3
-                                              ? 'TCA / BSSK'
+                                              ? 'TCA / HAF'
                                               : 'Profile',
                                   style: TextStyle(
                                       fontSize: 20,
@@ -186,15 +187,15 @@ class _RootPageState extends State<RootPage> {
                     showUnselectedLabels: false,
                     items: <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
-                          icon: Icon(Ionicons.thumbs_up_outline),
-                          label: 'Review'),
+                          icon: Icon(Ionicons.book_outline),
+                          label: 'Infographics'),
                       BottomNavigationBarItem(
                           icon: Icon(Ionicons.scale_outline), label: 'BMI'),
                       BottomNavigationBarItem(
                           icon: Icon(Ionicons.home_outline), label: 'Home'),
                       BottomNavigationBarItem(
                           icon: Icon(Ionicons.document_text_outline),
-                          label: 'TCA & BSSK'),
+                          label: 'TCA & HAF'),
                       BottomNavigationBarItem(
                           icon: Icon(Ionicons.person_outline), label: 'Profile')
                     ],
