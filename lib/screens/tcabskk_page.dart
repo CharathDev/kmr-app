@@ -1468,7 +1468,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             MediaQuery.of(context).size.width * 0.15,
                             0),
                         tabs: [
-                          Tab(text: "BSSK"),
+                          Tab(text: "HAF"),
                           Tab(text: "TCA"),
                         ],
                       ),
@@ -1512,7 +1512,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                                 children: <TextSpan>[
                                                   TextSpan(
                                                       text:
-                                                          "This form consists of 11 sections "),
+                                                          "This Health Assessment Form consists of 11 sections "),
                                                   TextSpan(
                                                       text: "(A - K).",
                                                       style: TextStyle(

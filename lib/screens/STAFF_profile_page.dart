@@ -5,15 +5,15 @@ import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/login.dart';
 import 'material.dart';
 
-class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key});
+class STAFFProfilePage extends StatefulWidget {
+  STAFFProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<STAFFProfilePage> createState() => _STAFFProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  final user = FirebaseAuth.instance.currentUser!;
+class _STAFFProfilePageState extends State<STAFFProfilePage> {
+  // final user = FirebaseAuth.instance.currentUser!;
 
   final TextEditingController nameController = new TextEditingController();
 
@@ -24,12 +24,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final TextEditingController emailController = new TextEditingController();
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get();
-    return snapshot;
+  // Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
+  Future<String> getUserInfo() async {
+    // final snapshot = await FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(user.uid)
+    //     .get();
+    // final snapshot = Future<DocumentSnapshot<Map<String, dynamic>>>;
+    return "lol";
   }
 
   @override
@@ -42,11 +44,11 @@ class _ProfilePageState extends State<ProfilePage> {
             snapshot.connectionState != ConnectionState.done) {
           return CircularProgressIndicator();
         } else {
-          final data = snapshot.data!.data()!;
-          nameController.text = data["fullName"];
-          icController.text = data["icNumber"];
-          phoneNumberController.text = data["phoneNumber"];
-          emailController.text = data["email"];
+          // final data = snapshot.data!.data()!;
+          // nameController.text = data["fullName"];
+          // icController.text = data["icNumber"];
+          // phoneNumberController.text = data["phoneNumber"];
+          // emailController.text = data["email"];
           return Column(
             children: [
               Image.asset(
@@ -69,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   labelText: 'Full Name',
-                                  hintText: data["fullName"],
+                                  hintText: "test",
                                 ),
                                 controller: nameController,
                               ),
@@ -84,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         borderRadius:
                                             BorderRadius.circular(50)),
                                     labelText: 'IC Number',
-                                    hintText: data["icNumber"]),
+                                    hintText: "test"),
                                 controller: icController,
                               ),
                               SizedBox(
@@ -98,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                     labelText: 'Phone Number',
-                                    hintText: data["phoneNumber"]),
+                                    hintText: "test"),
                                 controller: phoneNumberController,
                               ),
                               SizedBox(
@@ -112,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         borderRadius:
                                             BorderRadius.circular(50)),
                                     labelText: 'E-mail',
-                                    hintText: data["email"]),
+                                    hintText: "test"),
                                 controller: emailController,
                               ),
                               SizedBox(
@@ -123,26 +125,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                 children: [
                                   TextButton(
                                 onPressed: () {
-                                  setState(() {
-                                    print("breh");
-                                    FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(user.uid)
-                                        .update({
-                                      "fullName": nameController.text,
-                                      "icNumber": icController.text,
-                                      "phoneNumber": phoneNumberController.text,
-                                      "email": emailController.text,
-                                    });
-                                  });
+                                  // setState(() {
+                                  //   print("breh");
+                                  //   FirebaseFirestore.instance
+                                  //       .collection('users')
+                                  //       .doc(user.uid)
+                                  //       .update({
+                                  //     "fullName": nameController.text,
+                                  //     "icNumber": icController.text,
+                                  //     "phoneNumber": phoneNumberController.text,
+                                  //     "email": emailController.text,
+                                  //   });
+                                  // });
                                 },
                                 style: ButtonStyle(
                                   overlayColor: MaterialStateProperty.all(
                                       Colors.transparent),
                                 ),
                                 child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.35,
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 50),
+                                      vertical: 15,),
                                   decoration: BoxDecoration(
                                     color: Color(0xff966FD6),
                                     borderRadius: BorderRadius.circular(100),
@@ -152,6 +155,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
@@ -189,7 +193,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                                 ],
                               ),
-                              
                               
                               SizedBox(
                                 height: 50,

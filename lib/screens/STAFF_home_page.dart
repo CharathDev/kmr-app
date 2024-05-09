@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:kmrapp/screens/STAFF_user_request.dart';
 import 'material.dart';
 import 'ADMIN_user_request.dart';
 
-class ADMINHomePage extends StatefulWidget {
-  const ADMINHomePage({super.key});
+class STAFFHomePage extends StatefulWidget {
+  const STAFFHomePage({super.key});
   static final List<Map<String, dynamic>> newRecords = [
     {
       'doctors': [],
@@ -447,19 +449,19 @@ class ADMINHomePage extends StatefulWidget {
   ];
 
   @override
-  State<ADMINHomePage> createState() => _ADMINHomePageState();
+  State<STAFFHomePage> createState() => _STAFFHomePageState();
 }
 
-class _ADMINHomePageState extends State<ADMINHomePage> {
+class _STAFFHomePageState extends State<STAFFHomePage> {
   reviewedUser(name, doctors, id) {
     setState(() {
       FirebaseFirestore.instance
           .collection("users")
           .doc(id)
           .update({'doctors': doctors});
-      for (Map<String, dynamic> i in ADMINHomePage.newRecords) {
+      for (Map<String, dynamic> i in STAFFHomePage.newRecords) {
         if (i['name'] == name) {
-          ADMINHomePage.newRecords[ADMINHomePage.newRecords.indexOf(i)]
+          STAFFHomePage.newRecords[STAFFHomePage.newRecords.indexOf(i)]
               ['doctors'] = doctors;
           break;
         }
@@ -491,33 +493,11 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
             return Column(
               children: [
                 Text(
-                  "User Requests",
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                  "Appointment Tracking",
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
                 ),
-                Expanded(
-                  child: DefaultTabController(
-                    length: 2,
-                    child: Scaffold(
-                      appBar: AppBar(
-                        leadingWidth: 0,
-                        toolbarHeight: 0,
-                        bottom: MyTabBar(
-                          child: TabBar(
-                            padding: EdgeInsets.fromLTRB(
-                                MediaQuery.of(context).size.width * 0.15,
-                                0,
-                                MediaQuery.of(context).size.width * 0.15,
-                                0),
-                            tabs: [
-                              Tab(text: "New"),
-                              Tab(text: "Reviewed"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      body: TabBarView(
-                        children: [
-                          GridView.builder(
+                SizedBox(height: 10,),
+                GridView.builder(
                               shrinkWrap: true,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
@@ -526,14 +506,14 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                               ),
                               primary: false,
                               padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.008,
-                                right: MediaQuery.of(context).size.width * 0.008,
+                                left: MediaQuery.of(context).size.width * 0.05,
+                                right: MediaQuery.of(context).size.width * 0.05,
                                 top: 20,
                               ),
                               itemCount: snapshot.data!.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
-                                  margin: const EdgeInsets.all(10.0),
+                                  margin: const EdgeInsets.all(1.0),
                                   child: UserRecords(
                                     id: snapshot.data![index]['id'],
                                     name: snapshot.data![index]['fullName'],
@@ -546,44 +526,6 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                   ),
                                 );
                               }),
-                          GridView.builder(
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                childAspectRatio: 3.5,
-                              ),
-                              primary: false,
-                              padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.008,
-                                right: MediaQuery.of(context).size.width * 0.008,
-                                top: 20,
-                              ),
-                              itemCount: ADMINHomePage.oldRecords.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  margin: const EdgeInsets.all(10.0),
-                                  child: UserRecords(
-                                    name: ADMINHomePage.oldRecords[index]
-                                        ['name'],
-                                    email: ADMINHomePage.oldRecords[index]
-                                        ['email'],
-                                    ic: ADMINHomePage.oldRecords[index]['ic'],
-                                    values: ADMINHomePage.oldRecords[index]
-                                        ['values'],
-                                    reviewed: ADMINHomePage.oldRecords[index]
-                                        ['reviewed'],
-                                    colour: Color(0xffd9d9d9),
-                                    reviewedUser: reviewedUser,
-                                    id: "",
-                                  ),
-                                );
-                              }),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
               ],
             );
           } else if (snapshot.hasError) {
@@ -632,7 +574,7 @@ class UserRecords extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ADMINUserRequestPage(
+                  builder: (context) => STAFFUserRequestPage(
                         id: id,
                         name: name,
                         email: email,
@@ -642,39 +584,83 @@ class UserRecords extends StatelessWidget {
                         reviewedUser: reviewedUser,
                       )));
         },
-        child: Container(
+        child:  Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical:15, horizontal: 30),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20), color: colour),
-          padding: EdgeInsets.all(20),
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                        fontFamily: "LeagueSpartan",
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20,
-                        color: Colors.black),
-                  ),
-                  Text(
-                    email,
-                    style: const TextStyle(
-                        fontFamily: "LeagueSpartan",
-                        fontWeight: FontWeight.w300,
-                        fontSize: 16,
-                        color: Colors.black),
-                  ),
-                ],
+            color: Color(0xffe7ffce),
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: Offset(0, 3),
               ),
-              Spacer(),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 30,
-                color: Color(0xff14213d),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                Text('Andrew Lee', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 15,
+                  color: Color(0xff14213d),
+                ),
+              ],),
+              SizedBox(height: 8),
+              Expanded( // Ensure the row takes the remaining height
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded( // Makes the column take half the row space
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adds space distribution
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.phone, color: Colors.black54),
+                              SizedBox(width: 10),
+                              Text('011 2345 6789'),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.calendar_today, color: Colors.black54),
+                              SizedBox(width: 10),
+                              Text('26/04'),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded( // Makes the column take half the row space
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adds space distribution
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.email, color: Colors.black54),
+                              SizedBox(width: 10),
+                              Expanded(child: Text('andrewl@gmail.com')),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.access_time, color: Colors.black54),
+                              SizedBox(width: 10),
+                              Expanded(child: Text('2:00 pm - 3:00 pm')),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ],
           ),

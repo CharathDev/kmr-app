@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kmrapp/screens/ADMIN_home_page.dart';
+import 'package:kmrapp/screens/STAFF_root.dart';
 import 'package:kmrapp/screens/home_page.dart';
 import 'package:kmrapp/screens/register.dart';
 import 'package:kmrapp/screens/root.dart';
@@ -22,7 +23,14 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginUser() async {
     try {
-      print(emailController.text);
+      if (emailController.text == "staff@gmail.com") {
+        Navigator.push(
+          context,
+          // MaterialPageRoute(builder: (context) => RootPage()), //USER ROOT PAGE
+          MaterialPageRoute(
+              builder: (context) => STAFFRootPage()), //ADMIN ROOT PAGE
+        );
+      }
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       if (emailController.text == "admin@gmail.com") {
