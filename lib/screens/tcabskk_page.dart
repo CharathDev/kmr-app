@@ -82,7 +82,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
     return recommendedStaff;
   }
 
-  int section = 0;
+  int section = 1;
   ScrollController listScrollController = ScrollController();
 
   Map<String, dynamic> values = {
@@ -617,7 +617,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "Yourself",
+                            "You",
                             style: TextStyle(fontSize: 10),
                           ),
                           Padding(
@@ -1480,8 +1480,8 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         padding: EdgeInsets.only(
                           top: 30,
                         ),
-                        child: section < TCABSSKPage.title.length &&
-                                !widget.submitted
+                        child: section < TCABSSKPage.title.length
+                            // &&!widget.submitted
                             ? Form(
                                 key: _formKey,
                                 child: ListView(
@@ -1492,11 +1492,11 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                           left: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.1,
+                                              0.05,
                                           right: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.1),
+                                              0.05),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

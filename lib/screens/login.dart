@@ -22,9 +22,9 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginUser() async {
     try {
+      print(emailController.text);
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-
       if (emailController.text == "admin@gmail.com") {
         Navigator.push(
           context,
@@ -119,7 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 30,
                 ),
-                Row(
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  runAlignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       "Don't have an account?",

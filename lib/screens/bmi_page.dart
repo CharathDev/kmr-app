@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'package:intl/intl.dart';
 
 class BMIPage extends StatefulWidget {
   const BMIPage({super.key});
@@ -34,9 +36,14 @@ class BMIDataUpload {
   Future<void> uploadBMI(Map<String, dynamic> bmiData) async {
     User? currentUser = _auth.currentUser;
     if (currentUser != null) {
-      await _firestore.collection('users').doc(currentUser.uid).collection('bmiRecords').add({
+      await _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('bmiRecords')
+          .add({
         ...bmiData,
-        'timestamp': FieldValue.serverTimestamp() // Adds the time of data upload
+        'timestamp':
+            FieldValue.serverTimestamp() // Adds the time of data upload
       });
       print('Firebase: Data successfully uploaded for user ${currentUser.uid}');
     } else {
@@ -44,7 +51,6 @@ class BMIDataUpload {
     }
   }
 }
-
 
 class _BMIPageState extends State<BMIPage> {
   late int month;
@@ -387,66 +393,83 @@ class _BMIPageState extends State<BMIPage> {
                                         borderRadius: BorderRadius.circular(40),
                                       ),
                                     ),
-                                   Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(40),
-                                      onTap: () async {
-                                        // Define the recordData outside of setState to use it for Firebase upload.
-                                        var recordData = {
-                                          'BMI': BMI.toString(),
-                                          'status': BMI < 18.5 ? "Underweight" : BMI < 25.0 ? "Normal" : BMI < 30.0 ? "Overweight" : BMI >= 35 ? "Obese" : "Extremely Obese",
-                                          'date': date,
-                                          'time': '2:30pm',
-                                          'gender': gender,
-                                          'age': age,
-                                          'height': height,
-                                          'weight': weight,
-                                          'healthyweight1': healthyweight1.toStringAsFixed(1),
-                                          'healthyweight2': healthyweight2.toStringAsFixed(1),
-                                        };
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(40),
+                                        onTap: () async {
+                                          DateTime now = DateTime.now();
+                                          String formattedDate =
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(now);
+                                          String formattedTime =
+                                              DateFormat('h:mm a').format(now);
+                                          // Define the recordData outside of setState to use it for Firebase upload.
+                                          var recordData = {
+                                            'BMI': BMI.toString(),
+                                            'status': BMI < 18.5
+                                                ? "Underweight"
+                                                : BMI < 25.0
+                                                    ? "Normal"
+                                                    : BMI < 30.0
+                                                        ? "Overweight"
+                                                        : BMI >= 35
+                                                            ? "Obese"
+                                                            : "Extremely Obese",
+                                            'date': formattedDate,
+                                            'time': formattedTime,
+                                            'gender': gender,
+                                            'age': age,
+                                            'height': height,
+                                            'weight': weight,
+                                            'healthyweight1': healthyweight1
+                                                .toStringAsFixed(1),
+                                            'healthyweight2': healthyweight2
+                                                .toStringAsFixed(1),
+                                          };
 
-                                        setState(() {
-                                          print('Data saved locally');
-                                          // Save the full data into local list
-                                          BMIPage.records.insert(0, recordData);
+                                          setState(() {
+                                            print('Data saved locally');
+                                            // Save the full data into local list
+                                            BMIPage.records
+                                                .insert(0, recordData);
 
-                                          // Reset calculator values back to default
-                                          calculated = false;
-                                          month = 2;
-                                          year = "2024";
-                                          gender = "Male";
-                                          age = "20";
-                                          height = "170";
-                                          weight = "60";
-                                          date = "23/3/2024";
-                                          BMI = 20.8;
-                                          healthyweight1 = 55.2;
-                                          healthyweight2 = 78;
-                                        });
+                                            // Reset calculator values back to default
+                                            calculated = false;
+                                            month = 2;
+                                            year = "2024";
+                                            gender = "Male";
+                                            age = "20";
+                                            height = "170";
+                                            weight = "60";
+                                            date = "23/3/2024";
+                                            BMI = 20.8;
+                                            healthyweight1 = 55.2;
+                                            healthyweight2 = 78;
+                                          });
 
-                                        // Attempt to upload full data to Firebase
-                                        try {
-                                          await BMIDataUpload().uploadBMI(recordData);
-                                          print('Data uploaded to Firebase');
-                                        } catch (e) {
-                                          print('Failed to upload data to Firebase: $e');
-                                        }
-                                      },
-                                      child: const Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Save",
-                                          style: TextStyle(
-                                              fontFamily: "LeagueSpartan",
-                                              fontSize: 20,
-                                              color: Colors.white),
+                                          // Attempt to upload full data to Firebase
+                                          try {
+                                            await BMIDataUpload()
+                                                .uploadBMI(recordData);
+                                            print('Data uploaded to Firebase');
+                                          } catch (e) {
+                                            print(
+                                                'Failed to upload data to Firebase: $e');
+                                          }
+                                        },
+                                        child: const Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Save",
+                                            style: TextStyle(
+                                                fontFamily: "LeagueSpartan",
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-
-
                                   ],
                                 ),
                               ),
@@ -519,101 +542,101 @@ class _BMIPageState extends State<BMIPage> {
                             ),
                           ],
                         ),
-                        GridView.count(
-                          childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 3.5),
-                          primary: false,
-                          crossAxisCount: 1,
-                          shrinkWrap: true,
-                          children: [
-                            Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                Card(
-                                    color: Color(0xFFEDEDEB),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Container()),
-                                Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Expanded(
-                                        flex: 1,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Date",
-                                              style: TextStyle(
-                                                  fontFamily: "LeagueSpartan",
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                  color: Colors.black),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                          flex: 4,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              ValueListenableBuilder(
-                                                  valueListenable: monthValue,
-                                                  builder:
-                                                      (BuildContext context,
-                                                          int value,
-                                                          Widget? child) {
-                                                    return Expanded(
-                                                      flex: 1,
-                                                      child: MyDateCard(
-                                                        type: "day",
-                                                        initialValue: "14",
-                                                        monthselected:
-                                                            selectmonth,
-                                                        month: monthValue.value,
-                                                        yearselected:
-                                                            selectyear,
-                                                        year: year,
-                                                      ),
-                                                    );
-                                                  }),
-                                              Expanded(
-                                                flex: 1,
-                                                child: MyDateCard(
-                                                  type: "month",
-                                                  initialValue: "March",
-                                                  monthselected: selectmonth,
-                                                  month: month,
-                                                  yearselected: selectyear,
-                                                  year: year,
-                                                ),
-                                              ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: MyDateCard(
-                                                  type: "year",
-                                                  initialValue: "2024",
-                                                  monthselected: selectmonth,
-                                                  month: month,
-                                                  yearselected: selectyear,
-                                                  year: year,
-                                                ),
-                                              ),
-                                            ],
-                                          ))
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+                        // GridView.count(
+                        //   childAspectRatio: MediaQuery.of(context).size.width /
+                        //       (MediaQuery.of(context).size.height / 3.5),
+                        //   primary: false,
+                        //   crossAxisCount: 1,
+                        //   shrinkWrap: true,
+                        //   children: [
+                        //     Stack(
+                        //       fit: StackFit.expand,
+                        //       children: [
+                        //         Card(
+                        //             color: Color(0xFFEDEDEB),
+                        //             shape: RoundedRectangleBorder(
+                        //               borderRadius: BorderRadius.circular(20),
+                        //             ),
+                        //             child: Container()),
+                        //         Container(
+                        //           padding: EdgeInsets.all(8.0),
+                        //           child: Column(
+                        //             mainAxisAlignment: MainAxisAlignment.center,
+                        //             children: [
+                        //               const Expanded(
+                        //                 flex: 1,
+                        //                 child: Row(
+                        //                   mainAxisAlignment:
+                        //                       MainAxisAlignment.center,
+                        //                   children: [
+                        //                     Text(
+                        //                       "Date",
+                        //                       style: TextStyle(
+                        //                           fontFamily: "LeagueSpartan",
+                        //                           fontWeight: FontWeight.w500,
+                        //                           fontSize: 12,
+                        //                           color: Colors.black),
+                        //                     )
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //               Expanded(
+                        //                   flex: 4,
+                        //                   child: Row(
+                        //                     mainAxisAlignment:
+                        //                         MainAxisAlignment.spaceAround,
+                        //                     children: [
+                        //                       ValueListenableBuilder(
+                        //                           valueListenable: monthValue,
+                        //                           builder:
+                        //                               (BuildContext context,
+                        //                                   int value,
+                        //                                   Widget? child) {
+                        //                             return Expanded(
+                        //                               flex: 1,
+                        //                               child: MyDateCard(
+                        //                                 type: "day",
+                        //                                 initialValue: "14",
+                        //                                 monthselected:
+                        //                                     selectmonth,
+                        //                                 month: monthValue.value,
+                        //                                 yearselected:
+                        //                                     selectyear,
+                        //                                 year: year,
+                        //                               ),
+                        //                             );
+                        //                           }),
+                        //                       Expanded(
+                        //                         flex: 1,
+                        //                         child: MyDateCard(
+                        //                           type: "month",
+                        //                           initialValue: "March",
+                        //                           monthselected: selectmonth,
+                        //                           month: month,
+                        //                           yearselected: selectyear,
+                        //                           year: year,
+                        //                         ),
+                        //                       ),
+                        //                       Expanded(
+                        //                         flex: 1,
+                        //                         child: MyDateCard(
+                        //                           type: "year",
+                        //                           initialValue: "2024",
+                        //                           monthselected: selectmonth,
+                        //                           month: month,
+                        //                           yearselected: selectyear,
+                        //                           year: year,
+                        //                         ),
+                        //                       ),
+                        //                     ],
+                        //                   ))
+                        //             ],
+                        //           ),
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ],
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Row(
@@ -638,7 +661,12 @@ class _BMIPageState extends State<BMIPage> {
                                         borderRadius: BorderRadius.circular(40),
                                         onTap: () {
                                           setState(() {
+                                            DateTime now = DateTime.now();
+                                            String formattedDate =
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(now);
                                             calculated = true;
+                                            date = formattedDate;
                                             BMI = double.parse((double.parse(
                                                         weight) /
                                                     pow(
@@ -761,6 +789,7 @@ class MyCard extends StatefulWidget {
 class _MyCardState extends State<MyCard> {
   late String statefulInitialValue;
   late int switchindex;
+  late Timer? timer;
 
   @override
   void initState() {
@@ -830,6 +859,35 @@ class _MyCardState extends State<MyCard> {
                                           : widget.height(statefulInitialValue);
                                 });
                               },
+                        onLongPress: widget.select
+                            ? () {
+                                setState(() {
+                                  statefulInitialValue == "Male"
+                                      ? statefulInitialValue = "Female"
+                                      : statefulInitialValue = "Male";
+                                  widget.gender(statefulInitialValue);
+                                });
+                              }
+                            : () {
+                                timer = Timer.periodic(
+                                    const Duration(milliseconds: 100), (timer) {
+                                  setState(() {
+                                    statefulInitialValue =
+                                        (int.parse(statefulInitialValue) - 1)
+                                            .toString();
+                                    widget.label == "Age"
+                                        ? widget.age(statefulInitialValue)
+                                        : widget.label == "Weight"
+                                            ? widget
+                                                .weight(statefulInitialValue)
+                                            : widget
+                                                .height(statefulInitialValue);
+                                  });
+                                });
+                              },
+                        onLongPressEnd: (details) {
+                          timer?.cancel();
+                        },
                         child: Icon(
                           widget.select
                               ? Icons.arrow_back_ios_new
@@ -868,6 +926,35 @@ class _MyCardState extends State<MyCard> {
                                           : widget.height(statefulInitialValue);
                                 });
                               },
+                        onLongPress: widget.select
+                            ? () {
+                                setState(() {
+                                  statefulInitialValue == "Male"
+                                      ? statefulInitialValue = "Female"
+                                      : statefulInitialValue = "Male";
+                                  widget.gender(statefulInitialValue);
+                                });
+                              }
+                            : () {
+                                timer = Timer.periodic(
+                                    const Duration(milliseconds: 100), (timer) {
+                                  setState(() {
+                                    statefulInitialValue =
+                                        (int.parse(statefulInitialValue) + 1)
+                                            .toString();
+                                    widget.label == "Age"
+                                        ? widget.age(statefulInitialValue)
+                                        : widget.label == "Weight"
+                                            ? widget
+                                                .weight(statefulInitialValue)
+                                            : widget
+                                                .height(statefulInitialValue);
+                                  });
+                                });
+                              },
+                        onLongPressEnd: (details) {
+                          timer?.cancel();
+                        },
                         child: Icon(
                           widget.select ? Icons.arrow_forward_ios : Icons.add,
                           size: 24,
