@@ -11,7 +11,11 @@ class Contact {
   final String description;
   final int starRating;
 
-  Contact({required this.name, required this.email, required this.description, this.starRating = 5});
+  Contact(
+      {required this.name,
+      required this.email,
+      required this.description,
+      this.starRating = 5});
 }
 
 // Sample data: List of contacts
@@ -19,13 +23,15 @@ List<Contact> contacts = [
   Contact(
     name: 'Andrew Lee',
     email: 'andrewlee@gmail.com',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, asasd.as.d.asd.as.d.sad.as.d.asd.as.da.sd.as.ds.dha;skdhasdhasdhlasdha;sldjaskldhasldasdlsadasdsed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, asasd.as.d.asd.as.d.sad.as.d.asd.as.da.sd.as.ds.dha;skdhasdhasdhlasdha;sldjaskldhasldasdlsadasdsed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
     starRating: 4,
   ),
   Contact(
     name: 'Jane Doe',
     email: 'janedoe@example.com',
-    description: 'Short description here. Something about Jane Doe\'s preferences and hobbies, perhaps.',
+    description:
+        'Short description here. Something about Jane Doe\'s preferences and hobbies, perhaps.',
     starRating: 3,
   ),
   // More contacts can be added here
@@ -46,7 +52,8 @@ class ADMINReviewPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Tracking Reviews", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text("Tracking Reviews",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             Expanded(
               child: ListView.builder(
@@ -99,7 +106,8 @@ class _ContactCardState extends State<ContactCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(contact.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(contact.name,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           SizedBox(height: 5),
           Text(contact.email, style: TextStyle(color: Colors.grey[600])),
           SizedBox(height: 10),
@@ -114,10 +122,9 @@ class _ContactCardState extends State<ContactCard> {
           ),
           SizedBox(height: 10),
           LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return buildExpandableText(contact.description, constraints);
-            }
-          ),
+              builder: (BuildContext context, BoxConstraints constraints) {
+            return buildExpandableText(contact.description, constraints);
+          }),
         ],
       ),
     );
@@ -138,7 +145,10 @@ class _ContactCardState extends State<ContactCard> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(text, style: style, maxLines: isExpanded ? null : 100, overflow: TextOverflow.ellipsis),
+          Text(text,
+              style: style,
+              maxLines: isExpanded ? null : 100,
+              overflow: TextOverflow.ellipsis),
           InkWell(
             child: Text(
               isExpanded ? 'Read More...' : 'Read Less...',

@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController(
-      text: "test@gmail.com"); //remove initial value later
+      text: "staff@gmail.com"); //remove initial value later
   final passwordController =
       TextEditingController(text: "123123"); //remove initial value later
 

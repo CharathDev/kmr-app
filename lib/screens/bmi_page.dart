@@ -161,8 +161,8 @@ class _BMIPageState extends State<BMIPage> {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.1,
-                            right: MediaQuery.of(context).size.width * 0.1,
+                            left: MediaQuery.of(context).size.width * 0.05,
+                            right: MediaQuery.of(context).size.width * 0.05,
                           ),
                           child: Container(
                               child: Align(
@@ -485,8 +485,8 @@ class _BMIPageState extends State<BMIPage> {
                 : Padding(
                     padding: EdgeInsets.only(
                       top: 20,
-                      left: MediaQuery.of(context).size.width * 0.1,
-                      right: MediaQuery.of(context).size.width * 0.1,
+                      left: MediaQuery.of(context).size.width * 0.05,
+                      right: MediaQuery.of(context).size.width * 0.05,
                     ),
                     child: ListView(
                       controller: listScrollController,

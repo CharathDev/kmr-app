@@ -517,17 +517,13 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                       ),
                       body: TabBarView(
                         children: [
-                          GridView.builder(
+                          ListView.builder(
                               shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                childAspectRatio: 3.5,
-                              ),
                               primary: false,
                               padding: EdgeInsets.only(
                                 left: MediaQuery.of(context).size.width * 0.008,
-                                right: MediaQuery.of(context).size.width * 0.008,
+                                right:
+                                    MediaQuery.of(context).size.width * 0.008,
                                 top: 20,
                               ),
                               itemCount: snapshot.data!.length,
@@ -546,17 +542,13 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                   ),
                                 );
                               }),
-                          GridView.builder(
+                          ListView.builder(
                               shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                childAspectRatio: 3.5,
-                              ),
                               primary: false,
                               padding: EdgeInsets.only(
                                 left: MediaQuery.of(context).size.width * 0.008,
-                                right: MediaQuery.of(context).size.width * 0.008,
+                                right:
+                                    MediaQuery.of(context).size.width * 0.008,
                                 top: 20,
                               ),
                               itemCount: ADMINHomePage.oldRecords.length,
