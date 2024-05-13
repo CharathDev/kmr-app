@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ionicons/ionicons.dart';
 
 class LocationPage extends StatelessWidget {
@@ -11,12 +10,12 @@ class LocationPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(
+          title: const Text(
             'Our Location',
             style: TextStyle(color: Color(0xff966FD6)),
           ),
-          backgroundColor: Color(0xffDFCEFA),
-          shape: RoundedRectangleBorder(
+          backgroundColor: const Color(0xffDFCEFA),
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),
             ),
@@ -37,36 +36,37 @@ class LocationPage extends StatelessWidget {
               height: 40,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  color: Color(0xffffdce4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  color: const Color(0xffffdce4),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         height: 60,
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         width: 60,
                         decoration: BoxDecoration(
-                            color: Color(0xffff4044),
+                            color: const Color(0xffff4044),
                             borderRadius: BorderRadius.circular(50)),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Color(0xffff0000),
+                              color: const Color(0xffff0000),
                               borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
+                          child: const Icon(
                             Ionicons.home,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 25,
                       ),
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -99,36 +99,37 @@ class LocationPage extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  color: Color(0xffffdce4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  color: const Color(0xffffdce4),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         height: 60,
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         width: 60,
                         decoration: BoxDecoration(
-                            color: Color(0xffff4044),
+                            color: const Color(0xffff4044),
                             borderRadius: BorderRadius.circular(50)),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Color(0xffff0000),
+                              color: const Color(0xffff0000),
                               borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
+                          child: const Icon(
                             Ionicons.location,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 25,
                       ),
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -161,36 +162,37 @@ class LocationPage extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  color: Color(0xffffdce4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  color: const Color(0xffffdce4),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         height: 60,
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         width: 60,
                         decoration: BoxDecoration(
-                            color: Color(0xffff4044),
+                            color: const Color(0xffff4044),
                             borderRadius: BorderRadius.circular(50)),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Color(0xffff0000),
+                              color: const Color(0xffff0000),
                               borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
+                          child: const Icon(
                             Ionicons.call,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 25,
                       ),
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -218,9 +220,9 @@ class LocationPage extends StatelessWidget {
               topRight: Radius.circular(30.0),
             ),
             child: Container(
-              color: Color(0xffDFCEFA),
+              color: const Color(0xffDFCEFA),
               child: BottomNavigationBar(
-                backgroundColor: Color(0xffDFCEFA),
+                backgroundColor: const Color(0xffDFCEFA),
                 type: BottomNavigationBarType.fixed,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,

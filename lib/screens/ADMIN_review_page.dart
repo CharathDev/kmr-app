@@ -7,7 +7,7 @@ class Contact {
   final String email;
   final String description;
   final int starRating;
-  
+
   Contact(
       {required this.name,
       required this.email,
@@ -55,8 +55,8 @@ class _ADMINReviewPageState extends State<ADMINReviewPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text("Tracking Reviews",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
@@ -89,7 +89,7 @@ class _ADMINReviewPageState extends State<ADMINReviewPage> {
 class ContactCard extends StatefulWidget {
   final Contact contact;
 
-  ContactCard({required this.contact});
+  const ContactCard({super.key, required this.contact});
 
   @override
   _ContactCardState createState() => _ContactCardState();
@@ -103,8 +103,8 @@ class _ContactCardState extends State<ContactCard> {
   Widget build(BuildContext context) {
     final contact = widget.contact;
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -113,7 +113,7 @@ class _ContactCardState extends State<ContactCard> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -122,10 +122,11 @@ class _ContactCardState extends State<ContactCard> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(contact.name,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          SizedBox(height: 5),
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 5),
           Text(contact.email, style: TextStyle(color: Colors.grey[600])),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: List.generate(5, (index) {
               return Icon(
@@ -135,7 +136,7 @@ class _ContactCardState extends State<ContactCard> {
               );
             }),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
             return buildExpandableText(contact.description, constraints);
@@ -146,7 +147,7 @@ class _ContactCardState extends State<ContactCard> {
   }
 
   Widget buildExpandableText(String text, BoxConstraints constraints) {
-    final style = TextStyle(fontSize: 14);
+    const style = TextStyle(fontSize: 14);
     final textSpan = TextSpan(text: text, style: style);
     final textPainter = TextPainter(
       text: textSpan,
@@ -167,7 +168,7 @@ class _ContactCardState extends State<ContactCard> {
           InkWell(
             child: Text(
               isExpanded ? 'Read More...' : 'Read Less...',
-              style: TextStyle(color: Colors.blue, fontSize: 14),
+              style: const TextStyle(color: Colors.blue, fontSize: 14),
             ),
             onTap: () {
               setState(() {

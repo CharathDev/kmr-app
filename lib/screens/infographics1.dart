@@ -29,28 +29,30 @@ class _InfographicsState extends State<Infographics1> {
   }
 
   void goToPreviousPage() async {
-      await controller1.previousPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+    await controller1.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
+
   void goToNextPage() async {
-      await controller1.nextPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+    await controller1.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "PDF Viewer",
+          "Remaja & Kesihatan Mental",
           style:
               TextStyle(color: Color(0xff966FD6), fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Color(0xffDFCEFA),
+        backgroundColor: const Color(0xffDFCEFA),
       ),
       body: _buildUI(),
     );
@@ -64,14 +66,18 @@ class _InfographicsState extends State<Infographics1> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            IconButton(onPressed: () {
-              goToPreviousPage();
-            }, icon: Icon(Icons.arrow_back_ios)),
-            Text("${currentPage}/${totalPageCount}"),
-            IconButton(onPressed: () {
-              goToNextPage();
-            }, icon: Icon(Icons.arrow_forward_ios)),
-            ],
+            IconButton(
+                onPressed: () {
+                  goToPreviousPage();
+                },
+                icon: const Icon(Icons.arrow_back_ios)),
+            Text("$currentPage/$totalPageCount"),
+            IconButton(
+                onPressed: () {
+                  goToNextPage();
+                },
+                icon: const Icon(Icons.arrow_forward_ios)),
+          ],
         ),
         _pdfView(),
       ],

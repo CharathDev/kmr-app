@@ -487,7 +487,7 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
           if (snapshot.hasData) {
             return Column(
               children: [
-                Text(
+                const Text(
                   "User Requests",
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
                 ),
@@ -505,7 +505,7 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                 0,
                                 MediaQuery.of(context).size.width * 0.15,
                                 0),
-                            tabs: [
+                            tabs: const [
                               Tab(text: "New"),
                               Tab(text: "Reviewed"),
                             ],
@@ -536,7 +536,7 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                     ic: snapshot.data![index]['icNumber'],
                                     values: snapshot.data![index]['BSSK'],
                                     reviewed: snapshot.data![index]['reviewed'],
-                                    colour: Color(0xffe7ffce),
+                                    colour: const Color(0xffe7ffce),
                                     reviewedUser: reviewedUser,
                                   ),
                                 );
@@ -563,7 +563,7 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                     ic: snapshot.data![index]['icNumber'],
                                     values: snapshot.data![index]['BSSK'],
                                     reviewed: snapshot.data![index]['reviewed'],
-                                    colour: Color(0xffe7ffce),
+                                    colour: const Color(0xffe7ffce),
                                     reviewedUser: reviewedUser,
                                   ),
                                 );
@@ -634,7 +634,7 @@ class UserRecords extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20), color: colour),
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Row(
             children: [
               Column(
@@ -659,8 +659,8 @@ class UserRecords extends StatelessWidget {
                   ),
                 ],
               ),
-              Spacer(),
-              Icon(
+              const Spacer(),
+              const Icon(
                 Icons.arrow_forward_ios,
                 size: 30,
                 color: Color(0xff14213d),

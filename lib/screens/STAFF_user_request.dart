@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:kmrapp/screens/STAFF_root.dart';
 
@@ -58,10 +56,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             initialValue: widget.values['a2'],
             wrapAlignment: WrapAlignment.start,
             wrapSpacing: 50,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
             ),
-            options: <FormBuilderFieldOption>[
+            options: const <FormBuilderFieldOption>[
               FormBuilderFieldOption(
                 value: 'Male',
               ),
@@ -94,11 +92,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                 name: "a5",
                 wrapAlignment: WrapAlignment.start,
                 wrapSpacing: 100,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
                 options: <FormBuilderFieldOption>[
-                  FormBuilderFieldOption(
+                  const FormBuilderFieldOption(
                     value: 'Malaysia',
                   ),
                   FormBuilderFieldOption(
@@ -106,11 +104,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                     child: SizedBox(
                       width: 200,
                       child: FormBuilderTextField(
-                        style: TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14),
                         name: '',
                         readOnly: true,
                         initialValue: widget.values['a5i'],
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "Others (Please state)",
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.only(left: 10),
@@ -130,10 +128,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             initialValue: widget.values['a6'],
             wrapAlignment: WrapAlignment.start,
             wrapSpacing: 100,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
             ),
-            options: <FormBuilderFieldOption>[
+            options: const <FormBuilderFieldOption>[
               FormBuilderFieldOption(
                 value: 'Malay',
               ),
@@ -165,10 +163,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             initialValue: widget.values['a7'],
             wrapAlignment: WrapAlignment.start,
             wrapSpacing: 100,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
             ),
-            options: <FormBuilderFieldOption>[
+            options: const <FormBuilderFieldOption>[
               FormBuilderFieldOption(
                 value: 'Primary',
               ),
@@ -193,7 +191,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             wrapRunAlignment: WrapAlignment.start,
             wrapSpacing: 300,
             wrapRunSpacing: 10,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
             ),
             options: <FormBuilderFieldOption>[
@@ -202,18 +200,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Working, at: "),
-                      SizedBox(
+                      const Text("Working, at: "),
+                      const SizedBox(
                         height: 5,
                       ),
                       SizedBox(
                         width: 150,
                         child: FormBuilderTextField(
-                          style: TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 14),
                           name: '',
                           readOnly: true,
                           initialValue: widget.values['a8i'],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Your workplace",
                             border: OutlineInputBorder(),
                           ),
@@ -226,18 +224,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Still studying, at: "),
-                      SizedBox(
+                      const Text("Still studying, at: "),
+                      const SizedBox(
                         height: 5,
                       ),
                       SizedBox(
                         width: 150,
                         child: FormBuilderTextField(
-                          style: TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 14),
                           name: '',
                           readOnly: true,
                           initialValue: widget.values['a8ii'],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Your school",
                             border: OutlineInputBorder(),
                           ),
@@ -245,7 +243,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       ),
                     ],
                   )),
-              FormBuilderFieldOption(
+              const FormBuilderFieldOption(
                 value: 'Not working',
               ),
             ]),
@@ -260,11 +258,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             wrapRunAlignment: WrapAlignment.start,
             wrapSpacing: 300,
             wrapRunSpacing: 10,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
             ),
             options: <FormBuilderFieldOption>[
-              FormBuilderFieldOption(
+              const FormBuilderFieldOption(
                 value: 'Single',
               ),
               FormBuilderFieldOption(
@@ -272,18 +270,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Married, no. of children: "),
-                      SizedBox(
+                      const Text("Married, no. of children: "),
+                      const SizedBox(
                         height: 5,
                       ),
                       SizedBox(
                         width: 150,
                         child: FormBuilderTextField(
-                          style: TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 14),
                           name: '',
                           readOnly: true,
                           initialValue: widget.values['a9i'],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "No. of children",
                             border: OutlineInputBorder(),
                           ),
@@ -296,18 +294,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Widow/widower, no. of children: "),
-                      SizedBox(
+                      const Text("Widow/widower, no. of children: "),
+                      const SizedBox(
                         height: 5,
                       ),
                       SizedBox(
                         width: 150,
                         child: FormBuilderTextField(
-                          style: TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 14),
                           name: '',
                           readOnly: true,
                           initialValue: widget.values['a9ii'],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "No. of children",
                             border: OutlineInputBorder(),
                           ),
@@ -334,7 +332,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   name: 'a11a',
                   values: widget.values,
                 )),
-            Expanded(
+            const Expanded(
               flex: 1,
               child: SizedBox(),
             ),
@@ -360,8 +358,8 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
           readOnly: true,
           initialValue: widget.values['a13'],
           name: 'a13',
-          style: TextStyle(fontSize: 14),
-          decoration: InputDecoration(
+          style: const TextStyle(fontSize: 14),
+          decoration: const InputDecoration(
             hintText: 'DD/MM/YYYY',
             border: OutlineInputBorder(),
             contentPadding: EdgeInsets.only(left: 10),
@@ -374,7 +372,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
         "text": "Do you or a family member suffer from the following diseases:",
         "child": Column(
           children: [
-            Row(
+            const Row(
               children: [
                 Expanded(
                   flex: 12,
@@ -390,7 +388,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           style: TextStyle(fontSize: 10),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 15),
+                          padding: EdgeInsets.only(right: 15),
                           child: Text(
                             "Family",
                             style: TextStyle(fontSize: 10),
@@ -404,11 +402,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 3),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 3),
                     child: Text("a."),
                   ),
-                  Expanded(flex: 11, child: Text("Hypertension")),
+                  const Expanded(flex: 11, child: Text("Hypertension")),
                   Expanded(
                     flex: 7,
                     child: FormBuilderCheckboxGroup(
@@ -416,10 +414,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                         enabled: false,
                         initialValue: widget.values['b1a'],
                         wrapAlignment: WrapAlignment.spaceAround,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                         ),
-                        options: <FormBuilderFieldOption>[
+                        options: const <FormBuilderFieldOption>[
                           FormBuilderFieldOption(
                             value: 'b1ai',
                             child: SizedBox(),
@@ -435,7 +433,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Color(0xFFededeb),
+                color: const Color(0xFFededeb),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
@@ -443,11 +441,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                     left: 10, right: 10, top: 5, bottom: 5),
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 3),
                       child: Text("b."),
                     ),
-                    Expanded(flex: 11, child: Text("Diabetes")),
+                    const Expanded(flex: 11, child: Text("Diabetes")),
                     Expanded(
                       flex: 7,
                       child: FormBuilderCheckboxGroup(
@@ -455,10 +453,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           enabled: false,
                           initialValue: widget.values['b1b'],
                           wrapAlignment: WrapAlignment.spaceAround,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
-                          options: <FormBuilderFieldOption>[
+                          options: const <FormBuilderFieldOption>[
                             FormBuilderFieldOption(
                               value: 'b1bi',
                               child: SizedBox(),
@@ -477,11 +475,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 3),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 3),
                     child: Text("c."),
                   ),
-                  Expanded(flex: 11, child: Text("Heart Disease")),
+                  const Expanded(flex: 11, child: Text("Heart Disease")),
                   Expanded(
                     flex: 7,
                     child: FormBuilderCheckboxGroup(
@@ -489,10 +487,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                         enabled: false,
                         initialValue: widget.values['b1c'],
                         wrapAlignment: WrapAlignment.spaceAround,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                         ),
-                        options: <FormBuilderFieldOption>[
+                        options: const <FormBuilderFieldOption>[
                           FormBuilderFieldOption(
                             value: 'b1ci',
                             child: SizedBox(),
@@ -508,7 +506,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Color(0xFFededeb),
+                color: const Color(0xFFededeb),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
@@ -516,11 +514,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                     left: 10, right: 10, top: 5, bottom: 5),
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 3),
                       child: Text("d."),
                     ),
-                    Expanded(flex: 11, child: Text("Asthma")),
+                    const Expanded(flex: 11, child: Text("Asthma")),
                     Expanded(
                       flex: 7,
                       child: FormBuilderCheckboxGroup(
@@ -528,10 +526,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           enabled: false,
                           initialValue: widget.values['b1d'],
                           wrapAlignment: WrapAlignment.spaceAround,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
-                          options: <FormBuilderFieldOption>[
+                          options: const <FormBuilderFieldOption>[
                             FormBuilderFieldOption(
                               value: 'b1di',
                               child: SizedBox(),
@@ -550,11 +548,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 3),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 3),
                     child: Text("e."),
                   ),
-                  Expanded(
+                  const Expanded(
                       flex: 11,
                       child: Text("Hereditary Disease (e.g. Thalassemia)")),
                   Expanded(
@@ -564,10 +562,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                         enabled: false,
                         initialValue: widget.values['b1e'],
                         wrapAlignment: WrapAlignment.spaceAround,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                         ),
-                        options: <FormBuilderFieldOption>[
+                        options: const <FormBuilderFieldOption>[
                           FormBuilderFieldOption(
                             value: 'b1ei',
                             child: SizedBox(),
@@ -583,7 +581,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Color(0xFFededeb),
+                color: const Color(0xFFededeb),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
@@ -592,7 +590,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                 child: Row(
                   children: [
                     const Padding(
-                      padding: const EdgeInsets.only(right: 3),
+                      padding: EdgeInsets.only(right: 3),
                       child: Text("f."),
                     ),
                     const Expanded(
@@ -658,11 +656,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                 SizedBox(
                   width: 150,
                   child: FormBuilderTextField(
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                     name: '',
                     readOnly: true,
                     initialValue: widget.values['b3bi'],
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: "If yes, please state...",
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.only(left: 10)),
@@ -687,9 +685,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
               child: FormBuilderTextField(
                 readOnly: true,
                 initialValue: widget.values['b4i'],
-                style: TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 14),
                 name: '',
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "If yes, please state...",
                     border: OutlineInputBorder(),
                     contentPadding: EdgeInsets.only(left: 10)),
@@ -776,7 +774,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
-              child: Container(
+              child: SizedBox(
                 width: 250,
                 child: FormBuilderRadioGroup(
                     name: "s",
@@ -784,10 +782,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                     initialValue: widget.values['d3'],
                     wrapAlignment: WrapAlignment.start,
                     wrapSpacing: 50,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                     ),
-                    options: <FormBuilderFieldOption>[
+                    options: const <FormBuilderFieldOption>[
                       FormBuilderFieldOption(
                         value: 'Skinny',
                       ),
@@ -825,7 +823,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
       {
         "text": "I had experienced problems as below:",
         "child": Column(children: [
-          yesno(),
+          const yesno(),
           ListQuestion(
             index: 1,
             text: "Pus or odour smell from private parts",
@@ -860,9 +858,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   child: FormBuilderTextField(
                     readOnly: true,
                     initialValue: widget.values['f1di'],
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                     name: '',
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: "If yes, please state...",
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.only(left: 10)),
@@ -979,8 +977,8 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
             readOnly: true,
             initialValue: widget.values["f12"],
             name: 'menarche',
-            style: TextStyle(fontSize: 14),
-            decoration: InputDecoration(
+            style: const TextStyle(fontSize: 14),
+            decoration: const InputDecoration(
               hintText: "Date / Year",
               border: OutlineInputBorder(),
               contentPadding: EdgeInsets.only(left: 10),
@@ -993,7 +991,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
       {
         "text": "Do you consume any of the substances below:",
         "child": Column(children: [
-          yesno(),
+          const yesno(),
           ListQuestion(
             index: 1,
             text: "Cigarettes / Tobacco / Vape",
@@ -1028,9 +1026,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   child: FormBuilderTextField(
                     initialValue: widget.values['g1di'],
                     readOnly: true,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                     name: '',
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: "If yes, please state...",
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.only(left: 10)),
@@ -1047,7 +1045,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
         "text":
             "Parents/teachers are worried about my behaviour because they assume that I:",
         "child": Column(children: [
-          yesno(),
+          const yesno(),
           ListQuestion(
             index: 1,
             text: " am irritable",
@@ -1077,7 +1075,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
       {
         "text": "At often times, I am involved in the activities below:",
         "child": Column(children: [
-          yesno(),
+          const yesno(),
           ListQuestion(
             index: 1,
             text: "Bullying",
@@ -1136,8 +1134,8 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   enabled: false,
                   initialValue: (widget.values['j1']).cast<String>(),
                   name: "j1",
-                  decoration: InputDecoration(border: InputBorder.none),
-                  options: [
+                  decoration: const InputDecoration(border: InputBorder.none),
+                  options: const [
                     FormBuilderFieldOption(
                       value: "j1a",
                       child: Text("Mother"),
@@ -1185,7 +1183,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
       {
         "text": "I have the problems below:",
         "child": Column(children: [
-          yesno(),
+          const yesno(),
           ListQuestion(
             index: 1,
             text:
@@ -1264,12 +1262,13 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          color: doctorValue ? Color(0xffffffff) : Color(0xffededeb),
+          color:
+              doctorValue ? const Color(0xffffffff) : const Color(0xffededeb),
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-              color: doctorValue ? Color(0xff966fd6) : Colors.black,
+              color: doctorValue ? const Color(0xff966fd6) : Colors.black,
               width: doctorValue ? 3 : 1)),
       child: ListTile(
         title: Text(
@@ -1306,7 +1305,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
         titleSpacing: 0,
         centerTitle: true,
         title: Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
             width: double.infinity,
             height: 80,
             decoration: const BoxDecoration(
@@ -1326,21 +1325,21 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back_ios,
                         size: 24.0,
                         color: Color.fromARGB(255, 150, 111, 214),
                       ),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Review Request',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff966FD6)),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 24,
                   ),
                 ],
@@ -1356,15 +1355,15 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                 children: [
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                     decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 2.0, color: Color(0xffd9d9d9)),
+                        border: Border.all(
+                            width: 2.0, color: const Color(0xffd9d9d9)),
                         borderRadius: BorderRadius.circular(10)),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
@@ -1375,7 +1374,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                             height: 100,
                           ),
                         ),
-                        Text(
+                        const Text(
                           "The appointment has ended",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -1387,13 +1386,13 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 40,
                         width: 150,
                         child: Stack(
@@ -1403,7 +1402,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40),
-                                color: Color(0xff966fd6),
+                                color: const Color(0xff966fd6),
                               ),
                             ),
                             Material(
@@ -1441,7 +1440,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
               ),
             )
           : ListView(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 0,
                 bottom: 14,
               ),
@@ -1451,14 +1450,14 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       horizontal: MediaQuery.of(context).size.width * 0.1),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
                         children: [
-                          Row(
+                          const Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 60,
                                 child: Text(
                                   "Name",
@@ -1476,15 +1475,15 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           ),
                           Text(
                             widget.name,
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           )
                         ],
                       ),
                       Row(
                         children: [
-                          Row(
+                          const Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 60,
                                 child: Text(
                                   "E-mail",
@@ -1502,15 +1501,15 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           ),
                           Text(
                             widget.email,
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           )
                         ],
                       ),
                       Row(
                         children: [
-                          Row(
+                          const Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 60,
                                 child: Text(
                                   "IC",
@@ -1528,29 +1527,29 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           ),
                           Text(
                             widget.ic,
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.02),
                   child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: STAFFUserRequestPage.title.length,
                       itemBuilder: (BuildContext context, int i) {
                         return Card(
-                          color: Color(0xffededeb),
+                          color: const Color(0xffededeb),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
@@ -1571,15 +1570,15 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                                 children: [
                                   Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
+                                          borderRadius: const BorderRadius.only(
                                               bottomLeft: Radius.circular(30),
                                               bottomRight: Radius.circular(30)),
                                           border: Border.all(
-                                              color: Color(0xffd9d9d9),
+                                              color: const Color(0xffd9d9d9),
                                               width: 3)),
                                       padding: const EdgeInsets.all(8),
                                       child: Container(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                           top: 10,
                                           left: 5,
                                         ),
@@ -1606,17 +1605,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                                                       )
                                                     ],
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 10,
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 15),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 15),
                                                     child: questions[i]
                                                         .elementAt(
                                                             index)['child'],
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 20,
                                                   ),
                                                 ],
@@ -1628,16 +1628,16 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                         );
                       }),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 50,
                       width: 250,
                       child: Stack(
@@ -1659,14 +1659,13 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text("CONFIRMATION"),
-                                      content: Text(
+                                      title: const Text("CONFIRMATION"),
+                                      content: const Text(
                                           "Has the appointment successfully ended?"),
                                       actions: [
                                         TextButton(
-                                          child: Text("OK"),
+                                          child: const Text("OK"),
                                           onPressed: () {
-
                                             endAppointment();
 
                                             Navigator.push(
@@ -1699,7 +1698,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
               ],
@@ -1715,7 +1714,7 @@ class yesno extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
         Expanded(
           flex: 12,
@@ -1727,11 +1726,11 @@ class yesno extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: EdgeInsets.only(right: 10),
                   child: Text("Yes"),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 15),
+                  padding: EdgeInsets.only(right: 15),
                   child: Text("No"),
                 )
               ],
@@ -1758,7 +1757,8 @@ class ListQuestion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: index % 2 == 1 ? Color(0xFFededeb) : Color(0xFFffffff),
+        color:
+            index % 2 == 1 ? const Color(0xFFededeb) : const Color(0xFFffffff),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
@@ -1789,10 +1789,10 @@ class ListQuestion extends StatelessWidget {
                   initialValue: values[name],
                   name: name,
                   wrapAlignment: WrapAlignment.spaceAround,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                   ),
-                  options: <FormBuilderFieldOption>[
+                  options: const <FormBuilderFieldOption>[
                     FormBuilderFieldOption(
                       value: 'y',
                       child: SizedBox(),
@@ -1826,17 +1826,17 @@ class singleyesorno extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: 150,
           child: FormBuilderRadioGroup(
               enabled: false,
               initialValue: values[name],
               name: name,
               wrapAlignment: WrapAlignment.spaceBetween,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: InputBorder.none,
               ),
-              options: <FormBuilderFieldOption>[
+              options: const <FormBuilderFieldOption>[
                 FormBuilderFieldOption(
                   value: 'y',
                   child: Text("Yes"),
@@ -1862,8 +1862,8 @@ class MyTextField extends StatelessWidget {
       readOnly: true,
       initialValue: values[name],
       name: name,
-      style: TextStyle(fontSize: 14),
-      decoration: InputDecoration(
+      style: const TextStyle(fontSize: 14),
+      decoration: const InputDecoration(
         border: OutlineInputBorder(),
         contentPadding: EdgeInsets.only(left: 10),
       ),

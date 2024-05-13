@@ -48,7 +48,7 @@ class _RootPageState extends State<RootPage> {
                 snapshot.data!.data() as Map<String, dynamic>;
             submitted = data['BSSK'] != null;
             final List<Widget> widgetOptions = <Widget>[
-              Infographics(),
+              const Infographics(),
               BMIPage(),
               HomePage(),
               TCABSSKPage(
@@ -66,7 +66,7 @@ class _RootPageState extends State<RootPage> {
                       titleSpacing: 0,
                       centerTitle: true,
                       title: Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                         width: double.infinity,
                         height: 250,
                         decoration: const BoxDecoration(
@@ -93,21 +93,21 @@ class _RootPageState extends State<RootPage> {
                                   );
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(5),
                                   width: 75,
                                   alignment: Alignment.center,
-                                  child: Text(
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xff966FD6),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: const Text(
                                     'Reach Us',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 10),
                                   ),
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff966FD6),
-                                      borderRadius: BorderRadius.circular(10)),
                                 )),
                             Text(
                               'Hi, ' + data['fullName'] + '!',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 40,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xff966FD6)),
@@ -122,7 +122,7 @@ class _RootPageState extends State<RootPage> {
                       titleSpacing: 0,
                       centerTitle: true,
                       title: Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                           width: double.infinity,
                           height: 80,
                           decoration: const BoxDecoration(
@@ -144,7 +144,7 @@ class _RootPageState extends State<RootPage> {
                                         _selectedIndex = 2;
                                       });
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.arrow_back_ios,
                                       size: 24.0,
                                       color: Color.fromARGB(255, 150, 111, 214),
@@ -159,12 +159,12 @@ class _RootPageState extends State<RootPage> {
                                           : _selectedIndex == 3
                                               ? 'HAF / TCA'
                                               : 'Profile',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xff966FD6)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 24,
                                 ),
                               ],
@@ -177,13 +177,13 @@ class _RootPageState extends State<RootPage> {
                   topRight: Radius.circular(30.0),
                 ),
                 child: Container(
-                  color: Color(0xffDFCEFA),
+                  color: const Color(0xffDFCEFA),
                   child: BottomNavigationBar(
-                    backgroundColor: Color(0xffDFCEFA),
+                    backgroundColor: const Color(0xffDFCEFA),
                     type: BottomNavigationBarType.fixed,
                     showSelectedLabels: false,
                     showUnselectedLabels: false,
-                    items: <BottomNavigationBarItem>[
+                    items: const <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
                           icon: Icon(Ionicons.book_outline),
                           label: 'Infographics'),
@@ -198,7 +198,8 @@ class _RootPageState extends State<RootPage> {
                           icon: Icon(Ionicons.person_outline), label: 'Profile')
                     ],
                     currentIndex: _selectedIndex,
-                    unselectedItemColor: Color.fromARGB(255, 155, 155, 155),
+                    unselectedItemColor:
+                        const Color.fromARGB(255, 155, 155, 155),
                     selectedItemColor: const Color.fromARGB(255, 114, 163, 187),
                     onTap: _onItemTapped,
                   ),

@@ -5,8 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class VerificationPage extends StatefulWidget {
   final String verificationId;
 
-  const VerificationPage({Key? key, required this.verificationId})
-      : super(key: key);
+  const VerificationPage({super.key, required this.verificationId});
 
   @override
   _VerificationPageState createState() => _VerificationPageState();
@@ -19,22 +18,22 @@ class _VerificationPageState extends State<VerificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Verify Phone Number'),
+        title: const Text('Verify Phone Number'),
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextField(
                 controller: codeController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter verification code',
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   // Get the verification code from the text field
@@ -56,7 +55,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     // You can show an error message to the user if needed
                   }
                 },
-                child: Text('Verify'),
+                child: const Text('Verify'),
               ),
             ],
           ),

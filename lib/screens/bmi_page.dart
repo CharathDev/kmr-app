@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -144,7 +143,7 @@ class _BMIPageState extends State<BMIPage> {
                   0,
                   MediaQuery.of(context).size.width * 0.15,
                   0),
-              tabs: [
+              tabs: const [
                 Tab(text: "New Record"),
                 Tab(text: "History"),
               ],
@@ -164,7 +163,7 @@ class _BMIPageState extends State<BMIPage> {
                             left: MediaQuery.of(context).size.width * 0.05,
                             right: MediaQuery.of(context).size.width * 0.05,
                           ),
-                          child: Container(
+                          child: SizedBox(
                               child: Align(
                             alignment: Alignment.topCenter,
                             heightFactor: 0.8,
@@ -173,8 +172,8 @@ class _BMIPageState extends State<BMIPage> {
                                   showAxisLine: false,
                                   showTicks: false,
                                   showLabels: false,
-                                  backgroundImage:
-                                      AssetImage("lib/assets/images/bmi.png"),
+                                  backgroundImage: const AssetImage(
+                                      "lib/assets/images/bmi.png"),
                                   startAngle: 180,
                                   endAngle: 360,
                                   minimum: 15.0,
@@ -191,24 +190,26 @@ class _BMIPageState extends State<BMIPage> {
                                   ],
                                   annotations: <GaugeAnnotation>[
                                     GaugeAnnotation(
-                                        widget: Container(
+                                        widget: SizedBox(
                                             child: Text("$BMI",
                                                 style: TextStyle(
                                                     fontSize: 30,
                                                     color: BMI < 18.5
-                                                        ? Color(0xff87ADC7)
+                                                        ? const Color(
+                                                            0xff87ADC7)
                                                         : BMI < 25.0
-                                                            ? Color(0xff70C099)
+                                                            ? const Color(
+                                                                0xff70C099)
                                                             : BMI < 30.0
-                                                                ? Color(
+                                                                ? const Color(
                                                                     0xffF9D230)
                                                                 : BMI < 35
-                                                                    ? Color(
+                                                                    ? const Color(
                                                                         0xffEF9852)
                                                                     : BMI < 40
-                                                                        ? Color(
+                                                                        ? const Color(
                                                                             0xffDF434A)
-                                                                        : Color(
+                                                                        : const Color(
                                                                             0xffBD2B37),
                                                     fontWeight:
                                                         FontWeight.w400))),
@@ -227,7 +228,7 @@ class _BMIPageState extends State<BMIPage> {
                             height: 300,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black,
                                   blurRadius: 10.0,
@@ -238,13 +239,13 @@ class _BMIPageState extends State<BMIPage> {
                             child: Stack(
                               children: [
                                 Card(
-                                    color: Color(0xFFffffff),
+                                    color: const Color(0xFFffffff),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Container()),
                                 Container(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
@@ -255,7 +256,7 @@ class _BMIPageState extends State<BMIPage> {
                                         children: [
                                           Text(
                                             "$gender | ${age}y/o | ${height}cm | ${weight}kg",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontFamily: "LeagueSpartan",
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
@@ -269,7 +270,7 @@ class _BMIPageState extends State<BMIPage> {
                                         children: [
                                           Column(
                                             children: [
-                                              Text(
+                                              const Text(
                                                 "Weight Status",
                                                 style: TextStyle(
                                                     fontFamily: "LeagueSpartan",
@@ -294,19 +295,20 @@ class _BMIPageState extends State<BMIPage> {
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 24,
                                                   color: BMI < 18.5
-                                                      ? Color(0xff87ADC7)
+                                                      ? const Color(0xff87ADC7)
                                                       : BMI < 25.0
-                                                          ? Color(0xff70C099)
+                                                          ? const Color(
+                                                              0xff70C099)
                                                           : BMI < 30.0
-                                                              ? Color(
+                                                              ? const Color(
                                                                   0xffF9D230)
                                                               : BMI < 35
-                                                                  ? Color(
+                                                                  ? const Color(
                                                                       0xffEF9852)
                                                                   : BMI < 40
-                                                                      ? Color(
+                                                                      ? const Color(
                                                                           0xffDF434A)
-                                                                      : Color(
+                                                                      : const Color(
                                                                           0xffBD2B37),
                                                 ),
                                               ),
@@ -320,7 +322,7 @@ class _BMIPageState extends State<BMIPage> {
                                         children: [
                                           Column(
                                             children: [
-                                              Text(
+                                              const Text(
                                                 "Calculation Date",
                                                 style: TextStyle(
                                                     fontFamily: "LeagueSpartan",
@@ -330,7 +332,7 @@ class _BMIPageState extends State<BMIPage> {
                                               ),
                                               Text(
                                                 date,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontFamily: "LeagueSpartan",
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 24,
@@ -347,7 +349,7 @@ class _BMIPageState extends State<BMIPage> {
                                         children: [
                                           Column(
                                             children: [
-                                              Text(
+                                              const Text(
                                                 "Healthy Weight for You",
                                                 style: TextStyle(
                                                     fontFamily: "LeagueSpartan",
@@ -357,7 +359,7 @@ class _BMIPageState extends State<BMIPage> {
                                               ),
                                               Text(
                                                 "${healthyweight1}kg - ${healthyweight2}kg",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontFamily: "LeagueSpartan",
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 24,
@@ -380,7 +382,7 @@ class _BMIPageState extends State<BMIPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 50,
                                 width: 140,
                                 child: Stack(
@@ -476,7 +478,7 @@ class _BMIPageState extends State<BMIPage> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                       ],
@@ -522,7 +524,7 @@ class _BMIPageState extends State<BMIPage> {
                             ),
                             MyCard(
                               select: false,
-                              label: 'Weight',
+                              label: 'Weight (kg)',
                               switches: true,
                               initialValue: "60",
                               age: selectage,
@@ -532,7 +534,7 @@ class _BMIPageState extends State<BMIPage> {
                             ),
                             MyCard(
                               select: false,
-                              label: 'Height',
+                              label: 'Height (cm)',
                               switches: true,
                               initialValue: "170",
                               age: selectage,
@@ -642,7 +644,7 @@ class _BMIPageState extends State<BMIPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 50,
                                 width: 140,
                                 child: Stack(
@@ -697,7 +699,8 @@ class _BMIPageState extends State<BMIPage> {
                                                     .position.minScrollExtent;
                                             listScrollController.animateTo(
                                               position,
-                                              duration: Duration(seconds: 1),
+                                              duration:
+                                                  const Duration(seconds: 1),
                                               curve: Curves.easeInOut,
                                             );
                                           }
@@ -720,7 +723,7 @@ class _BMIPageState extends State<BMIPage> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                       ],
@@ -804,13 +807,13 @@ class _MyCardState extends State<MyCard> {
       fit: StackFit.expand,
       children: [
         Card(
-            color: Color(0xFFEDEDEB),
+            color: const Color(0xFFEDEDEB),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
             child: Container()),
         Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -893,7 +896,7 @@ class _MyCardState extends State<MyCard> {
                               ? Icons.arrow_back_ios_new
                               : Icons.remove,
                           size: 24,
-                          color: Color(0xffa6a6a6),
+                          color: const Color(0xffa6a6a6),
                         ),
                       ),
                       Text(
@@ -958,52 +961,53 @@ class _MyCardState extends State<MyCard> {
                         child: Icon(
                           widget.select ? Icons.arrow_forward_ios : Icons.add,
                           size: 24,
-                          color: Color(0xffa6a6a6),
+                          color: const Color(0xffa6a6a6),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Expanded(
+              const Expanded(
                   flex: 1,
-                  child: widget.switches
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ToggleSwitch(
-                              minHeight: 30.0,
-                              minWidth: 45.0,
-                              initialLabelIndex: switchindex,
-                              cornerRadius: 20.0,
-                              activeFgColor: Colors.black,
-                              inactiveBgColor: Colors.white,
-                              inactiveFgColor: Color(0xffa6a6a6),
-                              totalSwitches: 2,
-                              labels: widget.label == "Weight"
-                                  ? ['kg', 'lb']
-                                  : ['cm', 'in'],
-                              radiusStyle: true,
-                              activeBgColors: [
-                                [Color(0xffd9d9d9)],
-                                [Color(0xffd9d9d9)]
-                              ],
-                              onToggle: (index) {
-                                setState(() {
-                                  switchindex = index!;
-                                  widget.label == "Weight"
-                                      ? index == 0
-                                          ? statefulInitialValue = "60"
-                                          : statefulInitialValue = "132"
-                                      : index == 0
-                                          ? statefulInitialValue = "170"
-                                          : statefulInitialValue = "67";
-                                });
-                              },
-                            ),
-                          ],
-                        )
-                      : SizedBox()),
+                  child:
+                      // widget.switches
+                      //           ? Row(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 ToggleSwitch(
+                      //                   minHeight: 30.0,
+                      //                   minWidth: 45.0,
+                      //                   initialLabelIndex: switchindex,
+                      //                   cornerRadius: 20.0,
+                      //                   activeFgColor: Colors.black,
+                      //                   inactiveBgColor: Colors.white,
+                      //                   inactiveFgColor: Color(0xffa6a6a6),
+                      //                   totalSwitches: 2,
+                      //                   labels: widget.label == "Weight"
+                      //                       ? ['kg', 'lb']
+                      //                       : ['cm', 'in'],
+                      //                   radiusStyle: true,
+                      //                   activeBgColors: [
+                      //                     [Color(0xffd9d9d9)],
+                      //                     [Color(0xffd9d9d9)]
+                      //                   ],
+                      //                   onToggle: (index) {
+                      //                     setState(() {
+                      //                       switchindex = index!;
+                      //                       widget.label == "Weight"
+                      //                           ? index == 0
+                      //                               ? statefulInitialValue = "60"
+                      //                               : statefulInitialValue = "132"
+                      //                           : index == 0
+                      //                               ? statefulInitialValue = "170"
+                      //                               : statefulInitialValue = "67";
+                      //                     });
+                      //                   },
+                      //                 ),
+                      //               ],
+                      //             ):
+                      SizedBox()),
             ],
           ),
         ),
@@ -1264,7 +1268,7 @@ class Records extends StatelessWidget {
     return Stack(
       children: [
         Card(
-            color: Color(0xFFEDEDEB),
+            color: const Color(0xFFEDEDEB),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -1290,7 +1294,7 @@ class Records extends StatelessWidget {
                           )));
             },
             child: Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
                   Column(
@@ -1304,16 +1308,16 @@ class Records extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           fontSize: 30,
                           color: double.parse(BMI) < 18.5
-                              ? Color(0xff87ADC7)
+                              ? const Color(0xff87ADC7)
                               : double.parse(BMI) < 25.0
-                                  ? Color(0xff70C099)
+                                  ? const Color(0xff70C099)
                                   : double.parse(BMI) < 30.0
-                                      ? Color(0xffF9D230)
+                                      ? const Color(0xffF9D230)
                                       : double.parse(BMI) < 35
-                                          ? Color(0xffEF9852)
+                                          ? const Color(0xffEF9852)
                                           : double.parse(BMI) < 40
-                                              ? Color(0xffDF434A)
-                                              : Color(0xffBD2B37),
+                                              ? const Color(0xffDF434A)
+                                              : const Color(0xffBD2B37),
                         ),
                       ),
                       Text(
@@ -1323,28 +1327,28 @@ class Records extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           fontSize: 16,
                           color: double.parse(BMI) < 18.5
-                              ? Color(0xff87ADC7)
+                              ? const Color(0xff87ADC7)
                               : double.parse(BMI) < 25.0
-                                  ? Color(0xff70C099)
+                                  ? const Color(0xff70C099)
                                   : double.parse(BMI) < 30.0
-                                      ? Color(0xffF9D230)
+                                      ? const Color(0xffF9D230)
                                       : double.parse(BMI) < 35
-                                          ? Color(0xffEF9852)
+                                          ? const Color(0xffEF9852)
                                           : double.parse(BMI) < 40
-                                              ? Color(0xffDF434A)
-                                              : Color(0xffBD2B37),
+                                              ? const Color(0xffDF434A)
+                                              : const Color(0xffBD2B37),
                         ),
                       ),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         date,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: "LeagueSpartan",
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
@@ -1352,7 +1356,7 @@ class Records extends StatelessWidget {
                       ),
                       Text(
                         time,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: "LeagueSpartan",
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
@@ -1360,10 +1364,10 @@ class Records extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_forward_ios,
                     size: 40,
                     color: Color(0xffa6a6a6),
@@ -1412,7 +1416,7 @@ class ResultsPage extends StatelessWidget {
               children: [
                 Text(
                   "Record $index",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: "LeagueSpartan",
                     fontWeight: FontWeight.w500,
                     fontSize: 40,
@@ -1426,8 +1430,7 @@ class ResultsPage extends StatelessWidget {
                 left: MediaQuery.of(context).size.width * 0.1,
                 right: MediaQuery.of(context).size.width * 0.1,
               ),
-              child: Container(
-                  child: Align(
+              child: Align(
                 alignment: Alignment.topCenter,
                 heightFactor: 0.8,
                 child: SfRadialGauge(axes: <RadialAxis>[
@@ -1435,7 +1438,8 @@ class ResultsPage extends StatelessWidget {
                       showAxisLine: false,
                       showTicks: false,
                       showLabels: false,
-                      backgroundImage: AssetImage("lib/assets/images/bmi.png"),
+                      backgroundImage:
+                          const AssetImage("lib/assets/images/bmi.png"),
                       startAngle: 180,
                       endAngle: 360,
                       minimum: 15.0,
@@ -1450,27 +1454,28 @@ class ResultsPage extends StatelessWidget {
                       ],
                       annotations: <GaugeAnnotation>[
                         GaugeAnnotation(
-                            widget: Container(
-                                child: Text("$BMI",
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        color: BMI < 18.5
-                                            ? Color(0xff87ADC7)
-                                            : BMI < 25.0
-                                                ? Color(0xff70C099)
-                                                : BMI < 30.0
-                                                    ? Color(0xffF9D230)
-                                                    : BMI < 35
-                                                        ? Color(0xffEF9852)
-                                                        : BMI < 40
-                                                            ? Color(0xffDF434A)
-                                                            : Color(0xffBD2B37),
-                                        fontWeight: FontWeight.w400))),
+                            widget: Text("$BMI",
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    color: BMI < 18.5
+                                        ? const Color(0xff87ADC7)
+                                        : BMI < 25.0
+                                            ? const Color(0xff70C099)
+                                            : BMI < 30.0
+                                                ? const Color(0xffF9D230)
+                                                : BMI < 35
+                                                    ? const Color(0xffEF9852)
+                                                    : BMI < 40
+                                                        ? const Color(
+                                                            0xffDF434A)
+                                                        : const Color(
+                                                            0xffBD2B37),
+                                    fontWeight: FontWeight.w400)),
                             angle: 90,
                             positionFactor: 0.4)
                       ])
                 ]),
-              )),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -1481,7 +1486,7 @@ class ResultsPage extends StatelessWidget {
                 height: 300,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black,
                       blurRadius: 10.0,
@@ -1492,13 +1497,13 @@ class ResultsPage extends StatelessWidget {
                 child: Stack(
                   children: [
                     Card(
-                        color: Color(0xFFffffff),
+                        color: const Color(0xFFffffff),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Container()),
                     Container(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [

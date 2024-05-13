@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -86,10 +85,10 @@ class HomePage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(bottom: 5),
+                                    padding: const EdgeInsets.only(bottom: 5),
                                     child: Text(
                                       appointmentListData[index]["name"],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),
@@ -97,7 +96,8 @@ class HomePage extends StatelessWidget {
                                   ),
                                   Text(
                                     appointmentListData[index]["occupation"],
-                                    style: TextStyle(color: Colors.white70),
+                                    style:
+                                        const TextStyle(color: Colors.white70),
                                   ),
                                   const SizedBox(
                                     height: 18,
@@ -111,35 +111,37 @@ class HomePage extends StatelessWidget {
                                             BorderRadius.circular(10)),
                                     child: Wrap(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Ionicons.calendar,
                                           size: 18,
                                           color: Colors.white,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(left: 5),
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
                                           child: Text(
                                             appointmentListData[index]["date"],
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: const TextStyle(
+                                                color: Colors.white),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 20,
                                         ),
-                                        Icon(
+                                        const Icon(
                                           Ionicons.time_outline,
                                           size: 18,
                                           color: Colors.white,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(left: 5),
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
                                           child: Text(
                                             _timeSlots[
                                                 appointmentListData[index]
                                                     ["timeSlot"]],
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: const TextStyle(
+                                                color: Colors.white),
                                           ),
                                         )
                                       ],
@@ -152,7 +154,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     )
                   ],

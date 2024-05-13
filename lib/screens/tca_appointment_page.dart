@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:kmrapp/screens/tca_appointment_review.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -10,8 +9,7 @@ class TCAAppointmentPage extends StatefulWidget {
   final DocumentReference staffData;
   final DocumentReference userData;
   const TCAAppointmentPage(
-      {Key? key, required this.staffData, required this.userData})
-      : super(key: key);
+      {super.key, required this.staffData, required this.userData});
 
   @override
   _TCAAppointmentPageState createState() => _TCAAppointmentPageState();
@@ -47,8 +45,9 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
         .get()
         .then((value) async {
       for (var docSnapshot in value.docs) {
-        if (docSnapshot.data()["userID"] == user.uid)
+        if (docSnapshot.data()["userID"] == user.uid) {
           userInfoTemp.add(docSnapshot);
+        }
         allAppointmentsTemp.add(docSnapshot);
       }
     });
@@ -155,25 +154,25 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
                 final data = snapshot.data!.data();
                 _selectedDay = _focusedDay;
                 return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             "Schedule your appointment with",
                             style: TextStyle(fontSize: 20),
                           ),
                           Text(
                             data!["name"],
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           _buildTableCalendar(data),
                           _buildTimeSlots(data),
-                          SizedBox(height: 100),
+                          const SizedBox(height: 100),
                           _buildBookAppointmentButton(data),
                         ],
                       ),
@@ -265,22 +264,22 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
                     titleCentered: true,
                     leftChevronVisible: true,
                     rightChevronVisible: true,
-                    headerMargin: EdgeInsets.only(
+                    headerMargin: const EdgeInsets.only(
                         bottom:
                             20), // Creates a gap between the header title and the calendar grid
-                    leftChevronPadding: EdgeInsets.only(
+                    leftChevronPadding: const EdgeInsets.only(
                         left: 16), // Adds padding to the left chevron
-                    rightChevronPadding: EdgeInsets.only(
+                    rightChevronPadding: const EdgeInsets.only(
                         right: 16), // Adds padding to the right chevron
-                    titleTextStyle:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    titleTextStyle: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
                   calendarStyle: CalendarStyle(
-                    selectedDecoration: BoxDecoration(
+                    selectedDecoration: const BoxDecoration(
                       color: Colors.deepPurple,
                       shape: BoxShape.circle,
                     ),
@@ -331,12 +330,6 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
                                 _timeSlots[data["timeSlots"][index]];
                           });
                         },
-                        child: Text(
-                          _timeSlots[data["timeSlots"][index]],
-                          style: TextStyle(
-                            fontSize: 16, // This is your font size
-                          ),
-                        ),
                         style: ElevatedButton.styleFrom(
                           foregroundColor:
                               isSelected ? Colors.white : Colors.black,
@@ -345,14 +338,20 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 15),
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                        ),
+                        child: Text(
+                          _timeSlots[data["timeSlots"][index]],
+                          style: const TextStyle(
+                            fontSize: 16, // This is your font size
+                          ),
                         ),
                       );
                     }
                   },
                   padding: EdgeInsets.zero, // No additional padding
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                 );
               }
             });
@@ -379,10 +378,6 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
             );
           }
         },
-        child: const Text(
-          'Book Appointment',
-          style: TextStyle(fontSize: 17),
-        ),
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white, backgroundColor: Colors.deepPurple,
           padding: const EdgeInsets.symmetric(
@@ -392,6 +387,10 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
             borderRadius: BorderRadius.circular(
                 50.0), // Match the border radius as per design
           ),
+        ),
+        child: const Text(
+          'Book Appointment',
+          style: TextStyle(fontSize: 17),
         ),
       ),
     );
