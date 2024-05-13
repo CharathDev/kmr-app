@@ -7,7 +7,7 @@ class Contact {
   final String email;
   final String description;
   final int starRating;
-
+  
   Contact(
       {required this.name,
       required this.email,

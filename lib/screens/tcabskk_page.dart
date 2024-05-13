@@ -92,7 +92,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
     return recommendedStaff;
   }
 
-  int section = 0;
+  int section = 1;
   ScrollController listScrollController = ScrollController();
 
   Map<String, dynamic> values = {
@@ -627,7 +627,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "Yourself",
+                            "You",
                             style: TextStyle(fontSize: 10),
                           ),
                           Padding(
@@ -1490,61 +1490,66 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         padding: EdgeInsets.only(
                           top: 30,
                         ),
-                        child: section < TCABSSKPage.title.length &&
-                                !widget.submitted
+                        child: section < TCABSSKPage.title.length
+                            // &&!widget.submitted
                             ? Form(
                                 key: _formKey,
                                 child: ListView(
                                   controller: listScrollController,
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          RichText(
-                                            textAlign: TextAlign.center,
-                                            text: TextSpan(
-                                                style: TextStyle(
-                                                    fontFamily: "LeagueSpartan",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    color: Colors.black),
-                                                children: <TextSpan>[
-                                                  TextSpan(
-                                                      text:
-                                                          "This Health Assessment Form consists of 11 sections "),
-                                                  TextSpan(
-                                                      text: "(A - K).",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ]),
-                                          ),
-                                          Text(
-                                            "Please fill in your information in each section accordingly.",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontFamily: "LeagueSpartan",
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                                color: Colors.black),
-                                          ),
-                                        ],
+                                    if (section == 0)
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                            right: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            RichText(
+                                              textAlign: TextAlign.center,
+                                              text: TextSpan(
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          "LeagueSpartan",
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14,
+                                                      color: Colors.black),
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                        text:
+                                                            "This Health Assessment Form consists of 11 sections "),
+                                                    TextSpan(
+                                                        text: "(A - K).",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))
+                                                  ]),
+                                            ),
+                                            Text(
+                                              "Please fill in your information in each section accordingly.",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontFamily: "LeagueSpartan",
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  color: Colors.black),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
+                                    if (section == 0)
+                                      SizedBox(
+                                        height: 30,
+                                      ),
                                     Column(
                                       children: [
                                         Padding(
@@ -1575,9 +1580,9 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                                     padding: EdgeInsets.all(8),
                                                     child: Container(
                                                       padding: EdgeInsets.only(
-                                                          top: 30,
-                                                          left: 10,
-                                                          right: 20),
+                                                        top: 30,
+                                                        left: 5,
+                                                      ),
                                                       child: ListView.builder(
                                                           shrinkWrap: true,
                                                           physics:
@@ -1629,6 +1634,8 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                               ),
                                               Container(
                                                 width: double.infinity,
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 3),
                                                 padding: EdgeInsets.all(8),
                                                 decoration: BoxDecoration(
                                                   color: Color(0xFFededeb),

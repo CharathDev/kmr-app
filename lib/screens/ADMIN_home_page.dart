@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 import 'material.dart';
 import 'ADMIN_user_request.dart';
 
@@ -515,13 +514,8 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                       ),
                       body: TabBarView(
                         children: [
-                          GridView.builder(
+                          ListView.builder(
                               shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                childAspectRatio: 3.5,
-                              ),
                               primary: false,
                               padding: EdgeInsets.only(
                                 left: MediaQuery.of(context).size.width * 0.008,
@@ -547,13 +541,8 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                   ),
                                 );
                               }),
-                          GridView.builder(
+                          ListView.builder(
                               shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                childAspectRatio: 3.5,
-                              ),
                               primary: false,
                               padding: EdgeInsets.only(
                                 left: MediaQuery.of(context).size.width * 0.008,

@@ -526,6 +526,7 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
                         crossAxisCount: 1,
                         childAspectRatio: 3.5,
                       ),
+
                       primary: false,
                       padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.05,
@@ -534,8 +535,8 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
                       ),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        print(snapshot.data![index]['id']);
                         return Container(
+                          height: 180,
                           margin: const EdgeInsets.all(1.0),
                           child: UserRecords(
                             id: snapshot.data![index]['id'],
@@ -669,7 +670,9 @@ class UserRecords extends StatelessWidget {
                             children: [
                               Icon(Icons.phone, color: Colors.black54),
                               SizedBox(width: 10),
+
                               Text(phoneNumber),
+
                             ],
                           ),
                           Row(
@@ -677,6 +680,7 @@ class UserRecords extends StatelessWidget {
                               Icon(Icons.calendar_today, color: Colors.black54),
                               SizedBox(width: 10),
                               Text(date),
+
                             ],
                           )
                         ],

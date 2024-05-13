@@ -115,6 +115,7 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                       SizedBox(
                         height: 30,
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [

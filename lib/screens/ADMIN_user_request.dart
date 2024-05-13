@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class ADMINUserRequestPage extends StatefulWidget {
@@ -59,7 +57,7 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
             initialValue: widget.values['a2'],
             wrapAlignment: WrapAlignment.start,
             wrapSpacing: 50,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
             ),
             options: <FormBuilderFieldOption>[
@@ -387,7 +385,7 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          "Yourself",
+                          "You",
                           style: TextStyle(fontSize: 10),
                         ),
                         Padding(
@@ -1528,94 +1526,79 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                       ),
                       Row(
                         children: [
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                Text(
+                          Row(
+                            children: [
+                              Container(
+                                width: 60,
+                                child: Text(
                                   "Name",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
                                       fontSize: 16),
                                 ),
-                                Spacer(),
-                                Text(
-                                  ":  ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                ":  ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900, fontSize: 16),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              widget.name,
-                              style: TextStyle(fontSize: 16),
-                            ),
+                          Text(
+                            widget.name,
+                            style: TextStyle(fontSize: 16),
                           )
                         ],
                       ),
                       Row(
                         children: [
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                Text(
+                          Row(
+                            children: [
+                              Container(
+                                width: 60,
+                                child: Text(
                                   "E-mail",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
                                       fontSize: 16),
                                 ),
-                                Spacer(),
-                                Text(
-                                  ":  ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                ":  ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900, fontSize: 16),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              widget.email,
-                              style: TextStyle(fontSize: 16),
-                            ),
+                          Text(
+                            widget.email,
+                            style: TextStyle(fontSize: 16),
                           )
                         ],
                       ),
                       Row(
                         children: [
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                Text(
+                          Row(
+                            children: [
+                              Container(
+                                width: 60,
+                                child: Text(
                                   "IC",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
                                       fontSize: 16),
                                 ),
-                                Spacer(),
-                                Text(
-                                  ":  ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                ":  ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900, fontSize: 16),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              widget.ic,
-                              style: TextStyle(fontSize: 16),
-                            ),
+                          Text(
+                            widget.ic,
+                            style: TextStyle(fontSize: 16),
                           )
                         ],
                       ),
@@ -1630,8 +1613,9 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
+                      horizontal: MediaQuery.of(context).size.width * 0.02),
                   child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: ADMINUserRequestPage.title.length,
                       itemBuilder: (BuildContext context, int i) {
@@ -1666,7 +1650,9 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                                       padding: const EdgeInsets.all(8),
                                       child: Container(
                                         padding: EdgeInsets.only(
-                                            top: 10, left: 10, right: 20),
+                                          top: 10,
+                                          left: 5,
+                                        ),
                                         child: ListView.builder(
                                             shrinkWrap: true,
                                             physics:

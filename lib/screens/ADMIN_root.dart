@@ -3,13 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/ADMIN_home_page.dart';
-import 'package:kmrapp/screens/bmi_page.dart';
 import 'package:kmrapp/screens/logout.dart';
-import 'package:kmrapp/screens/profile_page.dart';
-import 'package:kmrapp/screens/tcabskk_page.dart';
-import 'package:kmrapp/screens/home_page.dart';
 import 'package:kmrapp/screens/ADMIN_review_page.dart';
-import 'package:kmrapp/screens/location.dart';
 
 class ADMINRootPage extends StatefulWidget {
   const ADMINRootPage({super.key});
@@ -62,6 +57,7 @@ class _RootPageState extends State<ADMINRootPage> {
                 height: 150,
               ),
               Text(
+
                 'Admin',
                 style: TextStyle(
                     fontSize: 40,
