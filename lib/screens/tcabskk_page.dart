@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/tca_appointment_page.dart';
 import 'material.dart';
@@ -92,7 +91,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
     return recommendedStaff;
   }
 
-  int section = 1;
+  int section = 0;
   ScrollController listScrollController = ScrollController();
 
   Map<String, dynamic> values = {
@@ -217,6 +216,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                 if (value != 'Male' && value != 'Female') {
                   return 'Required';
                 }
+                return null;
               },
               name: "a2",
               wrapAlignment: WrapAlignment.start,
@@ -224,7 +224,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
               decoration: InputDecoration(
                 border: InputBorder.none,
               ),
-              options: <FormBuilderFieldOption>[
+              options: const <FormBuilderFieldOption>[
                 FormBuilderFieldOption(
                   value: 'Male',
                 ),
@@ -260,6 +260,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                     if (values['a5'] == "u") {
                       return 'Required';
                     }
+                    return null;
                   },
                   name: "a5",
                   wrapAlignment: WrapAlignment.start,
@@ -285,6 +286,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                     values['a5ii'] == '')) {
                               return 'Required';
                             }
+                            return null;
                           },
                           style: TextStyle(fontSize: 14),
                           name: '',
@@ -310,6 +312,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                 if (value == null) {
                   return 'Required';
                 }
+                return null;
               },
               name: "a6",
               wrapAlignment: WrapAlignment.start,
@@ -317,7 +320,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
               decoration: InputDecoration(
                 border: InputBorder.none,
               ),
-              options: <FormBuilderFieldOption>[
+              options: const <FormBuilderFieldOption>[
                 FormBuilderFieldOption(
                   value: 'Malay',
                 ),
@@ -348,6 +351,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                 if (value == null) {
                   return 'Required';
                 }
+                return null;
               },
               onChanged: (value) {
                 changeValues("a7", value);
@@ -358,7 +362,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
               decoration: InputDecoration(
                 border: InputBorder.none,
               ),
-              options: <FormBuilderFieldOption>[
+              options: const <FormBuilderFieldOption>[
                 FormBuilderFieldOption(
                   value: 'Primary',
                 ),
@@ -383,6 +387,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                 if (values['a8'] == 'u') {
                   return 'Required';
                 }
+                return null;
               },
               name: "a8",
               wrapAlignment: WrapAlignment.start,
@@ -411,6 +416,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                       values['a8i'] == '')) {
                                 return 'Required';
                               }
+                              return null;
                             },
                             onChanged: (value) {
                               changeValues("a8i", value);
@@ -446,6 +452,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                       values['a8ii'] == '')) {
                                 return 'Required';
                               }
+                              return null;
                             },
                             style: TextStyle(fontSize: 14),
                             name: '',
@@ -498,6 +505,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                       values['a9i'] == '')) {
                                 return 'Required';
                               }
+                              return null;
                             },
                             onChanged: (value) {
                               changeValues("a9i", value);
@@ -530,6 +538,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                       values['a9ii'] == '')) {
                                 return 'Required';
                               }
+                              return null;
                             },
                             onChanged: (value) {
                               changeValues("a9ii", value);
@@ -594,6 +603,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
               if (value == null && values['a2'] == "Female") {
                 return 'Required';
               }
+              return null;
             },
             onSaved: (value) {
               setState(() {
@@ -616,7 +626,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
           "child": Column(
             children: [
               Row(
-                children: [
+                children: const [
                   Expanded(
                     flex: 12,
                     child: SizedBox(),
@@ -661,7 +671,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
-                          options: <FormBuilderFieldOption>[
+                          options: const <FormBuilderFieldOption>[
                             FormBuilderFieldOption(
                               value: 'b1ai',
                               child: SizedBox(),
@@ -701,7 +711,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             decoration: InputDecoration(
                               border: InputBorder.none,
                             ),
-                            options: <FormBuilderFieldOption>[
+                            options: const <FormBuilderFieldOption>[
                               FormBuilderFieldOption(
                                 value: 'b1bi',
                                 child: SizedBox(),
@@ -736,7 +746,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
-                          options: <FormBuilderFieldOption>[
+                          options: const <FormBuilderFieldOption>[
                             FormBuilderFieldOption(
                               value: 'b1ci',
                               child: SizedBox(),
@@ -776,7 +786,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             decoration: InputDecoration(
                               border: InputBorder.none,
                             ),
-                            options: <FormBuilderFieldOption>[
+                            options: const <FormBuilderFieldOption>[
                               FormBuilderFieldOption(
                                 value: 'b1di',
                                 child: SizedBox(),
@@ -813,7 +823,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
-                          options: <FormBuilderFieldOption>[
+                          options: const <FormBuilderFieldOption>[
                             FormBuilderFieldOption(
                               value: 'b1ei',
                               child: SizedBox(),
@@ -856,7 +866,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             decoration: InputDecoration(
                               border: InputBorder.none,
                             ),
-                            options: <FormBuilderFieldOption>[
+                            options: const <FormBuilderFieldOption>[
                               FormBuilderFieldOption(
                                 value: 'b1fi',
                                 child: SizedBox(),
@@ -909,6 +919,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             (values['b3bi'] == "u" || values['b3bi'] == "")) {
                           return 'Required';
                         }
+                        return null;
                       },
                       style: TextStyle(fontSize: 14),
                       name: '',
@@ -940,6 +951,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         (values['b4i'] == "u" || values['b4i'] == "")) {
                       return 'Required';
                     }
+                    return null;
                   },
                   style: TextStyle(fontSize: 14),
                   name: '',
@@ -1010,7 +1022,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
-                child: Container(
+                child: SizedBox(
                   width: 250,
                   child: FormBuilderRadioGroup(
                       onChanged: (value) {
@@ -1020,6 +1032,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         if (values['d3'] == "u") {
                           return 'Required';
                         }
+                        return null;
                       },
                       name: "s",
                       wrapAlignment: WrapAlignment.start,
@@ -1027,7 +1040,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                       ),
-                      options: <FormBuilderFieldOption>[
+                      options: const <FormBuilderFieldOption>[
                         FormBuilderFieldOption(
                           value: 'Skinny',
                         ),
@@ -1097,6 +1110,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             (values['f1di'] == "u" || values['f1di'] == "")) {
                           return 'Required';
                         }
+                        return null;
                       },
                       style: TextStyle(fontSize: 14),
                       name: '',
@@ -1249,6 +1263,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             (values['g1di'] == "u" || values['g1di'] == "")) {
                           return 'Required';
                         }
+                        return null;
                       },
                       style: TextStyle(fontSize: 14),
                       name: '',
@@ -1361,7 +1376,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                     },
                     name: "j1",
                     decoration: InputDecoration(border: InputBorder.none),
-                    options: [
+                    options: const [
                       FormBuilderFieldOption(
                         value: "j1a",
                         child: Text("Mother"),
@@ -1477,7 +1492,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             0,
                             MediaQuery.of(context).size.width * 0.15,
                             0),
-                        tabs: [
+                        tabs: const [
                           Tab(text: "HAF"),
                           Tab(text: "TCA"),
                         ],
@@ -1522,7 +1537,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                                           FontWeight.w500,
                                                       fontSize: 14,
                                                       color: Colors.black),
-                                                  children: <TextSpan>[
+                                                  children: const <TextSpan>[
                                                     TextSpan(
                                                         text:
                                                             "This Health Assessment Form consists of 11 sections "),
@@ -1663,7 +1678,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: [
-                                              Container(
+                                              SizedBox(
                                                 height: 40,
                                                 width: 120,
                                                 child: Stack(
@@ -1880,7 +1895,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Container(
+                                        SizedBox(
                                           height: 40,
                                           width: 150,
                                           child: Stack(
@@ -1927,7 +1942,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
-                                                        children: [
+                                                        children: const [
                                                           Text(
                                                             "Start again",
                                                             style: TextStyle(
@@ -2264,14 +2279,14 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
 }
 
 class yesno extends StatelessWidget {
-  yesno({
+  const yesno({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
+      children: const [
         Expanded(
           flex: 12,
           child: SizedBox(),
@@ -2355,6 +2370,7 @@ class _ListQuestionState extends State<ListQuestion> {
                     if (value != 'y' && value != 'n') {
                       return 'Required';
                     }
+                    return null;
                   },
                   onChanged: (value) {
                     setState(() {
@@ -2365,7 +2381,7 @@ class _ListQuestionState extends State<ListQuestion> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                   ),
-                  options: <FormBuilderFieldOption>[
+                  options: const <FormBuilderFieldOption>[
                     FormBuilderFieldOption(
                       value: 'y',
                       child: SizedBox(),
@@ -2404,7 +2420,7 @@ class _singleyesornoState extends State<singleyesorno> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: 150,
           child: FormBuilderRadioGroup(
               validator: (value) {
@@ -2417,6 +2433,7 @@ class _singleyesornoState extends State<singleyesorno> {
                     return 'Required';
                   }
                 }
+                return null;
               },
               onChanged: (value) {
                 setState(() {
@@ -2428,7 +2445,7 @@ class _singleyesornoState extends State<singleyesorno> {
               decoration: InputDecoration(
                 border: InputBorder.none,
               ),
-              options: <FormBuilderFieldOption>[
+              options: const <FormBuilderFieldOption>[
                 FormBuilderFieldOption(
                   value: 'y',
                   child: Text("Yes"),
@@ -2466,6 +2483,7 @@ class _MyTextFieldState extends State<MyTextField> {
         if (value == null || value == "") {
           return 'Required';
         }
+        return null;
       },
       onSaved: (value) {
         setState(() {

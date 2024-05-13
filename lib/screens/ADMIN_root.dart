@@ -37,7 +37,7 @@ class _RootPageState extends State<ADMINRootPage> {
         titleSpacing: 0,
         centerTitle: true,
         title: Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
           width: double.infinity,
           height: 280,
           decoration: const BoxDecoration(
@@ -48,7 +48,7 @@ class _RootPageState extends State<ADMINRootPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Image.asset(
@@ -56,8 +56,7 @@ class _RootPageState extends State<ADMINRootPage> {
                 width: 150,
                 height: 150,
               ),
-              Text(
-
+              const Text(
                 'Admin',
                 style: TextStyle(
                     fontSize: 40,
@@ -74,13 +73,13 @@ class _RootPageState extends State<ADMINRootPage> {
           topRight: Radius.circular(30.0),
         ),
         child: Container(
-          color: Color(0xffDFCEFA),
+          color: const Color(0xffDFCEFA),
           child: BottomNavigationBar(
-            backgroundColor: Color(0xffDFCEFA),
+            backgroundColor: const Color(0xffDFCEFA),
             type: BottomNavigationBarType.fixed,
             showSelectedLabels: false,
             showUnselectedLabels: false,
-            items: <BottomNavigationBarItem>[
+            items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                   icon: Icon(Ionicons.home_outline), label: 'Home'),
               BottomNavigationBarItem(
@@ -89,7 +88,7 @@ class _RootPageState extends State<ADMINRootPage> {
                   icon: Icon(Ionicons.log_out), label: 'Logout')
             ],
             currentIndex: _selectedIndex,
-            unselectedItemColor: Color.fromARGB(255, 155, 155, 155),
+            unselectedItemColor: const Color.fromARGB(255, 155, 155, 155),
             selectedItemColor: const Color.fromARGB(255, 114, 163, 187),
             onTap: _onItemTapped,
           ),

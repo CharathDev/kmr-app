@@ -17,8 +17,8 @@ class _Infographics3State extends State<Infographics3> {
   void initState() {
     super.initState();
     controller3 = PdfControllerPinch(
-      document:
-          PdfDocument.openAsset('lib/assets/pdf/remaja_realiti_risiko_remaja.pdf'),
+      document: PdfDocument.openAsset(
+          'lib/assets/pdf/remaja_realiti_risiko_remaja.pdf'),
     );
   }
 
@@ -29,28 +29,30 @@ class _Infographics3State extends State<Infographics3> {
   }
 
   void goToPreviousPage() async {
-      await controller3.previousPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+    await controller3.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
+
   void goToNextPage() async {
-      await controller3.nextPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+    await controller3.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "PDF Viewer",
+          "Realiti Risiko Remaja",
           style:
               TextStyle(color: Color(0xff966FD6), fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Color(0xffDFCEFA),
+        backgroundColor: const Color(0xffDFCEFA),
       ),
       body: _buildUI(),
     );
@@ -64,14 +66,18 @@ class _Infographics3State extends State<Infographics3> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            IconButton(onPressed: () {
-              goToPreviousPage();
-            }, icon: Icon(Icons.arrow_back_ios)),
-            Text("${currentPage}/${totalPageCount}"),
-            IconButton(onPressed: () {
-              goToNextPage();
-            }, icon: Icon(Icons.arrow_forward_ios)),
-            ],
+            IconButton(
+                onPressed: () {
+                  goToPreviousPage();
+                },
+                icon: const Icon(Icons.arrow_back_ios)),
+            Text("$currentPage/$totalPageCount"),
+            IconButton(
+                onPressed: () {
+                  goToNextPage();
+                },
+                icon: const Icon(Icons.arrow_forward_ios)),
+          ],
         ),
         _pdfView(),
       ],

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:kmrapp/screens/ADMIN_home_page.dart';
 import 'package:kmrapp/screens/STAFF_home_page.dart';
 import 'package:kmrapp/screens/STAFF_profile_page.dart';
-import 'package:kmrapp/screens/logout.dart';
 
 class STAFFRootPage extends StatefulWidget {
   const STAFFRootPage({super.key});
@@ -36,7 +34,7 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
               titleSpacing: 0,
               centerTitle: true,
               title: Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                 width: double.infinity,
                 height: 220,
                 decoration: const BoxDecoration(
@@ -53,7 +51,7 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
                       width: 120,
                       height: 120,
                     ),
-                    Text(
+                    const Text(
                       'Staff',
                       style: TextStyle(
                           fontSize: 40,
@@ -70,7 +68,7 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
               titleSpacing: 0,
               centerTitle: true,
               title: Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                   width: double.infinity,
                   height: 80,
                   decoration: const BoxDecoration(
@@ -92,21 +90,21 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
                                 _selectedIndex = 2;
                               });
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_back_ios,
                               size: 24.0,
                               color: Color.fromARGB(255, 150, 111, 214),
                             ),
                           ),
                         ),
-                        Text(
+                        const Text(
                           'Profile',
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Color(0xff966FD6)),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 24,
                         ),
                       ],
@@ -119,20 +117,20 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
           topRight: Radius.circular(30.0),
         ),
         child: Container(
-          color: Color(0xffDFCEFA),
+          color: const Color(0xffDFCEFA),
           child: BottomNavigationBar(
-            backgroundColor: Color(0xffDFCEFA),
+            backgroundColor: const Color(0xffDFCEFA),
             type: BottomNavigationBarType.fixed,
             showSelectedLabels: false,
             showUnselectedLabels: false,
-            items: <BottomNavigationBarItem>[
+            items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                   icon: Icon(Ionicons.home_outline), label: 'Home'),
               BottomNavigationBarItem(
                   icon: Icon(Ionicons.person), label: 'Profile')
             ],
             currentIndex: _selectedIndex,
-            unselectedItemColor: Color.fromARGB(255, 155, 155, 155),
+            unselectedItemColor: const Color.fromARGB(255, 155, 155, 155),
             selectedItemColor: const Color.fromARGB(255, 114, 163, 187),
             onTap: _onItemTapped,
           ),

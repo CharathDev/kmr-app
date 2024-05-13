@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/login.dart';
-import 'material.dart';
 
 class STAFFProfilePage extends StatefulWidget {
-  STAFFProfilePage({super.key});
+  const STAFFProfilePage({super.key});
 
   @override
   State<STAFFProfilePage> createState() => _STAFFProfilePageState();
@@ -15,14 +13,13 @@ class STAFFProfilePage extends StatefulWidget {
 class _STAFFProfilePageState extends State<STAFFProfilePage> {
   final user = FirebaseAuth.instance.currentUser!;
 
-  final TextEditingController nameController = new TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
-  final TextEditingController icController = new TextEditingController();
+  final TextEditingController icController = TextEditingController();
 
-  final TextEditingController phoneNumberController =
-      new TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
 
-  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
     final snapshot = await FirebaseFirestore.instance
@@ -55,15 +52,16 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: ListView(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                       TextField(
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 30),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
@@ -72,26 +70,26 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                         ),
                         controller: nameController,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextField(
                         decoration: InputDecoration(
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 30),
+                                const EdgeInsets.symmetric(horizontal: 30),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50)),
                             labelText: 'IC Number',
                             hintText: "test"),
                         controller: icController,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextField(
                         decoration: InputDecoration(
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 30),
+                                const EdgeInsets.symmetric(horizontal: 30),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
@@ -99,30 +97,29 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                             hintText: "test"),
                         controller: phoneNumberController,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextField(
                         decoration: InputDecoration(
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 30),
+                                const EdgeInsets.symmetric(horizontal: 30),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50)),
                             labelText: 'E-mail',
                             hintText: "test"),
                         controller: emailController,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           TextButton(
                             onPressed: () {
                               setState(() {
-                                print("breh");
+                                print("updated user");
                                 FirebaseFirestore.instance
                                     .collection('users')
                                     .doc(user.uid)
@@ -140,14 +137,14 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                             ),
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.35,
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 vertical: 15,
                               ),
                               decoration: BoxDecoration(
-                                color: Color(0xff966FD6),
+                                color: const Color(0xff966FD6),
                                 borderRadius: BorderRadius.circular(100),
                               ),
-                              child: Text(
+                              child: const Text(
                                 'Update Profile',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -156,7 +153,7 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextButton(
@@ -175,14 +172,14 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                             ),
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.35,
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 vertical: 15,
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.red[600],
                                 borderRadius: BorderRadius.circular(100),
                               ),
-                              child: Text(
+                              child: const Text(
                                 'Log Out',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -193,7 +190,7 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                     ],

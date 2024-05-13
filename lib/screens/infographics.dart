@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:kmrapp/screens/infographics1.dart';
 import 'package:kmrapp/screens/infographics2.dart';
 import 'package:kmrapp/screens/infographics3.dart';
@@ -10,14 +9,14 @@ class Infographics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -25,15 +24,17 @@ class Infographics extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 15),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 15),
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xffd9d9d9),
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
-                    ),
-                    child: Column(
+                    decoration: const BoxDecoration(
+                        color: Color(0xffd9d9d9),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    child: const Column(
                       children: [
-                        const Text(
+                        Text(
                           'Remaja & Kesihatan Mental',
                           style: TextStyle(
                             color: Colors.black,
@@ -45,8 +46,10 @@ class Infographics extends StatelessWidget {
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(height: 15,),
-                        const Text(
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
                           "Mental health is closely related to a teenager's life",
                           style: TextStyle(
                             color: Colors.black,
@@ -59,19 +62,21 @@ class Infographics extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 15),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 15),
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xffededeb),
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight:Radius.circular(20) )
-                    ),
+                    decoration: const BoxDecoration(
+                        color: Color(0xffededeb),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20))),
                     child: Column(
                       children: [
                         Padding(
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                             child: Material(
                                 borderRadius: BorderRadius.circular(50),
-                                color: Color(0xff966FD6),
+                                color: const Color(0xff966FD6),
                                 child: InkWell(
                                     borderRadius: BorderRadius.circular(50),
                                     onTap: () {
@@ -79,17 +84,18 @@ class Infographics extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Infographics1()));
+                                                  const Infographics1()));
                                     },
                                     child: Container(
                                         width:
-                                            MediaQuery.of(context).size.width * 0.4,
-                                        padding: EdgeInsets.symmetric(
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 10),
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(50)),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text(
                                             'READ MORE',
                                             style: TextStyle(
@@ -106,16 +112,16 @@ class Infographics extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Image.asset('lib/assets/images/img1.jpg'),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -123,15 +129,17 @@ class Infographics extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 15),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 15),
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xffd9d9d9),
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
-                    ),
-                    child: Column(
+                    decoration: const BoxDecoration(
+                        color: Color(0xffd9d9d9),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    child: const Column(
                       children: [
-                        const Text(
+                        Text(
                           'Makanan Pilihan Remaja Cemerlang',
                           style: TextStyle(
                             color: Colors.black,
@@ -143,8 +151,10 @@ class Infographics extends StatelessWidget {
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(height: 15,),
-                        const Text(
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
                           'Methods of consuming nutritious food',
                           style: TextStyle(
                             color: Colors.black,
@@ -157,19 +167,21 @@ class Infographics extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 15),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 15),
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xffededeb),
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight:Radius.circular(20) )
-                    ),
+                    decoration: const BoxDecoration(
+                        color: Color(0xffededeb),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20))),
                     child: Column(
                       children: [
                         Padding(
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                             child: Material(
                                 borderRadius: BorderRadius.circular(50),
-                                color: Color(0xff966FD6),
+                                color: const Color(0xff966FD6),
                                 child: InkWell(
                                     borderRadius: BorderRadius.circular(50),
                                     onTap: () {
@@ -177,17 +189,18 @@ class Infographics extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Infographics2()));
+                                                  const Infographics2()));
                                     },
                                     child: Container(
                                         width:
-                                            MediaQuery.of(context).size.width * 0.4,
-                                        padding: EdgeInsets.symmetric(
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 10),
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(50)),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text(
                                             'READ MORE',
                                             style: TextStyle(
@@ -204,16 +217,16 @@ class Infographics extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Image.asset('lib/assets/images/img2.jpg'),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -221,15 +234,17 @@ class Infographics extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 15),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 15),
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xffd9d9d9),
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
-                    ),
-                    child: Column(
+                    decoration: const BoxDecoration(
+                        color: Color(0xffd9d9d9),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    child: const Column(
                       children: [
-                        const Text(
+                        Text(
                           '3R: Realiti, Risiko, Remaja',
                           style: TextStyle(
                             color: Colors.black,
@@ -241,8 +256,10 @@ class Infographics extends StatelessWidget {
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(height: 15,),
-                        const Text(
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
                           'Risky behavior and its consequences',
                           style: TextStyle(
                             color: Colors.black,
@@ -255,19 +272,21 @@ class Infographics extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 9, vertical: 15),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 9, vertical: 15),
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xffededeb),
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight:Radius.circular(20) )
-                    ),
+                    decoration: const BoxDecoration(
+                        color: Color(0xffededeb),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20))),
                     child: Column(
                       children: [
                         Padding(
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                             child: Material(
                                 borderRadius: BorderRadius.circular(50),
-                                color: Color(0xff966FD6),
+                                color: const Color(0xff966FD6),
                                 child: InkWell(
                                     borderRadius: BorderRadius.circular(50),
                                     onTap: () {
@@ -275,17 +294,18 @@ class Infographics extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Infographics3()));
+                                                  const Infographics3()));
                                     },
                                     child: Container(
                                         width:
-                                            MediaQuery.of(context).size.width * 0.4,
-                                        padding: EdgeInsets.symmetric(
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 10),
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(50)),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text(
                                             'READ MORE',
                                             style: TextStyle(

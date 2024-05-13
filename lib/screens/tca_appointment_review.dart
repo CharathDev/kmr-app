@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:kmrapp/screens/home_page.dart';
-import 'package:kmrapp/screens/profile_page.dart';
 import 'package:kmrapp/screens/root.dart';
 
 class TCAAppointmentReview extends StatefulWidget {
@@ -23,7 +20,7 @@ class TCAAppointmentReview extends StatefulWidget {
 
 class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
   final user = FirebaseAuth.instance.currentUser!;
-  TextEditingController thoughtsController = new TextEditingController();
+  TextEditingController thoughtsController = TextEditingController();
   int selectedRating = 3;
 
   void setFeeback() {
@@ -47,12 +44,12 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
       body: Center(
         child: Container(
           width: double.infinity,
-          margin: EdgeInsets.all(20), // Adds margin around the card
-          padding: EdgeInsets.all(20), // Adds padding inside the card
+          margin: const EdgeInsets.all(20), // Adds margin around the card
+          padding: const EdgeInsets.all(20), // Adds padding inside the card
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(25), // Rounded corners
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
                 blurRadius: 10,
@@ -63,13 +60,13 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
           child: Column(
             mainAxisSize: MainAxisSize.min, // Fit content in the column
             children: <Widget>[
-              Icon(
+              const Icon(
                 Icons.check_circle_outline,
                 size: 60,
                 color: Colors.green,
               ),
-              SizedBox(height: 16), // Spacing between icon and text
-              Text(
+              const SizedBox(height: 16), // Spacing between icon and text
+              const Text(
                 'Your appointment on',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -80,22 +77,22 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
               Text(
                 '$dayString,',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                   height: 1.5, // Line spacing
                 ),
               ),
               Text(
-                '$timeSlotString',
+                timeSlotString,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                   height: 1.5, // Line spacing
                 ),
               ),
-              Text(
+              const Text(
                 'with',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -104,15 +101,15 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                 ),
               ),
               Text(
-                '$nameString',
+                nameString,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                   height: 1.5, // Line spacing
                 ),
               ),
-              Text(
+              const Text(
                 'has been confirmed.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -120,8 +117,8 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                   height: 1.5, // Line spacing
                 ),
               ),
-              SizedBox(height: 24), // Spacing before buttons
-              Text(
+              const SizedBox(height: 24), // Spacing before buttons
+              const Text(
                 'Your thoughts are important!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -130,10 +127,10 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                   height: 1.5, // Line spacing
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 'Help us improve this app by reviewing and sharing your experience while using it.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -141,7 +138,7 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                   height: 1.5, // Line spacing
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               RatingBar.builder(
@@ -150,39 +147,39 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                 itemBuilder: (context, index) {
                   switch (index) {
                     case 0:
-                      return Icon(
+                      return const Icon(
                         Icons.star,
                         color: Colors.red,
                       );
                     case 1:
-                      return Icon(
+                      return const Icon(
                         Icons.star,
                         color: Colors.redAccent,
                       );
                     case 2:
-                      return Icon(
+                      return const Icon(
                         Icons.star,
                         color: Colors.amber,
                       );
                     case 3:
-                      return Icon(
+                      return const Icon(
                         Icons.star,
                         color: Colors.lightGreen,
                       );
                     case 4:
-                      return Icon(
+                      return const Icon(
                         Icons.star,
                         color: Colors.green,
                       );
                     default:
-                      return Placeholder();
+                      return const Placeholder();
                   }
                 },
                 onRatingUpdate: (rating) {
                   selectedRating = rating.toInt();
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               TextField(
@@ -198,7 +195,7 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                 ),
                 controller: thoughtsController,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               ElevatedButton(
@@ -206,21 +203,21 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                   setFeeback();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RootPage()),
+                    MaterialPageRoute(builder: (context) => const RootPage()),
                   );
                 },
-                child: Text(
-                  'Done',
-                  style: TextStyle(color: Colors.white),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple, // Background color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30), // Rounded corners
                   ),
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                       horizontal: 50,
                       vertical: 15), // Padding inside the button
+                ),
+                child: const Text(
+                  'Done',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ],

@@ -18,7 +18,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController(
-      text: "staff@gmail.com"); //remove initial value later
+      text: "test@gmail.com"); //remove initial value later
   final passwordController =
       TextEditingController(text: "123123"); //remove initial value later
 
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color(0xffDFCEFA),
+        backgroundColor: const Color(0xffDFCEFA),
       ),
       body: ListView(
         padding: const EdgeInsets.only(
@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 50),
             width: double.infinity,
             height: 200,
             decoration: const BoxDecoration(
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40))),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
@@ -105,15 +105,15 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 70,
                 ),
                 TextField(
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
@@ -121,19 +121,20 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   controller: emailController, //initial value: "test@gmail.com"
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 30),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50)),
                       labelText: 'Password'),
                   controller: passwordController, //initial value: "123123"
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Wrap(
@@ -141,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                   runAlignment: WrapAlignment.start,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Don't have an account?",
                       style: TextStyle(color: Colors.black),
                     ),
@@ -153,10 +154,10 @@ class _LoginPageState extends State<LoginPage> {
                                 builder: (context) => const RegisterPage()),
                           );
                         },
-                        child: Text('Register here'))
+                        child: const Text('Register here'))
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 Row(
@@ -166,14 +167,14 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Material(
                           borderRadius: BorderRadius.circular(50),
-                          color: Color(0xff966FD6),
+                          color: const Color(0xff966FD6),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(50),
                             onTap: () {
                               loginUser();
                             },
                             child: Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50)),

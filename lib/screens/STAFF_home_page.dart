@@ -509,24 +509,23 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   "Appointment Tracking",
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Expanded(
                     child: SingleChildScrollView(
                   child: GridView.builder(
-                      physics: ScrollPhysics(),
+                      physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 1,
                         childAspectRatio: 3.5,
                       ),
-
                       primary: false,
                       padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.05,
@@ -624,16 +623,16 @@ class UserRecords extends StatelessWidget {
         },
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
           decoration: BoxDecoration(
-            color: Color(0xffe7ffce),
+            color: const Color(0xffe7ffce),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 1,
                 blurRadius: 5,
-                offset: Offset(0, 3),
+                offset: const Offset(0, 3),
               ),
             ],
           ),
@@ -644,17 +643,17 @@ class UserRecords extends StatelessWidget {
               Row(
                 children: [
                   Text(name,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  Spacer(),
-                  Icon(
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
+                  const Spacer(),
+                  const Icon(
                     Icons.arrow_forward_ios,
                     size: 15,
                     color: Color(0xff14213d),
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Expanded(
                 // Ensure the row takes the remaining height
                 child: Row(
@@ -668,19 +667,17 @@ class UserRecords extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.phone, color: Colors.black54),
-                              SizedBox(width: 10),
-
+                              const Icon(Icons.phone, color: Colors.black54),
+                              const SizedBox(width: 10),
                               Text(phoneNumber),
-
                             ],
                           ),
                           Row(
                             children: [
-                              Icon(Icons.calendar_today, color: Colors.black54),
-                              SizedBox(width: 10),
+                              const Icon(Icons.calendar_today,
+                                  color: Colors.black54),
+                              const SizedBox(width: 10),
                               Text(date),
-
                             ],
                           )
                         ],
@@ -694,15 +691,16 @@ class UserRecords extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.email, color: Colors.black54),
-                              SizedBox(width: 10),
+                              const Icon(Icons.email, color: Colors.black54),
+                              const SizedBox(width: 10),
                               Expanded(child: Text(email)),
                             ],
                           ),
                           Row(
                             children: [
-                              Icon(Icons.access_time, color: Colors.black54),
-                              SizedBox(width: 10),
+                              const Icon(Icons.access_time,
+                                  color: Colors.black54),
+                              const SizedBox(width: 10),
                               Expanded(child: Text(_timeSlots[timeSlot])),
                             ],
                           )

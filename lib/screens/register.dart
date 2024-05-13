@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kmrapp/screens/login.dart';
-import 'package:kmrapp/screens/home_page.dart';
 import 'package:kmrapp/screens/root.dart';
-import 'package:kmrapp/screens/verification_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -63,7 +61,7 @@ class RegisterPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color(0xffDFCEFA),
+        backgroundColor: const Color(0xffDFCEFA),
       ),
       body: ListView(
         padding: const EdgeInsets.only(
@@ -72,7 +70,7 @@ class RegisterPage extends StatelessWidget {
         ),
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 50),
             width: double.infinity,
             height: 200,
             decoration: const BoxDecoration(
@@ -80,7 +78,7 @@ class RegisterPage extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40))),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
@@ -102,89 +100,92 @@ class RegisterPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 70,
                 ),
                 TextField(
                   controller: fullNameController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     labelText: 'Full Name',
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 30),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50)),
                       labelText: 'Email'),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextField(
                   controller: icNumberController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     labelText: 'IC Number',
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextField(
                   controller: phoneNumberController,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 30),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50)),
                       labelText: 'Phone Number'),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextField(
                   controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     labelText: 'Password',
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextField(
                   controller: confirmPasswordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 30),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50)),
                       labelText: 'Confirm Password'),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Already have an account?",
                       style: TextStyle(color: Colors.black),
                     ),
@@ -196,10 +197,10 @@ class RegisterPage extends StatelessWidget {
                                 builder: (context) => const LoginPage()),
                           );
                         },
-                        child: Text('Login here'))
+                        child: const Text('Login here'))
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 Row(
@@ -209,12 +210,12 @@ class RegisterPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Material(
                         borderRadius: BorderRadius.circular(50),
-                        color: Color(0xff966FD6),
+                        color: const Color(0xff966FD6),
                         child: InkWell(
                           borderRadius: BorderRadius.circular(50),
                           onTap: handleRegister, // Call the function here
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50)),
