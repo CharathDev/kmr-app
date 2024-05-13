@@ -26,35 +26,38 @@ class _RootPageState extends State<ADMINRootPage> {
   Widget build(BuildContext context) {
     final List<Widget> widgetOptions = <Widget>[
       ADMINHomePage(),
-      ADMINReviewPage(contacts: contacts),
+      ADMINReviewPage(),
       Logout(),
     ];
     var page = widgetOptions.elementAt(_selectedIndex);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: 250,
+        toolbarHeight: 280,
         titleSpacing: 0,
         centerTitle: true,
         title: Container(
           margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
           width: double.infinity,
-          height: 250,
+          height: 280,
           decoration: const BoxDecoration(
               color: Color(0xffDFCEFA),
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40))),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(
+                height: 40,
+              ),
               Image.asset(
                 'lib/assets/images/3.png',
-                width: 120,
-                height: 120,
+                width: 150,
+                height: 150,
               ),
-              const Text(
+              Text(
+
                 'Admin',
                 style: TextStyle(
                     fontSize: 40,

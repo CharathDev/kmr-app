@@ -21,29 +21,28 @@ class HomePage extends StatelessWidget {
   Future<List<Map<String, dynamic>>> appointmentList(String userId) async {
     List<Map<String, dynamic>> list = [];
     await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
         .collection('Appointments')
         .get()
-        .then((value) {
+        .then((value) async {
       for (var docSnapshot in value.docs) {
         Map<String, dynamic> tempData = {};
         var data = docSnapshot.data();
-        print(data["staffInfo"]);
-        for (int i = 0; i < data["staffInfo"].length; i++) {
-          print(data["staffInfo"][i]["name"]);
-          tempData["name"] = data["staffInfo"][i]["name"];
-          tempData["occupation"] = data["staffInfo"][i]["occupation"];
-          tempData["timeSlot"] = data["timeSlots"][i];
-          var date = docSnapshot.id.split(' ');
-          var finalDate = date[0] + "/" + date[1];
+        if (data["userID"] == userId) {
+          var tempInfo = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(data["staffID"])
+              .get()
+              .then((value) => value.data());
+          tempData["name"] = tempInfo!["name"];
+          tempData["occupation"] = tempInfo["occupation"];
+          tempData["timeSlot"] = data["timeSlots"];
+          var date = data["date"].toString().split(' ');
+          var finalDate = date[0] + "/" + date[1] + "/" + date[2];
           tempData["date"] = finalDate;
         }
         list.add(tempData);
       }
     });
-
-    print(list);
     return list;
   }
 

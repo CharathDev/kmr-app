@@ -174,9 +174,43 @@ class _ProfilePageState extends State<ProfilePage> {
                               padding: EdgeInsets.symmetric(
                                 vertical: 15,
                               ),
-                              decoration: BoxDecoration(
-                                color: Colors.red[600],
-                                borderRadius: BorderRadius.circular(100),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(user.uid)
+                                        .update({
+                                      "fullName": nameController.text,
+                                      "icNumber": icController.text,
+                                      "phoneNumber": phoneNumberController.text,
+                                      "email": emailController.text,
+                                    });
+                                  });
+                                },
+                                style: ButtonStyle(
+                                  overlayColor: MaterialStateProperty.all(
+                                      Colors.transparent),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 50),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff966FD6),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Text(
+                                    'Update Profile',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+
                               ),
                               child: Text(
                                 'Log Out',

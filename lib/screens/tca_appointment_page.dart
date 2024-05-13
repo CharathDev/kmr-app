@@ -20,10 +20,12 @@ class TCAAppointmentPage extends StatefulWidget {
 class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
   final user = FirebaseAuth.instance.currentUser!;
   late List<QueryDocumentSnapshot<Map<String, dynamic>>> userInfo = [];
+  late List<QueryDocumentSnapshot<Map<String, dynamic>>> allAppointments = [];
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   String? _selectedTimeSlot;
+  late String staffID;
 
   // Dummy time slots for the sake of example.
   final List<String> _timeSlots = [
@@ -38,50 +40,49 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
   ];
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getStaffInfo() async {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> userInfoTemp = [];
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> allAppointmentsTemp = [];
     FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
         .collection('Appointments')
         .get()
         .then((value) async {
       for (var docSnapshot in value.docs) {
-        userInfo.add(docSnapshot);
-        print(docSnapshot);
+        if (docSnapshot.data()["userID"] == user.uid)
+          userInfoTemp.add(docSnapshot);
+        allAppointmentsTemp.add(docSnapshot);
       }
     });
+    userInfo = userInfoTemp;
+    allAppointments = allAppointmentsTemp;
     return await widget.staffData.get()
         as DocumentSnapshot<Map<String, dynamic>>;
   }
 
   void bookAppointment(Map<String, dynamic> data) async {
-    String doc =
-        _selectedDay!.day.toString() + " " + _selectedDay!.month.toString();
-    widget.staffData.collection('Appointments').doc(doc).set({
-      "timeSlots":
-          FieldValue.arrayUnion([_timeSlots.indexOf(_selectedTimeSlot!)]),
-    }, SetOptions(merge: true));
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('Appointments')
-        .doc(doc)
-        .set({
-      "timeSlots":
-          FieldValue.arrayUnion([_timeSlots.indexOf(_selectedTimeSlot!)]),
-      "staffInfo": FieldValue.arrayUnion([
-        {
-          "name": data["name"],
-          "occupation": widget.staffData.parent.parent!.id,
-        },
-      ])
+    var staffId = await widget.staffData.get().then((value) => value.id);
+    String doc = _selectedDay!.day.toString() +
+        " " +
+        _selectedDay!.month.toString() +
+        " " +
+        _selectedDay!.year.toString();
+    FirebaseFirestore.instance.collection('Appointments').doc().set({
+      "timeSlots": _timeSlots.indexOf(_selectedTimeSlot!),
+      "date": doc,
+      "userID": user.uid,
+      "staffID": staffId,
     }, SetOptions(merge: true));
   }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> isFreeList() async {
     List<QueryDocumentSnapshot<Map<String, dynamic>>> list = [];
-    await widget.staffData.collection('Appointments').get().then((value) {
+    staffID = await widget.staffData.get().then((value) => value.id);
+    await FirebaseFirestore.instance
+        .collection('Appointments')
+        .get()
+        .then((value) {
       for (var docSnapshot in value.docs) {
-        list.add(docSnapshot);
+        var data = docSnapshot.data();
+        if (data['staffID'] == staffID) list.add(docSnapshot);
       }
     });
 
@@ -90,14 +91,24 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
 
   bool isFree(DateTime day, Map<String, dynamic> staffData,
       List<QueryDocumentSnapshot<Map<String, dynamic>>> list) {
-    String dbDoc = day.day.toString() + " " + day.month.toString();
+    String dbDoc = day.day.toString() +
+        " " +
+        day.month.toString() +
+        " " +
+        day.year.toString();
 
-    for (var docSnapshot in list) {
-      if (dbDoc == docSnapshot.id) {
-        final data = docSnapshot.data();
-        if (data["timeSlots"].length == staffData["timeSlots"].length) {
-          return false;
+    var timeSlotsLength = {};
+
+    for (var docSnapshot in allAppointments) {
+      final data = docSnapshot.data();
+      if ((data["userID"] == user.uid || data["staffID"] == staffID) &&
+          data["date"] == dbDoc) {
+        if (!timeSlotsLength.containsKey(docSnapshot.id)) {
+          timeSlotsLength[docSnapshot.id] = data["timeSlots"];
         }
+      }
+      if (timeSlotsLength.length == staffData["timeSlots"].length) {
+        return false;
       }
     }
 
@@ -106,22 +117,17 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
 
   bool isTimeSlotFree(DateTime day, Map<String, dynamic> staffData,
       List<QueryDocumentSnapshot<Map<String, dynamic>>> list, int i) {
-    String dbDoc = day.day.toString() + " " + day.month.toString();
-
+    String dbDoc = day.day.toString() +
+        " " +
+        day.month.toString() +
+        " " +
+        day.year.toString();
     for (var docSnapshot in list) {
-      if (dbDoc == docSnapshot.id) {
-        final data = docSnapshot.data();
-        for (var index in data["timeSlots"]) {
-          if (index == staffData["timeSlots"][i]) {
-            return false;
-          }
-          for (var userData in userInfo) {
-            for (var timeSlot in userData.data()["timeSlots"]) {
-              if (timeSlot == staffData["timeSlots"][i]) {
-                return false;
-              }
-            }
-          }
+      final data = docSnapshot.data();
+      if ((data["staffID"] == staffID || data["userID"] == user.uid) &&
+          data["date"] == dbDoc) {
+        if (data["timeSlots"] == staffData["timeSlots"][i]) {
+          return false;
         }
       }
     }

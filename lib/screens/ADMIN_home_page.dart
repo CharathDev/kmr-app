@@ -457,13 +457,10 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
           .collection("users")
           .doc(id)
           .update({'doctors': doctors});
-      for (Map<String, dynamic> i in ADMINHomePage.newRecords) {
-        if (i['name'] == name) {
-          ADMINHomePage.newRecords[ADMINHomePage.newRecords.indexOf(i)]
-              ['doctors'] = doctors;
-          break;
-        }
-      }
+      FirebaseFirestore.instance
+          .collection("reviews")
+          .doc(id)
+          .update({'reviewed': true});
     });
   }
 
@@ -526,7 +523,9 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                     MediaQuery.of(context).size.width * 0.008,
                                 top: 20,
                               ),
-                              itemCount: snapshot.data!.length,
+                              itemCount: snapshot.data!
+                                  .where((element) => !element["reviewed"])
+                                  .length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
                                   margin: const EdgeInsets.all(10.0),
@@ -551,23 +550,21 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                     MediaQuery.of(context).size.width * 0.008,
                                 top: 20,
                               ),
-                              itemCount: ADMINHomePage.oldRecords.length,
+                              itemCount: snapshot.data!
+                                  .where((element) => element["reviewed"])
+                                  .length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
                                   margin: const EdgeInsets.all(10.0),
                                   child: UserRecords(
-                                    name: ADMINHomePage.oldRecords[index]
-                                        ['name'],
-                                    email: ADMINHomePage.oldRecords[index]
-                                        ['email'],
-                                    ic: ADMINHomePage.oldRecords[index]['ic'],
-                                    values: ADMINHomePage.oldRecords[index]
-                                        ['values'],
-                                    reviewed: ADMINHomePage.oldRecords[index]
-                                        ['reviewed'],
-                                    colour: Color(0xffd9d9d9),
+                                    id: snapshot.data![index]['id'],
+                                    name: snapshot.data![index]['fullName'],
+                                    email: snapshot.data![index]['email'],
+                                    ic: snapshot.data![index]['icNumber'],
+                                    values: snapshot.data![index]['BSSK'],
+                                    reviewed: snapshot.data![index]['reviewed'],
+                                    colour: Color(0xffe7ffce),
                                     reviewedUser: reviewedUser,
-                                    id: "",
                                   ),
                                 );
                               }),

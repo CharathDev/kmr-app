@@ -13,7 +13,7 @@ class STAFFProfilePage extends StatefulWidget {
 }
 
 class _STAFFProfilePageState extends State<STAFFProfilePage> {
-  // final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser!;
 
   final TextEditingController nameController = new TextEditingController();
 
@@ -24,14 +24,12 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
 
   final TextEditingController emailController = new TextEditingController();
 
-  // Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
-  Future<String> getUserInfo() async {
-    // final snapshot = await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(user.uid)
-    //     .get();
-    // final snapshot = Future<DocumentSnapshot<Map<String, dynamic>>>;
-    return "lol";
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserInfo() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    return snapshot;
   }
 
   @override
@@ -44,11 +42,11 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
             snapshot.connectionState != ConnectionState.done) {
           return CircularProgressIndicator();
         } else {
-          // final data = snapshot.data!.data()!;
-          // nameController.text = data["fullName"];
-          // icController.text = data["icNumber"];
-          // phoneNumberController.text = data["phoneNumber"];
-          // emailController.text = data["email"];
+          final data = snapshot.data!.data()!;
+          nameController.text = data["name"];
+          icController.text = data["icNumber"];
+          phoneNumberController.text = data["phoneNumber"];
+          emailController.text = data["email"];
           return Column(
             children: [
               Image.asset(
@@ -117,31 +115,34 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                       SizedBox(
                         height: 30,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           TextButton(
                             onPressed: () {
-                              // setState(() {
-                              //   print("breh");
-                              //   FirebaseFirestore.instance
-                              //       .collection('users')
-                              //       .doc(user.uid)
-                              //       .update({
-                              //     "fullName": nameController.text,
-                              //     "icNumber": icController.text,
-                              //     "phoneNumber": phoneNumberController.text,
-                              //     "email": emailController.text,
-                              //   });
-                              // });
+                              setState(() {
+                                print("breh");
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(user.uid)
+                                    .update({
+                                  "fullName": nameController.text,
+                                  "icNumber": icController.text,
+                                  "phoneNumber": phoneNumberController.text,
+                                  "email": emailController.text,
+                                });
+                              });
                             },
                             style: ButtonStyle(
                               overlayColor:
                                   MaterialStateProperty.all(Colors.transparent),
                             ),
                             child: Container(
+                              width: MediaQuery.of(context).size.width * 0.35,
                               padding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 30),
+                                vertical: 15,
+                              ),
                               decoration: BoxDecoration(
                                 color: Color(0xff966FD6),
                                 borderRadius: BorderRadius.circular(100),
