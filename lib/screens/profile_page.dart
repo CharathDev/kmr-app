@@ -156,71 +156,73 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 10,
                           ),
                           TextButton(
-                            onPressed: () {
-                              setState(() {
-                                FirebaseAuth.instance.signOut();
-                                Navigator.pop(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage()));
-                              });
-                            },
-                            style: ButtonStyle(
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.35,
-                              padding: EdgeInsets.symmetric(
-                                vertical: 15,
+                              onPressed: () {
+                                setState(() {
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.pop(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage()));
+                                });
+                              },
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                    Colors.transparent),
                               ),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(user.uid)
-                                        .update({
-                                      "fullName": nameController.text,
-                                      "icNumber": icController.text,
-                                      "phoneNumber": phoneNumberController.text,
-                                      "email": emailController.text,
-                                    });
-                                  });
-                                },
-                                style: ButtonStyle(
-                                  overlayColor: MaterialStateProperty.all(
-                                      Colors.transparent),
-                                ),
-                                child: Container(
+                              child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.35,
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 50),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xff966FD6),
-                                    borderRadius: BorderRadius.circular(100),
+                                    vertical: 15,
                                   ),
-                                  child: Text(
-                                    'Update Profile',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-
-                              ),
-                              child: Text(
-                                'Log Out',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              FirebaseFirestore.instance
+                                                  .collection('users')
+                                                  .doc(user.uid)
+                                                  .update({
+                                                "fullName": nameController.text,
+                                                "icNumber": icController.text,
+                                                "phoneNumber":
+                                                    phoneNumberController.text,
+                                                "email": emailController.text,
+                                              });
+                                            });
+                                          },
+                                          style: ButtonStyle(
+                                            overlayColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.transparent),
+                                          ),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 15, horizontal: 50),
+                                            decoration: BoxDecoration(
+                                              color: Color(0xff966FD6),
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                            ),
+                                            child: Text(
+                                              'Update Profile',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Log Out',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ]))),
                         ],
                       ),
                       SizedBox(
