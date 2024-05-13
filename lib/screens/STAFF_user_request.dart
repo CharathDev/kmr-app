@@ -388,7 +388,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          "Yourself",
+                          "You",
                           style: TextStyle(fontSize: 10),
                         ),
                         Padding(
@@ -1529,94 +1529,79 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       ),
                       Row(
                         children: [
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                Text(
+                          Row(
+                            children: [
+                              Container(
+                                width: 60,
+                                child: Text(
                                   "Name",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
                                       fontSize: 16),
                                 ),
-                                Spacer(),
-                                Text(
-                                  ":  ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                ":  ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900, fontSize: 16),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              widget.name,
-                              style: TextStyle(fontSize: 16),
-                            ),
+                          Text(
+                            widget.name,
+                            style: TextStyle(fontSize: 16),
                           )
                         ],
                       ),
                       Row(
                         children: [
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                Text(
+                          Row(
+                            children: [
+                              Container(
+                                width: 60,
+                                child: Text(
                                   "E-mail",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
                                       fontSize: 16),
                                 ),
-                                Spacer(),
-                                Text(
-                                  ":  ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                ":  ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900, fontSize: 16),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              widget.email,
-                              style: TextStyle(fontSize: 16),
-                            ),
+                          Text(
+                            widget.email,
+                            style: TextStyle(fontSize: 16),
                           )
                         ],
                       ),
                       Row(
                         children: [
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                Text(
+                          Row(
+                            children: [
+                              Container(
+                                width: 60,
+                                child: Text(
                                   "IC",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
                                       fontSize: 16),
                                 ),
-                                Spacer(),
-                                Text(
-                                  ":  ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                ":  ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900, fontSize: 16),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              widget.ic,
-                              style: TextStyle(fontSize: 16),
-                            ),
+                          Text(
+                            widget.ic,
+                            style: TextStyle(fontSize: 16),
                           )
                         ],
                       ),
@@ -1631,8 +1616,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
+                      horizontal: MediaQuery.of(context).size.width * 0.02),
                   child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: STAFFUserRequestPage.title.length,
                       itemBuilder: (BuildContext context, int i) {
@@ -1667,7 +1653,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                                       padding: const EdgeInsets.all(8),
                                       child: Container(
                                         padding: EdgeInsets.only(
-                                            top: 10, left: 10, right: 20),
+                                          top: 10,
+                                          left: 5,
+                                        ),
                                         child: ListView.builder(
                                             shrinkWrap: true,
                                             physics:
@@ -1741,27 +1729,27 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                               borderRadius: BorderRadius.circular(40),
                               onTap: () {
                                 showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("CONFIRMATION"),
-                                        content:
-                                            Text("Has the appointment successfully ended?"),
-                                        actions: [
-                                          TextButton(
-                                            child: Text("OK"),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => STAFFRootPage()));
-                          
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("CONFIRMATION"),
+                                      content: Text(
+                                          "Has the appointment successfully ended?"),
+                                      actions: [
+                                        TextButton(
+                                          child: Text("OK"),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        STAFFRootPage()));
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: const Align(
                                 alignment: Alignment.center,

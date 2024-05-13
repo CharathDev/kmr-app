@@ -62,13 +62,13 @@ class _RootPageState extends State<RootPage> {
               appBar: _selectedIndex == 2
                   ? AppBar(
                       automaticallyImplyLeading: false,
-                      toolbarHeight: 320,
+                      toolbarHeight: 250,
                       titleSpacing: 0,
                       centerTitle: true,
                       title: Container(
                         margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
                         width: double.infinity,
-                        height: 320,
+                        height: 250,
                         decoration: const BoxDecoration(
                             color: Color(0xffDFCEFA),
                             borderRadius: BorderRadius.only(
@@ -76,14 +76,12 @@ class _RootPageState extends State<RootPage> {
                                 bottomRight: Radius.circular(40))),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              height: 40,
-                            ),
                             Image.asset(
                               'lib/assets/images/3.png',
-                              width: 150,
-                              height: 150,
+                              width: 120,
+                              height: 120,
                             ),
                             TextButton(
                                 onPressed: () {
@@ -159,7 +157,7 @@ class _RootPageState extends State<RootPage> {
                                       : _selectedIndex == 1
                                           ? 'BMI Calculator'
                                           : _selectedIndex == 3
-                                              ? 'TCA / HAF'
+                                              ? 'HAF / TCA'
                                               : 'Profile',
                                   style: TextStyle(
                                       fontSize: 20,

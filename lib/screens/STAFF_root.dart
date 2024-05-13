@@ -32,28 +32,26 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
       appBar: _selectedIndex == 0
           ? AppBar(
               automaticallyImplyLeading: false,
-              toolbarHeight: 280,
+              toolbarHeight: 220,
               titleSpacing: 0,
               centerTitle: true,
               title: Container(
                 margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
                 width: double.infinity,
-                height: 280,
+                height: 220,
                 decoration: const BoxDecoration(
                     color: Color(0xffDFCEFA),
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(40),
                         bottomRight: Radius.circular(40))),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 40,
-                    ),
                     Image.asset(
                       'lib/assets/images/3.png',
-                      width: 150,
-                      height: 150,
+                      width: 120,
+                      height: 120,
                     ),
                     Text(
                       'Staff',

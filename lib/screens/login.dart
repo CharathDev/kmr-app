@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController(
-      text: "test@gmail.com"); //remove initial value later
+      text: "staff@gmail.com"); //remove initial value later
   final passwordController =
       TextEditingController(text: "123123"); //remove initial value later
 
@@ -33,7 +33,6 @@ class _LoginPageState extends State<LoginPage> {
       }
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-
       if (emailController.text == "admin@gmail.com") {
         Navigator.push(
           context,
@@ -128,7 +127,10 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 30,
                 ),
-                Row(
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  runAlignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       "Don't have an account?",

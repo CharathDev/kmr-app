@@ -496,36 +496,36 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
                   "Appointment Tracking",
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
                 ),
-                SizedBox(height: 10,),
-                GridView.builder(
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                childAspectRatio: 3.5,
-                              ),
-                              primary: false,
-                              padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.05,
-                                right: MediaQuery.of(context).size.width * 0.05,
-                                top: 20,
-                              ),
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  margin: const EdgeInsets.all(1.0),
-                                  child: UserRecords(
-                                    id: snapshot.data![index]['id'],
-                                    name: snapshot.data![index]['fullName'],
-                                    email: snapshot.data![index]['email'],
-                                    ic: snapshot.data![index]['icNumber'],
-                                    values: snapshot.data![index]['BSSK'],
-                                    reviewed: snapshot.data![index]['reviewed'],
-                                    colour: Color(0xffe7ffce),
-                                    reviewedUser: reviewedUser,
-                                  ),
-                                );
-                              }),
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.05,
+                        right: MediaQuery.of(context).size.width * 0.05,
+                        top: 20,
+                      ),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          height: 180,
+                          margin: const EdgeInsets.all(1.0),
+                          child: UserRecords(
+                            id: snapshot.data![index]['id'],
+                            name: snapshot.data![index]['fullName'],
+                            email: snapshot.data![index]['email'],
+                            ic: snapshot.data![index]['icNumber'],
+                            values: snapshot.data![index]['BSSK'],
+                            reviewed: snapshot.data![index]['reviewed'],
+                            colour: Color(0xffe7ffce),
+                            reviewedUser: reviewedUser,
+                          ),
+                        );
+                      }),
+                ),
               ],
             );
           } else if (snapshot.hasError) {
@@ -584,9 +584,9 @@ class UserRecords extends StatelessWidget {
                         reviewedUser: reviewedUser,
                       )));
         },
-        child:  Container(
+        child: Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical:15, horizontal: 30),
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           decoration: BoxDecoration(
             color: Color(0xffe7ffce),
             borderRadius: BorderRadius.circular(10),
@@ -603,44 +603,53 @@ class UserRecords extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                Text('Andrew Lee', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 15,
-                  color: Color(0xff14213d),
-                ),
-              ],),
+              Row(
+                children: [
+                  Text('Andrew Lee',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Spacer(),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                    color: Color(0xff14213d),
+                  ),
+                ],
+              ),
               SizedBox(height: 8),
-              Expanded( // Ensure the row takes the remaining height
+              Expanded(
+                // Ensure the row takes the remaining height
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded( // Makes the column take half the row space
+                    Expanded(
+                      // Makes the column take half the row space
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adds space distribution
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceEvenly, // Adds space distribution
                         children: [
                           Row(
                             children: [
                               Icon(Icons.phone, color: Colors.black54),
                               SizedBox(width: 10),
-                              Text('011 2345 6789'),
+                              Expanded(child: Text('011 2345 6789')),
                             ],
                           ),
                           Row(
                             children: [
                               Icon(Icons.calendar_today, color: Colors.black54),
                               SizedBox(width: 10),
-                              Text('26/04'),
+                              Expanded(child: Text('26/04')),
                             ],
                           )
                         ],
                       ),
                     ),
-                    Expanded( // Makes the column take half the row space
+                    Expanded(
+                      // Makes the column take half the row space
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adds space distribution
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceEvenly, // Adds space distribution
                         children: [
                           Row(
                             children: [

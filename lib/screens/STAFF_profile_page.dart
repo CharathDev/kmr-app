@@ -57,149 +57,147 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
               ),
               Expanded(
                 child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: ListView(
-                            children: [
-                              SizedBox(
-                                height: 50,
-                              ),
-                              TextField(
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 30),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  labelText: 'Full Name',
-                                  hintText: "test",
-                                ),
-                                controller: nameController,
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              TextField(
-                                decoration: InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 30),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    labelText: 'IC Number',
-                                    hintText: "test"),
-                                controller: icController,
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              TextField(
-                                decoration: InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 30),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    labelText: 'Phone Number',
-                                    hintText: "test"),
-                                controller: phoneNumberController,
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              TextField(
-                                decoration: InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 30),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    labelText: 'E-mail',
-                                    hintText: "test"),
-                                controller: emailController,
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  TextButton(
-                                onPressed: () {
-                                  // setState(() {
-                                  //   print("breh");
-                                  //   FirebaseFirestore.instance
-                                  //       .collection('users')
-                                  //       .doc(user.uid)
-                                  //       .update({
-                                  //     "fullName": nameController.text,
-                                  //     "icNumber": icController.text,
-                                  //     "phoneNumber": phoneNumberController.text,
-                                  //     "email": emailController.text,
-                                  //   });
-                                  // });
-                                },
-                                style: ButtonStyle(
-                                  overlayColor: MaterialStateProperty.all(
-                                      Colors.transparent),
-                                ),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width * 0.35,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 15,),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xff966FD6),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  child: Text(
-                                    'Update Profile',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10,),
-                              TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    FirebaseAuth.instance.signOut();
-                                    Navigator.pop(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginPage()));
-                                  });
-                                },
-                                style: ButtonStyle(
-                                  overlayColor: MaterialStateProperty.all(
-                                      Colors.transparent),
-                                ),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width * 0.35,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 15, ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red[600],
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  child: Text(
-                                    'Log Out',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                                ],
-                              ),
-                              
-                              SizedBox(
-                                height: 50,
-                              ),
-                            ],
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ListView(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
                           ),
+                          labelText: 'Full Name',
+                          hintText: "test",
                         ),
+                        controller: nameController,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 30),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50)),
+                            labelText: 'IC Number',
+                            hintText: "test"),
+                        controller: icController,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 30),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            labelText: 'Phone Number',
+                            hintText: "test"),
+                        controller: phoneNumberController,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 30),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50)),
+                            labelText: 'E-mail',
+                            hintText: "test"),
+                        controller: emailController,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              // setState(() {
+                              //   print("breh");
+                              //   FirebaseFirestore.instance
+                              //       .collection('users')
+                              //       .doc(user.uid)
+                              //       .update({
+                              //     "fullName": nameController.text,
+                              //     "icNumber": icController.text,
+                              //     "phoneNumber": phoneNumberController.text,
+                              //     "email": emailController.text,
+                              //   });
+                              // });
+                            },
+                            style: ButtonStyle(
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.transparent),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 30),
+                              decoration: BoxDecoration(
+                                color: Color(0xff966FD6),
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Text(
+                                'Update Profile',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                FirebaseAuth.instance.signOut();
+                                Navigator.pop(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()));
+                              });
+                            },
+                            style: ButtonStyle(
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.transparent),
+                            ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 15,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.red[600],
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Text(
+                                'Log Out',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           );

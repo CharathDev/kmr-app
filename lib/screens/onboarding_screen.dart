@@ -17,7 +17,6 @@ class OnboardingScreen extends StatelessWidget {
             Image.asset(
               'lib/assets/images/2.png',
               width: 350,
-              height: 350,
             ),
             Text(
               'Consult, only with a doctor you trust!',
