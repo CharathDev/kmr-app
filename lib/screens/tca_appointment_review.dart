@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -20,6 +22,17 @@ class TCAAppointmentReview extends StatefulWidget {
 }
 
 class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
+  final user = FirebaseAuth.instance.currentUser!;
+  TextEditingController thoughtsController = new TextEditingController();
+  int selectedRating = 3;
+
+  void setFeeback() {
+    FirebaseFirestore.instance.collection('feedback').doc(user.uid).set({
+      "rating": selectedRating,
+      "thoughts": thoughtsController.text,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String dayString = widget.day.day.toString() +
@@ -117,7 +130,9 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                   height: 1.5, // Line spacing
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Text(
                 'Help us improve this app by reviewing and sharing your experience while using it.',
                 textAlign: TextAlign.center,
@@ -126,61 +141,69 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                   height: 1.5, // Line spacing
                 ),
               ),
-              SizedBox(height:20,),
-              RatingBar.builder(
-    initialRating: 0,
-    itemCount: 5,
-    itemBuilder: (context, index) {
-       switch (index) {
-          case 0:
-             return Icon(
-                Icons.star,
-                color: Colors.red,
-             );
-          case 1:
-             return Icon(
-                Icons.star,
-                color: Colors.redAccent,
-             );
-          case 2:
-             return Icon(
-                Icons.star,
-                color: Colors.amber,
-             );
-          case 3:
-             return Icon(
-                Icons.star,
-                color: Colors.lightGreen,
-             );
-          case 4:
-              return Icon(
-                Icons.star,
-                color: Colors.green,
-              );
-          default: 
-          return Placeholder();
-       }
-    },
-    onRatingUpdate: (rating) {
-      print(rating);
-    },
+              SizedBox(
+                height: 20,
               ),
-              SizedBox(height: 20,),
-              const TextField(
-                minLines: 6, // any number you need (It works as the rows for the textarea)
+              RatingBar.builder(
+                initialRating: 3,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return Icon(
+                        Icons.star,
+                        color: Colors.red,
+                      );
+                    case 1:
+                      return Icon(
+                        Icons.star,
+                        color: Colors.redAccent,
+                      );
+                    case 2:
+                      return Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      );
+                    case 3:
+                      return Icon(
+                        Icons.star,
+                        color: Colors.lightGreen,
+                      );
+                    case 4:
+                      return Icon(
+                        Icons.star,
+                        color: Colors.green,
+                      );
+                    default:
+                      return Placeholder();
+                  }
+                },
+                onRatingUpdate: (rating) {
+                  selectedRating = rating.toInt();
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextField(
+                minLines:
+                    6, // any number you need (It works as the rows for the textarea)
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                alignLabelWithHint: true,
-                border: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(25.0))),
-                labelText: 'Send us your thoughts and feedbacks...',
-                
-              ),),
-              SizedBox(height: 24,),
+                decoration: const InputDecoration(
+                  alignLabelWithHint: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                  labelText: 'Send us your thoughts and feedbacks...',
+                ),
+                controller: thoughtsController,
+              ),
+              SizedBox(
+                height: 24,
+              ),
               ElevatedButton(
                 onPressed: () {
+                  setFeeback();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => RootPage()),
@@ -198,13 +221,6 @@ class _TCAAppointmentReviewState extends State<TCAAppointmentReview> {
                   padding: EdgeInsets.symmetric(
                       horizontal: 50,
                       vertical: 15), // Padding inside the button
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text('See my appointment(s)'),
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.deepPurple, // Text color
                 ),
               ),
             ],

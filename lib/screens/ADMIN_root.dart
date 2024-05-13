@@ -31,47 +31,47 @@ class _RootPageState extends State<ADMINRootPage> {
   Widget build(BuildContext context) {
     final List<Widget> widgetOptions = <Widget>[
       ADMINHomePage(),
-      ADMINReviewPage(contacts: contacts),
+      ADMINReviewPage(),
       Logout(),
     ];
     var page = widgetOptions.elementAt(_selectedIndex);
     return Scaffold(
       appBar: AppBar(
-              automaticallyImplyLeading: false,
-              toolbarHeight: 280,
-              titleSpacing: 0,
-              centerTitle: true,
-              title: Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
-                width: double.infinity,
-                height: 280,
-                decoration: const BoxDecoration(
-                    color: Color(0xffDFCEFA),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Image.asset(
-                      'lib/assets/images/3.png',
-                      width: 150,
-                      height: 150,
-                    ),
-                    Text(
-                      'Admin',
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff966FD6)),
-                    )
-                  ],
-                ),
+        automaticallyImplyLeading: false,
+        toolbarHeight: 280,
+        titleSpacing: 0,
+        centerTitle: true,
+        title: Container(
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+          width: double.infinity,
+          height: 280,
+          decoration: const BoxDecoration(
+              color: Color(0xffDFCEFA),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                  bottomRight: Radius.circular(40))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 40,
               ),
-            ),
+              Image.asset(
+                'lib/assets/images/3.png',
+                width: 150,
+                height: 150,
+              ),
+              Text(
+                'Admin',
+                style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff966FD6)),
+              )
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30.0),
@@ -89,7 +89,7 @@ class _RootPageState extends State<ADMINRootPage> {
                   icon: Icon(Ionicons.home_outline), label: 'Home'),
               BottomNavigationBarItem(
                   icon: Icon(Ionicons.star), label: 'Reviews'),
-                  BottomNavigationBarItem(
+              BottomNavigationBarItem(
                   icon: Icon(Ionicons.log_out), label: 'Logout')
             ],
             currentIndex: _selectedIndex,

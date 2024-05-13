@@ -42,27 +42,37 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
         .get();
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getRecommendedStaffInfo(
+  Future<QueryDocumentSnapshot<Map<String, dynamic>>> getRecommendedStaffInfo(
       String doc) async {
+    QueryDocumentSnapshot<Map<String, dynamic>> returnValue;
     return await FirebaseFirestore.instance
-        .collection('staff')
-        .doc(doc)
-        .collection('members')
-        .doc('0')
-        .get();
+        .collection('users')
+        .get()
+        .then((value) {
+      for (var docSnapshot in value.docs) {
+        var data = docSnapshot.data();
+        if (data['isStaff']) {
+          if (data['occupation'] == doc) {
+            return docSnapshot;
+          }
+        }
+      }
+
+      throw "breh";
+    });
   }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getStaffInfo(
       String staffCateogry) async {
     final List<QueryDocumentSnapshot<Map<String, dynamic>>> staffList = [];
-    await FirebaseFirestore.instance
-        .collection('staff')
-        .doc(staffCateogry)
-        .collection('members')
-        .get()
-        .then((querySnapshot) {
-      for (var docSnapshot in querySnapshot.docs) {
-        staffList.add(docSnapshot);
+    await FirebaseFirestore.instance.collection('users').get().then((value) {
+      for (var docSnapshot in value.docs) {
+        var data = docSnapshot.data();
+        if (data['isStaff']) {
+          if (data['occupation'] == staffCateogry) {
+            staffList.add(docSnapshot);
+          }
+        }
       }
     });
     return staffList;
@@ -1974,10 +1984,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                                   SizedBox(
                                                     height: 10,
                                                   ),
-                                                  FutureBuilder<
-                                                          DocumentSnapshot<
-                                                              Map<String,
-                                                                  dynamic>>>(
+                                                  FutureBuilder(
                                                       future:
                                                           getRecommendedStaffInfo(
                                                               data['doctors']
@@ -1993,9 +2000,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                                           Map<String, dynamic>
                                                               staffData =
                                                               snapshot.data!
-                                                                      .data()
-                                                                  as Map<String,
-                                                                      dynamic>;
+                                                                  .data();
                                                           return StaffInfo(
                                                             staffData: snapshot
                                                                 .data!

@@ -1,8 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MaterialApp(home: ADMINReviewPage(contacts: contacts)));
-}
 
 // Data model for each contact
 class Contact {
@@ -11,31 +8,45 @@ class Contact {
   final String description;
   final int starRating;
 
-  Contact({required this.name, required this.email, required this.description, this.starRating = 5});
+  Contact(
+      {required this.name,
+      required this.email,
+      required this.description,
+      this.starRating = 5});
 }
 
-// Sample data: List of contacts
-List<Contact> contacts = [
-  Contact(
-    name: 'Andrew Lee',
-    email: 'andrewlee@gmail.com',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, asasd.as.d.asd.as.d.sad.as.d.asd.as.da.sd.as.ds.dha;skdhasdhasdhlasdha;sldjaskldhasldasdlsadasdsed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-    starRating: 4,
-  ),
-  Contact(
-    name: 'Jane Doe',
-    email: 'janedoe@example.com',
-    description: 'Short description here. Something about Jane Doe\'s preferences and hobbies, perhaps.',
-    starRating: 3,
-  ),
-  // More contacts can be added here
-];
-
 // Stateless widget that displays a list of contact cards
-class ADMINReviewPage extends StatelessWidget {
-  final List<Contact> contacts;
+class ADMINReviewPage extends StatefulWidget {
+  const ADMINReviewPage({super.key});
 
-  ADMINReviewPage({required this.contacts});
+  @override
+  State<ADMINReviewPage> createState() => _ADMINReviewPageState();
+}
+
+class _ADMINReviewPageState extends State<ADMINReviewPage> {
+  Future<List<Contact>> getReviews() async {
+    List<Contact> contacts = [];
+    await FirebaseFirestore.instance
+        .collection('feedback')
+        .get()
+        .then((value) async {
+      for (var docSnapshot in value.docs) {
+        var data = docSnapshot.data();
+        var userData = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(docSnapshot.id)
+            .get()
+            .then((value) => value);
+        var tempContact = Contact(
+            name: userData.data()!["fullName"],
+            email: userData.data()!["email"],
+            description: data["thoughts"],
+            starRating: data["rating"]);
+        contacts.add(tempContact);
+      }
+    });
+    return contacts;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +57,27 @@ class ADMINReviewPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Tracking Reviews", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text("Tracking Reviews",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: contacts.length,
-                itemBuilder: (context, index) {
-                  return ContactCard(contact: contacts[index]);
-                },
-              ),
-            ),
+                child: FutureBuilder(
+              future: getReviews(),
+              builder: ((context, snapshot) {
+                if (!snapshot.hasData &&
+                    snapshot.connectionState != ConnectionState.done) {
+                  return CircularProgressIndicator();
+                } else {
+                  var contacts = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: contacts.length,
+                    itemBuilder: (context, index) {
+                      return ContactCard(contact: contacts[index]);
+                    },
+                  );
+                }
+              }),
+            )),
           ],
         ),
       ),
@@ -99,7 +121,8 @@ class _ContactCardState extends State<ContactCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(contact.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(contact.name,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           SizedBox(height: 5),
           Text(contact.email, style: TextStyle(color: Colors.grey[600])),
           SizedBox(height: 10),
@@ -114,10 +137,9 @@ class _ContactCardState extends State<ContactCard> {
           ),
           SizedBox(height: 10),
           LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return buildExpandableText(contact.description, constraints);
-            }
-          ),
+              builder: (BuildContext context, BoxConstraints constraints) {
+            return buildExpandableText(contact.description, constraints);
+          }),
         ],
       ),
     );
@@ -138,7 +160,10 @@ class _ContactCardState extends State<ContactCard> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(text, style: style, maxLines: isExpanded ? null : 100, overflow: TextOverflow.ellipsis),
+          Text(text,
+              style: style,
+              maxLines: isExpanded ? null : 100,
+              overflow: TextOverflow.ellipsis),
           InkWell(
             child: Text(
               isExpanded ? 'Read More...' : 'Read Less...',

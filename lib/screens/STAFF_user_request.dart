@@ -15,13 +15,11 @@ class STAFFUserRequestPage extends StatefulWidget {
       required this.email,
       required this.ic,
       required this.values,
-      required this.reviewed,
       required this.reviewedUser});
   final String name;
   final String email;
   final String ic;
   final Map<String, dynamic> values;
-  final bool reviewed;
   final Function reviewedUser;
   final String id;
   static final List<String> title = [
@@ -1246,10 +1244,6 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
     }.toSet(),
   ];
   late bool submitted;
-  late bool doctor1;
-  late bool doctor2;
-  late bool doctor3;
-  late List doctors;
 
   @override
   void dispose() {
@@ -1260,30 +1254,6 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
   void initState() {
     super.initState();
     submitted = false;
-    doctor1 = false;
-    doctor2 = false;
-    doctor3 = false;
-    doctors = [];
-  }
-
-  changeDoctors(text, boolean) {
-    setState(() {
-      if (text == "Medical Officer") {
-        doctor1 = boolean;
-      }
-      if (text == "Occupational Therapist") {
-        doctor2 = boolean;
-      }
-      if (text == "Counsellor") {
-        doctor3 = boolean;
-      }
-      if (boolean) {
-        doctors.add(text);
-      } else {
-        print('dsd');
-        doctors.remove(text);
-      }
-    });
   }
 
   Widget RadioDoctor(
@@ -1318,6 +1288,13 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
         ),
       ),
     );
+  }
+
+  void endAppointment() async {
+    await FirebaseFirestore.instance
+        .collection('Appointments')
+        .doc(widget.id)
+        .delete();
   }
 
   @override
@@ -1399,63 +1376,13 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           ),
                         ),
                         Text(
-                          "The appointment for",
+                          "The appointment has ended",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: "LeagueSpartan",
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: Colors.black),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Text(
-                            widget.name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Poppins",
-                                fontSize: 24,
-                                color: Colors.black),
-                          ),
-                        ),
-                        Text(
-                          "with",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: "LeagueSpartan",
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Colors.black),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Column(
-                            children: [
-                              for (String item in doctors)
-                                Text(
-                                  item,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Poppins",
-                                      fontSize: 24,
-                                      color: Colors.black),
-                                ),
-                            ],
-                          ),
-                        ),
-                        Text(
-                          "has been confirmed.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: "LeagueSpartan",
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 10,
                         ),
                       ],
                     ),
@@ -1741,27 +1668,28 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                               borderRadius: BorderRadius.circular(40),
                               onTap: () {
                                 showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("CONFIRMATION"),
-                                        content:
-                                            Text("Has the appointment successfully ended?"),
-                                        actions: [
-                                          TextButton(
-                                            child: Text("OK"),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => STAFFRootPage()));
-                          
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("CONFIRMATION"),
+                                      content: Text(
+                                          "Has the appointment successfully ended?"),
+                                      actions: [
+                                        TextButton(
+                                          child: Text("OK"),
+                                          onPressed: () {
+                                            endAppointment();
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        STAFFRootPage()));
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: const Align(
                                 alignment: Alignment.center,

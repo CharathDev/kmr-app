@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/STAFF_user_request.dart';
@@ -453,30 +454,44 @@ class STAFFHomePage extends StatefulWidget {
 }
 
 class _STAFFHomePageState extends State<STAFFHomePage> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   reviewedUser(name, doctors, id) {
     setState(() {
       FirebaseFirestore.instance
           .collection("users")
           .doc(id)
           .update({'doctors': doctors});
-      for (Map<String, dynamic> i in STAFFHomePage.newRecords) {
-        if (i['name'] == name) {
-          STAFFHomePage.newRecords[STAFFHomePage.newRecords.indexOf(i)]
-              ['doctors'] = doctors;
-          break;
-        }
-      }
     });
   }
 
   Future<List<Map<String, dynamic>>> getUserList() async {
     final List<Map<String, dynamic>> userList = [];
     await FirebaseFirestore.instance
-        .collection("reviews")
+        .collection("Appointments")
         .get()
-        .then((querySnapshot) {
+        .then((querySnapshot) async {
       for (var docSnapshot in querySnapshot.docs) {
-        userList.add(docSnapshot.data());
+        if (docSnapshot.data()["staffID"] == user.uid) {
+          var userInfo = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(docSnapshot.data()["userID"])
+              .get()
+              .then((value) => value.data());
+          var date = docSnapshot.data()["date"].toString().split(" ");
+          var finalDate = date[0] + "/" + date[1] + "/" + date[2];
+          var tempData = {
+            "id": docSnapshot.id,
+            "fullName": userInfo!["fullName"],
+            "email": userInfo["email"],
+            "icNumber": userInfo["icNumber"],
+            "BSSK": userInfo["BSSK"],
+            "phoneNumber": userInfo["phoneNumber"],
+            "date": finalDate,
+            "timeSlot": docSnapshot.data()["timeSlots"],
+          };
+          userList.add(tempData);
+        }
       }
     });
     return userList;
@@ -491,41 +506,51 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Appointment Tracking",
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
                 ),
-                SizedBox(height: 10,),
-                GridView.builder(
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                childAspectRatio: 3.5,
-                              ),
-                              primary: false,
-                              padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.05,
-                                right: MediaQuery.of(context).size.width * 0.05,
-                                top: 20,
-                              ),
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  margin: const EdgeInsets.all(1.0),
-                                  child: UserRecords(
-                                    id: snapshot.data![index]['id'],
-                                    name: snapshot.data![index]['fullName'],
-                                    email: snapshot.data![index]['email'],
-                                    ic: snapshot.data![index]['icNumber'],
-                                    values: snapshot.data![index]['BSSK'],
-                                    reviewed: snapshot.data![index]['reviewed'],
-                                    colour: Color(0xffe7ffce),
-                                    reviewedUser: reviewedUser,
-                                  ),
-                                );
-                              }),
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: GridView.builder(
+                      physics: ScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        childAspectRatio: 3.5,
+                      ),
+                      primary: false,
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.05,
+                        right: MediaQuery.of(context).size.width * 0.05,
+                        top: 20,
+                      ),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        print(snapshot.data![index]['id']);
+                        return Container(
+                          margin: const EdgeInsets.all(1.0),
+                          child: UserRecords(
+                            id: snapshot.data![index]['id'],
+                            name: snapshot.data![index]['fullName'],
+                            email: snapshot.data![index]['email'],
+                            ic: snapshot.data![index]['icNumber'],
+                            values: snapshot.data![index]['BSSK'],
+                            phoneNumber: snapshot.data![index]['phoneNumber'],
+                            date: snapshot.data![index]['date'],
+                            timeSlot: snapshot.data![index]['timeSlot'],
+                            reviewedUser: reviewedUser,
+                          ),
+                        );
+                      }),
+                ))
               ],
             );
           } else if (snapshot.hasError) {
@@ -544,25 +569,38 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
 }
 
 class UserRecords extends StatelessWidget {
-  const UserRecords({
+  UserRecords({
     super.key,
     required this.id,
     required this.name,
     required this.email,
     required this.ic,
     required this.values,
-    required this.reviewed,
-    required this.colour,
     required this.reviewedUser,
+    required this.phoneNumber,
+    required this.date,
+    required this.timeSlot,
   });
   final String name;
   final String email;
   final String ic;
   final String id;
+  final String phoneNumber;
+  final String date;
+  final int timeSlot;
   final Map<String, dynamic> values;
-  final bool reviewed;
-  final Color colour;
   final Function reviewedUser;
+
+  final List<String> _timeSlots = [
+    '9:00 am - 10:00 am',
+    '10:00 am - 11:00 am',
+    '11:00 am - 12:00 pm',
+    '1:00 pm - 2:00 pm',
+    '2:00 pm - 3:00 pm',
+    '3:00 pm - 3:45 pm',
+    '3:00 pm - 4:00 pm',
+    '4:00 pm - 5:00 pm',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -580,13 +618,12 @@ class UserRecords extends StatelessWidget {
                         email: email,
                         ic: ic,
                         values: values,
-                        reviewed: reviewed,
                         reviewedUser: reviewedUser,
                       )));
         },
-        child:  Container(
+        child: Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical:15, horizontal: 30),
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
           decoration: BoxDecoration(
             color: Color(0xffe7ffce),
             borderRadius: BorderRadius.circular(10),
@@ -603,57 +640,66 @@ class UserRecords extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                Text('Andrew Lee', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 15,
-                  color: Color(0xff14213d),
-                ),
-              ],),
+              Row(
+                children: [
+                  Text(name,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Spacer(),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                    color: Color(0xff14213d),
+                  ),
+                ],
+              ),
               SizedBox(height: 8),
-              Expanded( // Ensure the row takes the remaining height
+              Expanded(
+                // Ensure the row takes the remaining height
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded( // Makes the column take half the row space
+                    Expanded(
+                      // Makes the column take half the row space
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adds space distribution
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceEvenly, // Adds space distribution
                         children: [
                           Row(
                             children: [
                               Icon(Icons.phone, color: Colors.black54),
                               SizedBox(width: 10),
-                              Text('011 2345 6789'),
+                              Text(phoneNumber),
                             ],
                           ),
                           Row(
                             children: [
                               Icon(Icons.calendar_today, color: Colors.black54),
                               SizedBox(width: 10),
-                              Text('26/04'),
+                              Text(date),
                             ],
                           )
                         ],
                       ),
                     ),
-                    Expanded( // Makes the column take half the row space
+                    Expanded(
+                      // Makes the column take half the row space
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adds space distribution
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceEvenly, // Adds space distribution
                         children: [
                           Row(
                             children: [
                               Icon(Icons.email, color: Colors.black54),
                               SizedBox(width: 10),
-                              Expanded(child: Text('andrewl@gmail.com')),
+                              Expanded(child: Text(email)),
                             ],
                           ),
                           Row(
                             children: [
                               Icon(Icons.access_time, color: Colors.black54),
                               SizedBox(width: 10),
-                              Expanded(child: Text('2:00 pm - 3:00 pm')),
+                              Expanded(child: Text(_timeSlots[timeSlot])),
                             ],
                           )
                         ],

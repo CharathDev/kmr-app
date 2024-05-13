@@ -46,6 +46,7 @@ class RegisterPage extends StatelessWidget {
           'email': email,
           'icNumber': icNumber,
           'phoneNumber': phoneNumber,
+          'isStaff': false,
         });
 
         //can change this

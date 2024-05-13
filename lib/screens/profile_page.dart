@@ -124,7 +124,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   TextButton(
                                 onPressed: () {
                                   setState(() {
-                                    print("breh");
                                     FirebaseFirestore.instance
                                         .collection('users')
                                         .doc(user.uid)

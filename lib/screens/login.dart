@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +24,6 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginUser() async {
     try {
-      if (emailController.text == "staff@gmail.com") {
-        Navigator.push(
-          context,
-          // MaterialPageRoute(builder: (context) => RootPage()), //USER ROOT PAGE
-          MaterialPageRoute(
-              builder: (context) => STAFFRootPage()), //ADMIN ROOT PAGE
-        );
-      }
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
 
@@ -42,13 +35,29 @@ class _LoginPageState extends State<LoginPage> {
               builder: (context) => ADMINRootPage()), //ADMIN ROOT PAGE
         );
       } else {
-        Navigator.push(
-          context,
-          // MaterialPageRoute(builder: (context) => RootPage()), //USER ROOT PAGE
-          MaterialPageRoute(builder: (context) => RootPage()), //ADMIN ROOT PAGE
-        );
+        var user = FirebaseAuth.instance.currentUser;
+        var userInfo = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .get();
+        if (userInfo.data()!['isStaff']) {
+          Navigator.push(
+            context,
+            // MaterialPageRoute(builder: (context) => RootPage()), //USER ROOT PAGE
+            MaterialPageRoute(
+                builder: (context) => STAFFRootPage()), //ADMIN ROOT PAGE
+          );
+        } else {
+          Navigator.push(
+            context,
+            // MaterialPageRoute(builder: (context) => RootPage()), //USER ROOT PAGE
+            MaterialPageRoute(
+                builder: (context) => RootPage()), //ADMIN ROOT PAGE
+          );
+        }
       }
     } on FirebaseAuthException catch (e) {
+      print(e);
       return;
     }
   }
