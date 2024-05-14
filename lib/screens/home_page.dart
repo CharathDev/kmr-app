@@ -70,83 +70,82 @@ class HomePage extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: const Color(0xff966FD6),
                             borderRadius: BorderRadius.circular(20)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
                           children: [
-                            const Text('DR IMAGE'),
-                            const ClipRect(
-                                // child: Image.asset('', width:45px),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'lib/assets/images/profile.png',
+                                  width: 60,
                                 ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 5),
-                                    child: Text(
-                                      appointmentListData[index]["name"],
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Text(
+                                        appointmentListData[index]["name"],
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
                                     ),
+                                    Text(
+                                      appointmentListData[index]["occupation"],
+                                      style: const TextStyle(
+                                          color: Colors.white70),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 18,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 6),
+                              decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Ionicons.calendar,
+                                    size: 18,
+                                    color: Colors.white,
                                   ),
-                                  Text(
-                                    appointmentListData[index]["occupation"],
-                                    style:
-                                        const TextStyle(color: Colors.white70),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      appointmentListData[index]["date"],
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                   const SizedBox(
-                                    height: 18,
+                                    width: 10,
                                   ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 6),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white10,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Wrap(
-                                      children: [
-                                        const Icon(
-                                          Ionicons.calendar,
-                                          size: 18,
-                                          color: Colors.white,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            appointmentListData[index]["date"],
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        const Icon(
-                                          Ionicons.time_outline,
-                                          size: 18,
-                                          color: Colors.white,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            _timeSlots[
-                                                appointmentListData[index]
-                                                    ["timeSlot"]],
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        )
-                                      ],
+                                  const Icon(
+                                    Ionicons.time_outline,
+                                    size: 18,
+                                    color: Colors.white,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      _timeSlots[appointmentListData[index]
+                                          ["timeSlot"]],
+                                      style:
+                                          const TextStyle(color: Colors.white),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             )

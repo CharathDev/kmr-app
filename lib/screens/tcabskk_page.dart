@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 
 class TCABSSKPage extends StatefulWidget {
   bool submitted;
-  TCABSSKPage({super.key, required this.submitted});
+  TCABSSKPage({super.key, this.submitted = false});
   static final List<String> title = [
     "A. Biodata",
     "B. Medical/Surgical History",
@@ -236,6 +236,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
         {
           "text": "Date of Birth",
           "child": MyTextField(
+            inputtype: TextInputType.phone,
             name: 'a3',
             callback: changeValues,
             hinttext: 'DD/MM/YYYY',
@@ -244,6 +245,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
         {
           "text": "IC / Passport Number",
           "child": MyTextField(
+            inputtype: TextInputType.number,
             name: 'a4',
             callback: changeValues,
           )
@@ -569,6 +571,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
               Expanded(
                   flex: 8,
                   child: MyTextField(
+                    inputtype: TextInputType.phone,
                     name: 'a11a',
                     callback: changeValues,
                     hinttext: 'Home',
@@ -580,6 +583,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
               Expanded(
                   flex: 8,
                   child: MyTextField(
+                    inputtype: TextInputType.phone,
                     name: 'a11b',
                     callback: changeValues,
                     hinttext: 'Mobile',
@@ -590,6 +594,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
         {
           "text": "Email",
           "child": MyTextField(
+            inputtype: TextInputType.emailAddress,
             name: 'a12',
             callback: changeValues,
             hinttext: 'e.g. johndoe@gmail.com',
@@ -598,6 +603,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
         {
           "text": "Last Normal Menstrual Period (Female only)",
           "child": FormBuilderTextField(
+            keyboardType: TextInputType.phone,
             name: 'a13',
             validator: (value) {
               if (value == null && values['a2'] == "Female") {
@@ -1540,7 +1546,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                                   children: const <TextSpan>[
                                                     TextSpan(
                                                         text:
-                                                            "This Health Assessment Form consists of 11 sections "),
+                                                            "This Health Assessment Form\nconsists of 11 sections "),
                                                     TextSpan(
                                                         text: "(A - K).",
                                                         style: TextStyle(
@@ -1549,14 +1555,18 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                                                     .bold))
                                                   ]),
                                             ),
-                                            Text(
-                                              "Please fill in your information in each section accordingly.",
+                                            const SizedBox(height: 10),
+                                            RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    "Please fill in your information\nin each section accordingly.",
+                                                style: TextStyle(
+                                                    fontFamily: "LeagueSpartan",
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                    color: Colors.black),
+                                              ),
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: "LeagueSpartan",
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  color: Colors.black),
                                             ),
                                           ],
                                         ),
@@ -1995,6 +2005,8 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                         ),
                                         ListView.builder(
                                             scrollDirection: Axis.vertical,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             itemCount: data['doctors'].length,
                                             itemBuilder: (BuildContext context,
@@ -2088,10 +2100,14 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                               }
                                             }),
                                         SizedBox(
-                                          height: 30,
+                                          height: 15,
                                         ),
+                                        Divider(
+                                          color: Colors.black,
+                                        ),
+                                        SizedBox(height: 15),
                                         Text(
-                                          'Counsellor',
+                                          'Counsellors',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18),
@@ -2106,6 +2122,8 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                               } else {
                                                 final staffList = list.data!;
                                                 return ListView.builder(
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     shrinkWrap: true,
@@ -2144,7 +2162,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                           height: 30,
                                         ),
                                         Text(
-                                          'Medical Officer',
+                                          'Medical Officers',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18),
@@ -2160,6 +2178,8 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                               } else {
                                                 final staffList = list.data!;
                                                 return ListView.builder(
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     shrinkWrap: true,
@@ -2198,7 +2218,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                           height: 30,
                                         ),
                                         Text(
-                                          'Occupational Therapist',
+                                          'Occupational Therapists',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18),
@@ -2214,6 +2234,8 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                               } else {
                                                 final staffList = list.data!;
                                                 return ListView.builder(
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     shrinkWrap: true,
@@ -2464,10 +2486,12 @@ class _singleyesornoState extends State<singleyesorno> {
 class MyTextField extends StatefulWidget {
   const MyTextField(
       {super.key,
+      this.inputtype = TextInputType.text,
       this.hinttext = '',
       required this.name,
       required this.callback});
   final String hinttext;
+  final TextInputType inputtype;
   final String name;
   final Function callback;
   @override
@@ -2478,6 +2502,7 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
+      keyboardType: widget.inputtype,
       name: widget.name,
       validator: (value) {
         if (value == null || value == "") {

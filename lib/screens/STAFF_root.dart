@@ -30,13 +30,13 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
       appBar: _selectedIndex == 0
           ? AppBar(
               automaticallyImplyLeading: false,
-              toolbarHeight: 220,
+              toolbarHeight: 240,
               titleSpacing: 0,
               centerTitle: true,
               title: Container(
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                 width: double.infinity,
-                height: 220,
+                height: 240,
                 decoration: const BoxDecoration(
                     color: Color(0xffDFCEFA),
                     borderRadius: BorderRadius.only(
@@ -46,6 +46,7 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 20),
                     Image.asset(
                       'lib/assets/images/3.png',
                       width: 120,
