@@ -160,12 +160,13 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
                         children: [
                           const Text(
                             "Schedule your appointment with",
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 16),
+                            textAlign: TextAlign.center,
                           ),
                           Text(
                             data!["name"],
                             style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           const SizedBox(
                             height: 30,
@@ -236,6 +237,7 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
                 return CircularProgressIndicator();
               } else {
                 return TableCalendar(
+                  daysOfWeekHeight: 30,
                   firstDay: DateTime.utc(2020, 1, 1),
                   lastDay: DateTime.utc(2030, 12, 31),
                   focusedDay: _focusedDay,
@@ -266,13 +268,14 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
                     rightChevronVisible: true,
                     headerMargin: const EdgeInsets.only(
                         bottom:
-                            20), // Creates a gap between the header title and the calendar grid
+                            30), // Creates a gap between the header title and the calendar grid
                     leftChevronPadding: const EdgeInsets.only(
                         left: 16), // Adds padding to the left chevron
                     rightChevronPadding: const EdgeInsets.only(
                         right: 16), // Adds padding to the right chevron
+
                     titleTextStyle: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                        fontSize: 18, fontWeight: FontWeight.bold),
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(20.0),
@@ -338,12 +341,12 @@ class _TCAAppointmentPageState extends State<TCAAppointmentPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                         ),
                         child: Text(
                           _timeSlots[data["timeSlots"][index]],
                           style: const TextStyle(
-                            fontSize: 16, // This is your font size
+                            fontSize: 12, // This is your font size
                           ),
                         ),
                       );

@@ -13,8 +13,7 @@ class _LogoutState extends State<Logout> {
   @override
   Widget build(BuildContext context) {
     FirebaseAuth.instance.signOut();
-    Navigator.pop(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+    Navigator.pop(context);
     return const CircularProgressIndicator();
   }
 }

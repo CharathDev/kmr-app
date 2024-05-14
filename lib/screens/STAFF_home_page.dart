@@ -518,14 +518,9 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
                 ),
                 Expanded(
                     child: SingleChildScrollView(
-                  child: GridView.builder(
+                  child: ListView.builder(
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        childAspectRatio: 3.5,
-                      ),
                       primary: false,
                       padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.05,
@@ -536,7 +531,7 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 180,
-                          margin: const EdgeInsets.all(1.0),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
                           child: UserRecords(
                             id: snapshot.data![index]['id'],
                             name: snapshot.data![index]['fullName'],

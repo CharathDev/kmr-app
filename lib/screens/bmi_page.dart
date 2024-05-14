@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/widgets.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'material.dart';
@@ -495,7 +496,7 @@ class _BMIPageState extends State<BMIPage> {
                       children: [
                         GridView.count(
                           shrinkWrap: true,
-                          childAspectRatio: 1.2,
+                          childAspectRatio: 1.3,
                           primary: false,
                           padding: const EdgeInsets.only(bottom: 5),
                           crossAxisSpacing: 5,
@@ -729,12 +730,8 @@ class _BMIPageState extends State<BMIPage> {
                       ],
                     ),
                   ),
-            GridView.builder(
+            ListView.builder(
                 shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  childAspectRatio: 2.5,
-                ),
                 primary: false,
                 padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.1,
@@ -743,18 +740,21 @@ class _BMIPageState extends State<BMIPage> {
                 ),
                 itemCount: BMIPage.records.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Records(
-                    BMI: BMIPage.records[index]['BMI'],
-                    status: BMIPage.records[index]['status'],
-                    date: BMIPage.records[index]['date'],
-                    time: BMIPage.records[index]['time'],
-                    gender: BMIPage.records[index]['gender'],
-                    age: BMIPage.records[index]['age'],
-                    height: BMIPage.records[index]['height'],
-                    weight: BMIPage.records[index]['weight'],
-                    healthyweight1: BMIPage.records[index]['healthyweight1'],
-                    healthyweight2: BMIPage.records[index]['healthyweight2'],
-                    index: BMIPage.records.length - index,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Records(
+                      BMI: BMIPage.records[index]['BMI'],
+                      status: BMIPage.records[index]['status'],
+                      date: BMIPage.records[index]['date'],
+                      time: BMIPage.records[index]['time'],
+                      gender: BMIPage.records[index]['gender'],
+                      age: BMIPage.records[index]['age'],
+                      height: BMIPage.records[index]['height'],
+                      weight: BMIPage.records[index]['weight'],
+                      healthyweight1: BMIPage.records[index]['healthyweight1'],
+                      healthyweight2: BMIPage.records[index]['healthyweight2'],
+                      index: BMIPage.records.length - index,
+                    ),
                   );
                 }),
           ],
@@ -815,10 +815,10 @@ class _MyCardState extends State<MyCard> {
         Container(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -834,9 +834,9 @@ class _MyCardState extends State<MyCard> {
                 ),
               ),
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(3, 0, 3, 0),
+                  padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1265,119 +1265,113 @@ class Records extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Card(
-            color: const Color(0xFFEDEDEB),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Container()),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ResultsPage(
+                        BMI: double.parse(BMI),
+                        gender: gender,
+                        age: age,
+                        date: date,
+                        healthyweight1: healthyweight1,
+                        healthyweight2: healthyweight2,
+                        weight: weight,
+                        height: height,
+                        index: index,
+                      )));
+        },
+        child: Container(
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ResultsPage(
-                            BMI: double.parse(BMI),
-                            gender: gender,
-                            age: age,
-                            date: date,
-                            healthyweight1: healthyweight1,
-                            healthyweight2: healthyweight2,
-                            weight: weight,
-                            height: height,
-                            index: index,
-                          )));
-            },
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: Row(
+            color: const Color(0xFFEDEDEB),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        BMI,
-                        style: TextStyle(
-                          fontFamily: "LeagueSpartan",
-                          fontWeight: FontWeight.w300,
-                          fontSize: 30,
-                          color: double.parse(BMI) < 18.5
-                              ? const Color(0xff87ADC7)
-                              : double.parse(BMI) < 25.0
-                                  ? const Color(0xff70C099)
-                                  : double.parse(BMI) < 30.0
-                                      ? const Color(0xffF9D230)
-                                      : double.parse(BMI) < 35
-                                          ? const Color(0xffEF9852)
-                                          : double.parse(BMI) < 40
-                                              ? const Color(0xffDF434A)
-                                              : const Color(0xffBD2B37),
-                        ),
-                      ),
-                      Text(
-                        status,
-                        style: TextStyle(
-                          fontFamily: "LeagueSpartan",
-                          fontWeight: FontWeight.w300,
-                          fontSize: 16,
-                          color: double.parse(BMI) < 18.5
-                              ? const Color(0xff87ADC7)
-                              : double.parse(BMI) < 25.0
-                                  ? const Color(0xff70C099)
-                                  : double.parse(BMI) < 30.0
-                                      ? const Color(0xffF9D230)
-                                      : double.parse(BMI) < 35
-                                          ? const Color(0xffEF9852)
-                                          : double.parse(BMI) < 40
-                                              ? const Color(0xffDF434A)
-                                              : const Color(0xffBD2B37),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    BMI,
+                    style: TextStyle(
+                      fontFamily: "LeagueSpartan",
+                      fontWeight: FontWeight.w300,
+                      fontSize: 30,
+                      color: double.parse(BMI) < 18.5
+                          ? const Color(0xff87ADC7)
+                          : double.parse(BMI) < 25.0
+                              ? const Color(0xff70C099)
+                              : double.parse(BMI) < 30.0
+                                  ? const Color(0xffF9D230)
+                                  : double.parse(BMI) < 35
+                                      ? const Color(0xffEF9852)
+                                      : double.parse(BMI) < 40
+                                          ? const Color(0xffDF434A)
+                                          : const Color(0xffBD2B37),
+                    ),
                   ),
-                  const Spacer(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        date,
-                        style: const TextStyle(
-                            fontFamily: "LeagueSpartan",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Colors.black),
-                      ),
-                      Text(
-                        time,
-                        style: const TextStyle(
-                            fontFamily: "LeagueSpartan",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 40,
-                    color: Color(0xffa6a6a6),
+                  Text(
+                    status,
+                    style: TextStyle(
+                      fontFamily: "LeagueSpartan",
+                      fontWeight: FontWeight.w300,
+                      fontSize: 16,
+                      color: double.parse(BMI) < 18.5
+                          ? const Color(0xff87ADC7)
+                          : double.parse(BMI) < 25.0
+                              ? const Color(0xff70C099)
+                              : double.parse(BMI) < 30.0
+                                  ? const Color(0xffF9D230)
+                                  : double.parse(BMI) < 35
+                                      ? const Color(0xffEF9852)
+                                      : double.parse(BMI) < 40
+                                          ? const Color(0xffDF434A)
+                                          : const Color(0xffBD2B37),
+                    ),
                   ),
                 ],
               ),
-            ),
+              const Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    date,
+                    style: const TextStyle(
+                        fontFamily: "LeagueSpartan",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: Colors.black),
+                  ),
+                  Text(
+                    time,
+                    style: const TextStyle(
+                        fontFamily: "LeagueSpartan",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: Colors.black),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 40,
+                color: Color(0xffa6a6a6),
+              ),
+            ],
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }

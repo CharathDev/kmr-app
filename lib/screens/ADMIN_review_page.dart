@@ -51,35 +51,33 @@ class _ADMINReviewPageState extends State<ADMINReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Tracking Reviews",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            ),
-            Expanded(
-                child: FutureBuilder(
-              future: getReviews(),
-              builder: ((context, snapshot) {
-                if (!snapshot.hasData &&
-                    snapshot.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
-                } else {
-                  var contacts = snapshot.data!;
-                  return ListView.builder(
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text("Tracking Reviews",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+          FutureBuilder(
+            future: getReviews(),
+            builder: ((context, snapshot) {
+              if (!snapshot.hasData &&
+                  snapshot.connectionState != ConnectionState.done) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                var contacts = snapshot.data!;
+                return Expanded(
+                  child: ListView.builder(
                     itemCount: contacts.length,
                     itemBuilder: (context, index) {
                       return ContactCard(contact: contacts[index]);
                     },
-                  );
-                }
-              }),
-            )),
-          ],
-        ),
+                  ),
+                );
+              }
+            }),
+          ),
+        ],
       ),
     );
   }

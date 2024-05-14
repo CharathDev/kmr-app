@@ -1529,7 +1529,7 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 60,
+                                width: 70,
                                 child: Text(
                                   "Name",
                                   style: TextStyle(
@@ -1555,7 +1555,7 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 60,
+                                width: 70,
                                 child: Text(
                                   "E-mail",
                                   style: TextStyle(
@@ -1581,7 +1581,7 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 60,
+                                width: 70,
                                 child: Text(
                                   "IC",
                                   style: TextStyle(

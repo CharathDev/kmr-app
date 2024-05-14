@@ -1458,7 +1458,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 60,
+                                width: 70,
                                 child: Text(
                                   "Name",
                                   style: TextStyle(
@@ -1484,7 +1484,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 60,
+                                width: 70,
                                 child: Text(
                                   "E-mail",
                                   style: TextStyle(
@@ -1510,7 +1510,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 60,
+                                width: 70,
                                 child: Text(
                                   "IC",
                                   style: TextStyle(
@@ -1667,7 +1667,11 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                                           child: const Text("OK"),
                                           onPressed: () {
                                             endAppointment();
-
+                                            int count = 0;
+                                            Navigator.of(context).popUntil(
+                                              (_) => count++ >= 2,
+                                            );
+                                            Navigator.pop(context);
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -1687,7 +1691,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                                   style: TextStyle(
                                       fontFamily: "LeagueSpartan",
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20,
+                                      fontSize: 16,
                                       color: Colors.white),
                                 ),
                               ),

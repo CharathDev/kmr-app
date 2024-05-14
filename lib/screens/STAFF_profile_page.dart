@@ -113,8 +113,8 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           TextButton(
                             onPressed: () {
@@ -136,10 +136,8 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                                   MaterialStateProperty.all(Colors.transparent),
                             ),
                             child: Container(
-                              width: MediaQuery.of(context).size.width * 0.35,
                               padding: const EdgeInsets.symmetric(
-                                vertical: 15,
-                              ),
+                                  vertical: 15, horizontal: 50),
                               decoration: BoxDecoration(
                                 color: const Color(0xff966FD6),
                                 borderRadius: BorderRadius.circular(100),
@@ -149,7 +147,6 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -171,10 +168,8 @@ class _STAFFProfilePageState extends State<STAFFProfilePage> {
                                   MaterialStateProperty.all(Colors.transparent),
                             ),
                             child: Container(
-                              width: MediaQuery.of(context).size.width * 0.35,
                               padding: const EdgeInsets.symmetric(
-                                vertical: 15,
-                              ),
+                                  vertical: 15, horizontal: 50),
                               decoration: BoxDecoration(
                                 color: Colors.red[600],
                                 borderRadius: BorderRadius.circular(100),
