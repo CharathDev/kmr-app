@@ -38,8 +38,8 @@ class HomePage extends StatelessWidget {
           var date = data["date"].toString().split(' ');
           var finalDate = date[0] + "/" + date[1] + "/" + date[2];
           tempData["date"] = finalDate;
+          list.add(tempData);
         }
-        list.add(tempData);
       }
     });
     return list;
@@ -55,111 +55,118 @@ class HomePage extends StatelessWidget {
             return CircularProgressIndicator();
           } else {
             var appointmentListData = list.data!;
-            return ListView.builder(
-              padding: const EdgeInsets.only(top: 0, bottom: 14),
-              itemCount: appointmentListData.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 22),
-                        decoration: BoxDecoration(
-                            color: const Color(0xff966FD6),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'lib/assets/images/profile.png',
-                                  width: 60,
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 5),
-                                      child: Text(
-                                        appointmentListData[index]["name"],
+            if (appointmentListData.isEmpty) {
+              return Text('You do not have any upcoming appointments');
+            } else {
+              return ListView.builder(
+                padding: const EdgeInsets.only(top: 0, bottom: 14),
+                itemCount: appointmentListData.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 22),
+                          decoration: BoxDecoration(
+                              color: const Color(0xff966FD6),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'lib/assets/images/profile.png',
+                                    width: 60,
+                                  ),
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 5),
+                                        child: Text(
+                                          appointmentListData[index]["name"],
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                      Text(
+                                        appointmentListData[index]
+                                            ["occupation"],
                                         style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white70),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 18,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 6),
+                                decoration: BoxDecoration(
+                                    color: Colors.white10,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Ionicons.calendar,
+                                      size: 18,
+                                      color: Colors.white,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        appointmentListData[index]["date"],
+                                        style: const TextStyle(
                                             color: Colors.white),
                                       ),
                                     ),
-                                    Text(
-                                      appointmentListData[index]["occupation"],
-                                      style: const TextStyle(
-                                          color: Colors.white70),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Icon(
+                                      Ionicons.time_outline,
+                                      size: 18,
+                                      color: Colors.white,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        _timeSlots[appointmentListData[index]
+                                            ["timeSlot"]],
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   ],
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 6),
-                              decoration: BoxDecoration(
-                                  color: Colors.white10,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Ionicons.calendar,
-                                    size: 18,
-                                    color: Colors.white,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      appointmentListData[index]["date"],
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Icon(
-                                    Ionicons.time_outline,
-                                    size: 18,
-                                    color: Colors.white,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      _timeSlots[appointmentListData[index]
-                                          ["timeSlot"]],
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    )
-                  ],
-                );
-              },
-            );
+                      const SizedBox(
+                        height: 16,
+                      )
+                    ],
+                  );
+                },
+              );
+            }
           }
         });
   }
