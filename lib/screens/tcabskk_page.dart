@@ -84,8 +84,10 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
         .get()
         .then((value) {
       var staffData = value.data()!;
-      for (var doctor in staffData['doctors']) {
-        recommendedStaff += doctor + ", ";
+      if (staffData['doctors'] != null) {
+        for (var doctor in staffData['doctors']) {
+          recommendedStaff += doctor + ", ";
+        }
       }
     });
     return recommendedStaff;
@@ -2008,7 +2010,9 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
-                                            itemCount: data['doctors'].length,
+                                            itemCount: data['doctors'] == null
+                                                ? 0
+                                                : data['doctors'].length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return Column(
