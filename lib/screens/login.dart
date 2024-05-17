@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-      if (emailController.text == "admin@gmail.com") {
+      if (emailController.text == "teensquad.kmrkp@moh.gov.my") {
         Navigator.push(
           context,
           // MaterialPageRoute(builder: (context) => RootPage()), //USER ROOT PAGE
