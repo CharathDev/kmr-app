@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/ADMIN_home_page.dart';
-import 'package:kmrapp/screens/ADMIN_profile_page.dart';
-import 'package:kmrapp/screens/logout.dart';
 import 'package:kmrapp/screens/login.dart';
 import 'package:kmrapp/screens/ADMIN_review_page.dart';
 
@@ -64,6 +62,7 @@ class _RootPageState extends State<ADMINRootPage> {
                     fontWeight: FontWeight.bold,
                     color: Color(0xff966FD6)),
               ),
+              SizedBox(height: 10,),
               TextButton(
                 onPressed: () {
                   setState(() {

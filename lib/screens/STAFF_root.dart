@@ -88,7 +88,7 @@ class _STAFFRootPageState extends State<STAFFRootPage> {
                           child: IconButton(
                             onPressed: () {
                               setState(() {
-                                _selectedIndex = 2;
+                                _selectedIndex = 0;
                               });
                             },
                             icon: const Icon(

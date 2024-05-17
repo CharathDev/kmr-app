@@ -131,6 +131,7 @@ class _BMIPageState extends State<BMIPage> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -140,9 +141,9 @@ class _BMIPageState extends State<BMIPage> {
           bottom: MyTabBar(
             child: TabBar(
               padding: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width * 0.15,
+                  MediaQuery.of(context).size.width * 0.05,
                   0,
-                  MediaQuery.of(context).size.width * 0.15,
+                  MediaQuery.of(context).size.width * 0.05,
                   0),
               tabs: const [
                 Tab(text: "New Record"),
@@ -496,12 +497,12 @@ class _BMIPageState extends State<BMIPage> {
                       children: [
                         GridView.count(
                           shrinkWrap: true,
-                          childAspectRatio: 1.3,
+                          childAspectRatio: (deviceWidth < 280) ? 2 : 1.3,
                           primary: false,
                           padding: const EdgeInsets.only(bottom: 5),
                           crossAxisSpacing: 5,
                           mainAxisSpacing: 5,
-                          crossAxisCount: 2,
+                          crossAxisCount: (deviceWidth < 280) ? 1 : 2,
                           children: [
                             MyCard(
                               select: true,
@@ -803,6 +804,7 @@ class _MyCardState extends State<MyCard> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -836,44 +838,25 @@ class _MyCardState extends State<MyCard> {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: widget.select
-                            ? () {
-                                setState(() {
-                                  statefulInitialValue == "Male"
-                                      ? statefulInitialValue = "Female"
-                                      : statefulInitialValue = "Male";
-                                  widget.gender(statefulInitialValue);
-                                });
-                              }
-                            : () {
-                                setState(() {
-                                  statefulInitialValue =
-                                      (int.parse(statefulInitialValue) - 1)
-                                          .toString();
-                                  widget.label == "Age"
-                                      ? widget.age(statefulInitialValue)
-                                      : widget.label == "Weight"
-                                          ? widget.weight(statefulInitialValue)
-                                          : widget.height(statefulInitialValue);
-                                });
-                              },
-                        onLongPress: widget.select
-                            ? () {
-                                setState(() {
-                                  statefulInitialValue == "Male"
-                                      ? statefulInitialValue = "Female"
-                                      : statefulInitialValue = "Male";
-                                  widget.gender(statefulInitialValue);
-                                });
-                              }
-                            : () {
-                                timer = Timer.periodic(
-                                    const Duration(milliseconds: 100), (timer) {
+                  padding: (widget.label == "Gender")
+                      ? const EdgeInsets.only()
+                      : const EdgeInsets.fromLTRB(6, 0, 6, 0),
+                  child: Padding(
+                    padding: (deviceWidth < 280) ? const EdgeInsets.symmetric(horizontal: 20) : const EdgeInsets.symmetric(horizontal: 2) ,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: widget.select
+                              ? () {
+                                  setState(() {
+                                    statefulInitialValue == "Male"
+                                        ? statefulInitialValue = "Female"
+                                        : statefulInitialValue = "Male";
+                                    widget.gender(statefulInitialValue);
+                                  });
+                                }
+                              : () {
                                   setState(() {
                                     statefulInitialValue =
                                         (int.parse(statefulInitialValue) - 1)
@@ -881,66 +864,66 @@ class _MyCardState extends State<MyCard> {
                                     widget.label == "Age"
                                         ? widget.age(statefulInitialValue)
                                         : widget.label == "Weight"
-                                            ? widget
-                                                .weight(statefulInitialValue)
-                                            : widget
-                                                .height(statefulInitialValue);
+                                            ? widget.weight(statefulInitialValue)
+                                            : widget.height(statefulInitialValue);
                                   });
-                                });
-                              },
-                        onLongPressEnd: (details) {
-                          timer?.cancel();
-                        },
-                        child: Icon(
-                          widget.select
-                              ? Icons.arrow_back_ios_new
-                              : Icons.remove,
-                          size: 24,
-                          color: const Color(0xffa6a6a6),
+                                },
+                          onLongPress: widget.select
+                              ? () {
+                                  setState(() {
+                                    statefulInitialValue == "Male"
+                                        ? statefulInitialValue = "Female"
+                                        : statefulInitialValue = "Male";
+                                    widget.gender(statefulInitialValue);
+                                  });
+                                }
+                              : () {
+                                  timer = Timer.periodic(
+                                      const Duration(milliseconds: 100), (timer) {
+                                    setState(() {
+                                      statefulInitialValue =
+                                          (int.parse(statefulInitialValue) - 1)
+                                              .toString();
+                                      widget.label == "Age"
+                                          ? widget.age(statefulInitialValue)
+                                          : widget.label == "Weight"
+                                              ? widget
+                                                  .weight(statefulInitialValue)
+                                              : widget
+                                                  .height(statefulInitialValue);
+                                    });
+                                  });
+                                },
+                          onLongPressEnd: (details) {
+                            timer?.cancel();
+                          },
+                          child: Icon(
+                            widget.select
+                                ? Icons.arrow_back_ios_new
+                                : Icons.remove,
+                            size: 24,
+                            color: const Color(0xffa6a6a6),
+                          ),
                         ),
-                      ),
-                      Text(
-                        statefulInitialValue,
-                        style: const TextStyle(
-                            fontFamily: "LeagueSpartan",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: Colors.black),
-                      ),
-                      GestureDetector(
-                        onTap: widget.select
-                            ? () {
-                                setState(() {
-                                  statefulInitialValue == "Male"
-                                      ? statefulInitialValue = "Female"
-                                      : statefulInitialValue = "Male";
-                                  widget.gender(statefulInitialValue);
-                                });
-                              }
-                            : () {
-                                setState(() {
-                                  statefulInitialValue =
-                                      (int.parse(statefulInitialValue) + 1)
-                                          .toString();
-                                  widget.label == "Age"
-                                      ? widget.age(statefulInitialValue)
-                                      : widget.label == "Weight"
-                                          ? widget.weight(statefulInitialValue)
-                                          : widget.height(statefulInitialValue);
-                                });
-                              },
-                        onLongPress: widget.select
-                            ? () {
-                                setState(() {
-                                  statefulInitialValue == "Male"
-                                      ? statefulInitialValue = "Female"
-                                      : statefulInitialValue = "Male";
-                                  widget.gender(statefulInitialValue);
-                                });
-                              }
-                            : () {
-                                timer = Timer.periodic(
-                                    const Duration(milliseconds: 100), (timer) {
+                        Text(
+                          statefulInitialValue,
+                          style: TextStyle(
+                              fontFamily: "LeagueSpartan",
+                              fontWeight: FontWeight.w500,
+                              fontSize: (deviceWidth > 320)? 20: (deviceWidth < 280) ? 24 : 16,
+                              color: Colors.black),
+                        ),
+                        GestureDetector(
+                          onTap: widget.select
+                              ? () {
+                                  setState(() {
+                                    statefulInitialValue == "Male"
+                                        ? statefulInitialValue = "Female"
+                                        : statefulInitialValue = "Male";
+                                    widget.gender(statefulInitialValue);
+                                  });
+                                }
+                              : () {
                                   setState(() {
                                     statefulInitialValue =
                                         (int.parse(statefulInitialValue) + 1)
@@ -948,23 +931,47 @@ class _MyCardState extends State<MyCard> {
                                     widget.label == "Age"
                                         ? widget.age(statefulInitialValue)
                                         : widget.label == "Weight"
-                                            ? widget
-                                                .weight(statefulInitialValue)
-                                            : widget
-                                                .height(statefulInitialValue);
+                                            ? widget.weight(statefulInitialValue)
+                                            : widget.height(statefulInitialValue);
                                   });
-                                });
-                              },
-                        onLongPressEnd: (details) {
-                          timer?.cancel();
-                        },
-                        child: Icon(
-                          widget.select ? Icons.arrow_forward_ios : Icons.add,
-                          size: 24,
-                          color: const Color(0xffa6a6a6),
+                                },
+                          onLongPress: widget.select
+                              ? () {
+                                  setState(() {
+                                    statefulInitialValue == "Male"
+                                        ? statefulInitialValue = "Female"
+                                        : statefulInitialValue = "Male";
+                                    widget.gender(statefulInitialValue);
+                                  });
+                                }
+                              : () {
+                                  timer = Timer.periodic(
+                                      const Duration(milliseconds: 100), (timer) {
+                                    setState(() {
+                                      statefulInitialValue =
+                                          (int.parse(statefulInitialValue) + 1)
+                                              .toString();
+                                      widget.label == "Age"
+                                          ? widget.age(statefulInitialValue)
+                                          : widget.label == "Weight"
+                                              ? widget
+                                                  .weight(statefulInitialValue)
+                                              : widget
+                                                  .height(statefulInitialValue);
+                                    });
+                                  });
+                                },
+                          onLongPressEnd: (details) {
+                            timer?.cancel();
+                          },
+                          child: Icon(
+                            widget.select ? Icons.arrow_forward_ios : Icons.add,
+                            size: 24,
+                            color: const Color(0xffa6a6a6),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -1265,6 +1272,7 @@ class Records extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -1286,91 +1294,160 @@ class Records extends StatelessWidget {
                       )));
         },
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFFEDEDEB),
-          ),
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    BMI,
-                    style: TextStyle(
-                      fontFamily: "LeagueSpartan",
-                      fontWeight: FontWeight.w300,
-                      fontSize: 30,
-                      color: double.parse(BMI) < 18.5
-                          ? const Color(0xff87ADC7)
-                          : double.parse(BMI) < 25.0
-                              ? const Color(0xff70C099)
-                              : double.parse(BMI) < 30.0
-                                  ? const Color(0xffF9D230)
-                                  : double.parse(BMI) < 35
-                                      ? const Color(0xffEF9852)
-                                      : double.parse(BMI) < 40
-                                          ? const Color(0xffDF434A)
-                                          : const Color(0xffBD2B37),
-                    ),
-                  ),
-                  Text(
-                    status,
-                    style: TextStyle(
-                      fontFamily: "LeagueSpartan",
-                      fontWeight: FontWeight.w300,
-                      fontSize: 16,
-                      color: double.parse(BMI) < 18.5
-                          ? const Color(0xff87ADC7)
-                          : double.parse(BMI) < 25.0
-                              ? const Color(0xff70C099)
-                              : double.parse(BMI) < 30.0
-                                  ? const Color(0xffF9D230)
-                                  : double.parse(BMI) < 35
-                                      ? const Color(0xffEF9852)
-                                      : double.parse(BMI) < 40
-                                          ? const Color(0xffDF434A)
-                                          : const Color(0xffBD2B37),
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    date,
-                    style: const TextStyle(
-                        fontFamily: "LeagueSpartan",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: Colors.black),
-                  ),
-                  Text(
-                    time,
-                    style: const TextStyle(
-                        fontFamily: "LeagueSpartan",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: Colors.black),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const Icon(
-                Icons.arrow_forward_ios,
-                size: 40,
-                color: Color(0xffa6a6a6),
-              ),
-            ],
-          ),
-        ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFFEDEDEB),
+            ),
+            padding:
+                const EdgeInsets.only(left: 20, top: 20, bottom: 20, right: 10),
+            child: (deviceWidth > 280)
+                ? Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            BMI,
+                            style: TextStyle(
+                              fontFamily: "LeagueSpartan",
+                              fontWeight: FontWeight.w300,
+                              fontSize: 24,
+                              color: double.parse(BMI) < 18.5
+                                  ? const Color(0xff87ADC7)
+                                  : double.parse(BMI) < 25.0
+                                      ? const Color(0xff70C099)
+                                      : double.parse(BMI) < 30.0
+                                          ? const Color(0xffF9D230)
+                                          : double.parse(BMI) < 35
+                                              ? const Color(0xffEF9852)
+                                              : double.parse(BMI) < 40
+                                                  ? const Color(0xffDF434A)
+                                                  : const Color(0xffBD2B37),
+                            ),
+                          ),
+                          Text(
+                            status,
+                            style: TextStyle(
+                              fontFamily: "LeagueSpartan",
+                              fontWeight: FontWeight.w300,
+                              fontSize: 14,
+                              color: double.parse(BMI) < 18.5
+                                  ? const Color(0xff87ADC7)
+                                  : double.parse(BMI) < 25.0
+                                      ? const Color(0xff70C099)
+                                      : double.parse(BMI) < 30.0
+                                          ? const Color(0xffF9D230)
+                                          : double.parse(BMI) < 35
+                                              ? const Color(0xffEF9852)
+                                              : double.parse(BMI) < 40
+                                                  ? const Color(0xffDF434A)
+                                                  : const Color(0xffBD2B37),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            date,
+                            style: const TextStyle(
+                                fontFamily: "LeagueSpartan",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Colors.black),
+                          ),
+                          Text(
+                            time,
+                            style: const TextStyle(
+                                fontFamily: "LeagueSpartan",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 40,
+                        color: Color(0xffa6a6a6),
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            BMI,
+                            style: TextStyle(
+                              fontFamily: "LeagueSpartan",
+                              fontWeight: FontWeight.w300,
+                              fontSize: 30,
+                              color: double.parse(BMI) < 18.5
+                                  ? const Color(0xff87ADC7)
+                                  : double.parse(BMI) < 25.0
+                                      ? const Color(0xff70C099)
+                                      : double.parse(BMI) < 30.0
+                                          ? const Color(0xffF9D230)
+                                          : double.parse(BMI) < 35
+                                              ? const Color(0xffEF9852)
+                                              : double.parse(BMI) < 40
+                                                  ? const Color(0xffDF434A)
+                                                  : const Color(0xffBD2B37),
+                            ),
+                          ),
+                          Text(
+                            status,
+                            style: TextStyle(
+                              fontFamily: "LeagueSpartan",
+                              fontWeight: FontWeight.w300,
+                              fontSize: 16,
+                              color: double.parse(BMI) < 18.5
+                                  ? const Color(0xff87ADC7)
+                                  : double.parse(BMI) < 25.0
+                                      ? const Color(0xff70C099)
+                                      : double.parse(BMI) < 30.0
+                                          ? const Color(0xffF9D230)
+                                          : double.parse(BMI) < 35
+                                              ? const Color(0xffEF9852)
+                                              : double.parse(BMI) < 40
+                                                  ? const Color(0xffDF434A)
+                                                  : const Color(0xffBD2B37),
+                            ),
+                          ),
+                          SizedBox(height:10),
+                          Text(
+                            date,
+                            style: const TextStyle(
+                                fontFamily: "LeagueSpartan",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color: Colors.black),
+                          ),
+                          Text(
+                            time,
+                            style: const TextStyle(
+                                fontFamily: "LeagueSpartan",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 40,
+                        color: Color(0xffa6a6a6),
+                      ),
+                    ],
+                  )),
       ),
     );
   }

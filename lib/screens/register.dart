@@ -1,33 +1,99 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kmrapp/screens/login.dart';
-import 'package:kmrapp/screens/root.dart';
+import 'package:kmrapp/screens/verification_page.dart';
+import 'package:kmrapp/screens/consent_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController fullNameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController icNumberController = TextEditingController();
-    TextEditingController phoneNumberController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
+  State<RegisterPage> createState() => _RegisterPageState();
+}
 
-    Future<void> handleRegister() async {
-      String fullName = fullNameController.text;
-      String email = emailController.text;
-      String icNumber = icNumberController.text;
-      String phoneNumber = phoneNumberController.text;
-      String password = passwordController.text;
-      String confirmPassword = confirmPasswordController.text;
+class _RegisterPageState extends State<RegisterPage> {
+  String nameErrorText = "";
+  String emailErrorText = "";
+  String icErrorText = "";
+  String phoneErrorText = "";
+  String passwordErrorText = "";
+  String formErrorText = "";
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final icNumberController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  bool filledConsentForm = false;
 
-      if (password != confirmPassword) {
-        return;
-      }
+  void filledForm() {
+    setState(() {
+      filledConsentForm = true;
+      formErrorText = "";
+    });
+  }
 
+  void handleRegister() async {
+    String fullName = fullNameController.text;
+    String email = emailController.text;
+    String icNumber = icNumberController.text;
+    String phoneNumber = phoneNumberController.text;
+    String password = passwordController.text;
+    String confirmPassword = confirmPasswordController.text;
+    int error = 0;
+
+    if (password != confirmPassword) {
+      setState(() {
+        passwordErrorText = "Password does not match";
+        error += 1;
+      });
+      return;
+    }
+
+    if (fullName.isEmpty) {
+      setState(() {
+        nameErrorText = "Required";
+        error += 1;
+      });
+    }
+
+    if (email.isEmpty) {
+      setState(() {
+        emailErrorText = "Required";
+        error += 1;
+      });
+    }
+
+    if (icNumber.isEmpty) {
+      setState(() {
+        icErrorText = "Required";
+        error += 1;
+      });
+    }
+
+    if (phoneNumber.isEmpty) {
+      setState(() {
+        phoneErrorText = "Required";
+        error += 1;
+      });
+    }
+
+    if (password.isEmpty) {
+      setState(() {
+        passwordErrorText = "Required";
+        error += 1;
+      });
+    }
+
+    if (!filledConsentForm) {
+      setState(() {
+        formErrorText = "Required";
+        error += 1;
+      });
+    }
+
+    if (error == 0) {
       try {
         UserCredential userCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -46,18 +112,43 @@ class RegisterPage extends StatelessWidget {
           'phoneNumber': phoneNumber,
           'isStaff': false,
         });
-
         //can change this
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => RootPage()), //destination
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Alert"),
+              content: Text("User registered successfully."),
+              actions: [
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          },
         );
-      } catch (e) {
+      } on FirebaseAuthException catch (e) {
         // if fail
         print('Failed to register user: $e');
+        print(e.code);
+        if (e.code == "invalid-email") {
+          setState(() {
+            emailErrorText = "Invalid e-mail";
+          });
+        } else if (e.code == "weak-password") {
+          setState(() {
+            passwordErrorText = "Password should be at least 6 characters";
+          });
+        }
       }
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -70,9 +161,8 @@ class RegisterPage extends StatelessWidget {
         ),
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.only(left: 40, right: 40, bottom: 20),
             width: double.infinity,
-            height: 200,
             decoration: const BoxDecoration(
                 color: Color(0xffDFCEFA),
                 borderRadius: BorderRadius.only(
@@ -83,6 +173,7 @@ class RegisterPage extends StatelessWidget {
               children: [
                 Text(
                   'User Register',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
@@ -104,29 +195,43 @@ class RegisterPage extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 70,
+                  height: 40,
                 ),
                 TextField(
                   controller: fullNameController,
                   decoration: InputDecoration(
+                    errorText: nameErrorText.isNotEmpty ? nameErrorText : null,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     labelText: 'Full Name',
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      nameErrorText = "";
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 30,
                 ),
                 TextField(
-                  controller: emailController,
                   decoration: InputDecoration(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 30),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      labelText: 'Email'),
+                    errorText:
+                        emailErrorText.isNotEmpty ? emailErrorText : null,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelText: 'Email',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      emailErrorText = "";
+                    });
+                  },
+                  controller: emailController, //initial value: "test@gmail.com"
                 ),
                 const SizedBox(
                   height: 30,
@@ -134,12 +239,18 @@ class RegisterPage extends StatelessWidget {
                 TextField(
                   controller: icNumberController,
                   decoration: InputDecoration(
+                    errorText: icErrorText.isNotEmpty ? icErrorText : null,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     labelText: 'IC Number',
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      icErrorText = "";
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 30,
@@ -147,11 +258,18 @@ class RegisterPage extends StatelessWidget {
                 TextField(
                   controller: phoneNumberController,
                   decoration: InputDecoration(
+                      errorText:
+                          phoneErrorText.isNotEmpty ? phoneErrorText : null,
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 30),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50)),
                       labelText: 'Phone Number'),
+                  onChanged: (value) {
+                    setState(() {
+                      phoneErrorText = "";
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 30,
@@ -159,7 +277,14 @@ class RegisterPage extends StatelessWidget {
                 TextField(
                   controller: passwordController,
                   obscureText: true,
+                  onChanged: (value) {
+                    setState(() {
+                      passwordErrorText = "";
+                    });
+                  },
                   decoration: InputDecoration(
+                    errorText:
+                        passwordErrorText.isNotEmpty ? passwordErrorText : null,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
@@ -173,7 +298,15 @@ class RegisterPage extends StatelessWidget {
                 TextField(
                   controller: confirmPasswordController,
                   obscureText: true,
+                  onChanged: (value) {
+                    setState(() {
+                      passwordErrorText = "";
+                    });
+                  },
                   decoration: InputDecoration(
+                      errorText: passwordErrorText.isNotEmpty
+                          ? passwordErrorText
+                          : null,
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 30),
                       border: OutlineInputBorder(
@@ -181,27 +314,54 @@ class RegisterPage extends StatelessWidget {
                       labelText: 'Confirm Password'),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Already have an account?",
-                      style: TextStyle(color: Colors.black),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          checkColor: Colors.white,
+                          value: filledConsentForm,
+                          onChanged: (bool? value) {
+                            if (value!) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => ConsentPage(
+                                            filledForm: filledForm,
+                                          ))));
+                            } else {
+                              setState(() {
+                                filledConsentForm = false;
+                              });
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: Text(
+                            "I have filled up the consent form.",
+                          ),
+                        ),
+                      ],
                     ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
-                          );
-                        },
-                        child: const Text('Login here'))
+                    if (formErrorText.isNotEmpty)
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Text(
+                          formErrorText,
+                          style: TextStyle(color: Colors.redAccent),
+                        ),
+                      )
                   ],
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -231,7 +391,30 @@ class RegisterPage extends StatelessWidget {
                       ),
                     )
                   ],
-                )
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    const Text(
+                      "Already have an account?",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                          );
+                        },
+                        child: const Text('Login here'))
+                  ],
+                ),
               ],
             ),
           )

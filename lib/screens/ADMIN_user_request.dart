@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class ADMINUserRequestPage extends StatefulWidget {
@@ -407,9 +405,9 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                     padding: EdgeInsets.only(right: 3),
                     child: Text("a."),
                   ),
-                  const Expanded(flex: 11, child: Text("Hypertension")),
+                  const Expanded(flex: 10, child: Text("Hypertension")),
                   Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: FormBuilderCheckboxGroup(
                         name: "s",
                         enabled: false,
@@ -446,9 +444,9 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                       padding: EdgeInsets.only(right: 3),
                       child: Text("b."),
                     ),
-                    const Expanded(flex: 11, child: Text("Diabetes")),
+                    const Expanded(flex: 10, child: Text("Diabetes")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           name: "s",
                           enabled: false,
@@ -480,9 +478,9 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                     padding: EdgeInsets.only(right: 3),
                     child: Text("c."),
                   ),
-                  const Expanded(flex: 11, child: Text("Heart Disease")),
+                  const Expanded(flex: 10, child: Text("Heart Disease")),
                   Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: FormBuilderCheckboxGroup(
                         name: "s",
                         enabled: false,
@@ -519,9 +517,9 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                       padding: EdgeInsets.only(right: 3),
                       child: Text("d."),
                     ),
-                    const Expanded(flex: 11, child: Text("Asthma")),
+                    const Expanded(flex: 10, child: Text("Asthma")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           name: "s",
                           enabled: false,
@@ -554,10 +552,10 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                     child: Text("e."),
                   ),
                   const Expanded(
-                      flex: 11,
+                      flex: 10,
                       child: Text("Hereditary Disease (e.g. Thalassemia)")),
                   Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: FormBuilderCheckboxGroup(
                         name: "s",
                         enabled: false,
@@ -595,10 +593,10 @@ class _ADMINUserRequestPageState extends State<ADMINUserRequestPage> {
                       child: Text("f."),
                     ),
                     const Expanded(
-                        flex: 11,
+                        flex: 10,
                         child: Text("Contagious Disease (e.g. TB, Hepatitis)")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           name: "s",
                           enabled: false,
