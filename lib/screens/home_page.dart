@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
   ];
 
   Future<List<Map<String, dynamic>>> appointmentList(String userId) async {
+    final user = FirebaseAuth.instance.currentUser!;
     List<Map<String, dynamic>> list = [];
     await FirebaseFirestore.instance
         .collection('Appointments')
@@ -33,7 +34,7 @@ class HomePage extends StatelessWidget {
               .get()
               .then((value) => value.data());
           tempData["name"] = tempInfo!["name"];
-          tempData["occupation"] = tempInfo["occupation"];
+          tempData["occupation"] = tempInfo!["occupation"];
           tempData["timeSlot"] = data["timeSlots"];
           var date = data["date"].toString().split(' ');
           var finalDate = date[0] + "/" + date[1] + "/" + date[2];
@@ -42,6 +43,7 @@ class HomePage extends StatelessWidget {
         }
       }
     });
+    print (list);
     return list;
   }
 
@@ -54,10 +56,13 @@ class HomePage extends StatelessWidget {
           if (list.connectionState != ConnectionState.done && !list.hasData) {
             return CircularProgressIndicator();
           } else {
-            var appointmentListData = list.data!;
-            if (appointmentListData.isEmpty) {
-              return Text('You do not have any upcoming appointments');
+            if (list.data == null || list.data!.isEmpty) {
+              return Center(child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text('You do not have any upcoming appointments.', textAlign: TextAlign.center,),
+              ));
             } else {
+              var appointmentListData = list.data!;
               return ListView.builder(
                 padding: const EdgeInsets.only(top: 0, bottom: 14),
                 itemCount: appointmentListData.length,

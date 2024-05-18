@@ -16,10 +16,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String errorMessage = '';
-  final emailController = TextEditingController(
-      text: "test@gmail.com"); //remove initial value later
+  final emailController = TextEditingController(); //remove initial value later
   final passwordController =
-      TextEditingController(text: "123123"); //remove initial value later
+      TextEditingController(); //remove initial value later
 
   void loginUser() async {
     try {

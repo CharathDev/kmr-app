@@ -142,6 +142,10 @@ class _RegisterPageState extends State<RegisterPage> {
           setState(() {
             passwordErrorText = "Password should be at least 6 characters";
           });
+        } else if (e.code == "email-already-in-use") {
+          setState(() {
+            emailErrorText = "E-mail already taken";
+          });
         }
       }
     }
@@ -316,50 +320,45 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          value: filledConsentForm,
-                          onChanged: (bool? value) {
-                            if (value!) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) => ConsentPage(
-                                            filledForm: filledForm,
-                                          ))));
-                            } else {
-                              setState(() {
-                                filledConsentForm = false;
-                              });
-                            }
-                          },
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          child: Text(
-                            "I have filled up the consent form.",
-                          ),
-                        ),
-                      ],
+                    Checkbox(
+                      checkColor: Colors.white,
+                      value: filledConsentForm,
+                      onChanged: (bool? value) {
+                        if (value!) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => ConsentPage(
+                                        filledForm: filledForm,
+                                      ))));
+                        } else {
+                          setState(() {
+                            filledConsentForm = false;
+                          });
+                        }
+                      },
                     ),
-                    if (formErrorText.isNotEmpty)
-                      Padding(
-                        padding: EdgeInsets.only(left: 5),
-                        child: Text(
-                          formErrorText,
-                          style: TextStyle(color: Colors.redAccent),
-                        ),
-                      )
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: Text(
+                        "I have filled up the consent form.",
+                      ),
+                    ),
                   ],
                 ),
+                if (formErrorText.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(
+                      formErrorText,
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
+                  ),
                 const SizedBox(
                   height: 10,
                 ),

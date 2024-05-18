@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/ADMIN_home_page.dart';
 import 'package:kmrapp/screens/login.dart';
+import 'package:kmrapp/screens/logout.dart';
 import 'package:kmrapp/screens/ADMIN_review_page.dart';
 
 class ADMINRootPage extends StatefulWidget {
@@ -27,18 +28,19 @@ class _RootPageState extends State<ADMINRootPage> {
     final List<Widget> widgetOptions = <Widget>[
       ADMINHomePage(),
       ADMINReviewPage(),
+      Logout(),
     ];
     var page = widgetOptions.elementAt(_selectedIndex);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: 300,
+        toolbarHeight: 240,
         titleSpacing: 0,
         centerTitle: true,
         title: Container(
           margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
           width: double.infinity,
-          height: 300,
+          height: 240,
           decoration: const BoxDecoration(
               color: Color(0xffDFCEFA),
               borderRadius: BorderRadius.only(
@@ -62,36 +64,6 @@ class _RootPageState extends State<ADMINRootPage> {
                     fontWeight: FontWeight.bold,
                     color: Color(0xff966FD6)),
               ),
-              SizedBox(height: 10,),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.pop(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
-                  });
-                },
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.red[600],
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Text(
-                    'Log Out',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
             ],
           ),
         ),
@@ -113,6 +85,8 @@ class _RootPageState extends State<ADMINRootPage> {
                   icon: Icon(Ionicons.home_outline), label: 'Home'),
               BottomNavigationBarItem(
                   icon: Icon(Ionicons.star), label: 'Reviews'),
+              BottomNavigationBarItem(
+                  icon: Icon(Ionicons.log_out), label: 'Log Out'),
             ],
             currentIndex: _selectedIndex,
             unselectedItemColor: const Color.fromARGB(255, 155, 155, 155),
