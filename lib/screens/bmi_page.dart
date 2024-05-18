@@ -40,7 +40,8 @@ class BMIDataUpload {
           .collection('users')
           .doc(currentUser.uid)
           .collection('bmiRecords')
-          .add({
+          .doc(DateFormat('dd-MM-yyyy - kk:mm:ss').format(DateTime.now()))
+          .set({
         ...bmiData,
         'timestamp':
             FieldValue.serverTimestamp() // Adds the time of data upload
@@ -74,20 +75,6 @@ class _BMIPageState extends State<BMIPage> {
     super.dispose();
   }
 
-  selectmonth(newmonth) {
-    setState(() {
-      month = newmonth;
-      monthValue = ValueNotifier<int>(month);
-    });
-  }
-
-  selectyear(newyear) {
-    setState(() {
-      year = newyear;
-      yearValue = ValueNotifier<String>(year);
-    });
-  }
-
   selectage(newage) {
     setState(() {
       age = newage;
@@ -110,6 +97,35 @@ class _BMIPageState extends State<BMIPage> {
     setState(() {
       weight = newweight;
     });
+  }
+
+  Future<List<Map<String, dynamic>>> BMIList() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    List<Map<String, dynamic>> list = [];
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('bmiRecords')
+        .get()
+        .then((value) async {
+      for (var docSnapshot in value.docs) {
+        Map<String, dynamic> tempData = {};
+        var data = docSnapshot.data();
+        tempData["BMI"] = data["BMI"];
+        tempData["age"] = data["age"];
+        tempData["date"] = data["date"];
+        tempData["gender"] = data["gender"];
+        tempData["healthyweight1"] = data["healthyweight1"];
+        tempData["healthyweight2"] = data["healthyweight2"];
+        tempData["height"] = data["height"];
+        tempData["status"] = data["status"];
+        tempData["time"] = data["time"];
+        tempData["weight"] = data["weight"];
+        list.add(tempData);
+      }
+    }
+    );
+    return list.reversed.toList();
   }
 
   @override
@@ -731,32 +747,55 @@ class _BMIPageState extends State<BMIPage> {
                       ],
                     ),
                   ),
-            ListView.builder(
-                shrinkWrap: true,
-                primary: false,
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.1,
-                  right: MediaQuery.of(context).size.width * 0.1,
-                  top: 20,
-                ),
-                itemCount: BMIPage.records.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Records(
-                      BMI: BMIPage.records[index]['BMI'],
-                      status: BMIPage.records[index]['status'],
-                      date: BMIPage.records[index]['date'],
-                      time: BMIPage.records[index]['time'],
-                      gender: BMIPage.records[index]['gender'],
-                      age: BMIPage.records[index]['age'],
-                      height: BMIPage.records[index]['height'],
-                      weight: BMIPage.records[index]['weight'],
-                      healthyweight1: BMIPage.records[index]['healthyweight1'],
-                      healthyweight2: BMIPage.records[index]['healthyweight2'],
-                      index: BMIPage.records.length - index,
-                    ),
-                  );
+            FutureBuilder(
+                future: BMIList(),
+                builder: (context, list) {
+                  if (list.connectionState != ConnectionState.done &&
+                      !list.hasData) {
+                    return CircularProgressIndicator();
+                  } else {
+                    if (list.data == null || list.data!.isEmpty) {
+                      return Center(
+                          child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'No BMI records found.',
+                          textAlign: TextAlign.center,
+                        ),
+                      ));
+                    } else {
+                      var records = list.data!;
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.1,
+                            right: MediaQuery.of(context).size.width * 0.1,
+                            top: 20,
+                          ),
+                          itemCount: records.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Records(
+                                BMI: records[index]['BMI'],
+                                status: records[index]['status'],
+                                date: records[index]['date'],
+                                time: records[index]['time'],
+                                gender: records[index]['gender'],
+                                age: records[index]['age'],
+                                height: records[index]['height'],
+                                weight: records[index]['weight'],
+                                healthyweight1: records[index]
+                                    ['healthyweight1'],
+                                healthyweight2: records[index]
+                                    ['healthyweight2'],
+                                index: records.length - index,
+                              ),
+                            );
+                          });
+                    }
+                  }
                 }),
           ],
         ),
@@ -842,7 +881,9 @@ class _MyCardState extends State<MyCard> {
                       ? const EdgeInsets.only()
                       : const EdgeInsets.fromLTRB(6, 0, 6, 0),
                   child: Padding(
-                    padding: (deviceWidth < 280) ? const EdgeInsets.symmetric(horizontal: 20) : const EdgeInsets.symmetric(horizontal: 2) ,
+                    padding: (deviceWidth < 280)
+                        ? const EdgeInsets.symmetric(horizontal: 20)
+                        : const EdgeInsets.symmetric(horizontal: 2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -863,9 +904,11 @@ class _MyCardState extends State<MyCard> {
                                             .toString();
                                     widget.label == "Age"
                                         ? widget.age(statefulInitialValue)
-                                        : widget.label == "Weight"
-                                            ? widget.weight(statefulInitialValue)
-                                            : widget.height(statefulInitialValue);
+                                        : widget.label == "Weight (kg)"
+                                            ? widget
+                                                .weight(statefulInitialValue)
+                                            : widget
+                                                .height(statefulInitialValue);
                                   });
                                 },
                           onLongPress: widget.select
@@ -879,14 +922,15 @@ class _MyCardState extends State<MyCard> {
                                 }
                               : () {
                                   timer = Timer.periodic(
-                                      const Duration(milliseconds: 100), (timer) {
+                                      const Duration(milliseconds: 100),
+                                      (timer) {
                                     setState(() {
                                       statefulInitialValue =
                                           (int.parse(statefulInitialValue) - 1)
                                               .toString();
                                       widget.label == "Age"
                                           ? widget.age(statefulInitialValue)
-                                          : widget.label == "Weight"
+                                          : widget.label == "Weight (kg)"
                                               ? widget
                                                   .weight(statefulInitialValue)
                                               : widget
@@ -910,7 +954,11 @@ class _MyCardState extends State<MyCard> {
                           style: TextStyle(
                               fontFamily: "LeagueSpartan",
                               fontWeight: FontWeight.w500,
-                              fontSize: (deviceWidth > 320)? 20: (deviceWidth < 280) ? 24 : 16,
+                              fontSize: (deviceWidth > 320)
+                                  ? 20
+                                  : (deviceWidth < 280)
+                                      ? 24
+                                      : 16,
                               color: Colors.black),
                         ),
                         GestureDetector(
@@ -930,9 +978,11 @@ class _MyCardState extends State<MyCard> {
                                             .toString();
                                     widget.label == "Age"
                                         ? widget.age(statefulInitialValue)
-                                        : widget.label == "Weight"
-                                            ? widget.weight(statefulInitialValue)
-                                            : widget.height(statefulInitialValue);
+                                        : widget.label == "Weight (kg)"
+                                            ? widget
+                                                .weight(statefulInitialValue)
+                                            : widget
+                                                .height(statefulInitialValue);
                                   });
                                 },
                           onLongPress: widget.select
@@ -946,14 +996,15 @@ class _MyCardState extends State<MyCard> {
                                 }
                               : () {
                                   timer = Timer.periodic(
-                                      const Duration(milliseconds: 100), (timer) {
+                                      const Duration(milliseconds: 100),
+                                      (timer) {
                                     setState(() {
                                       statefulInitialValue =
                                           (int.parse(statefulInitialValue) + 1)
                                               .toString();
                                       widget.label == "Age"
                                           ? widget.age(statefulInitialValue)
-                                          : widget.label == "Weight"
+                                          : widget.label == "Weight (kg)"
                                               ? widget
                                                   .weight(statefulInitialValue)
                                               : widget
@@ -1421,7 +1472,7 @@ class Records extends StatelessWidget {
                                                   : const Color(0xffBD2B37),
                             ),
                           ),
-                          SizedBox(height:10),
+                          SizedBox(height: 10),
                           Text(
                             date,
                             style: const TextStyle(
@@ -1478,56 +1529,177 @@ class ResultsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Record $index",
-                  style: const TextStyle(
-                    fontFamily: "LeagueSpartan",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 40,
-                    color: Colors.black,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        toolbarHeight: 100,
+        titleSpacing: 0,
+        centerTitle: true,
+        title: Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+            width: double.infinity,
+            height: 80,
+            decoration: const BoxDecoration(
+                color: Color(0xffDFCEFA),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40))),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 24,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 24.0,
+                        color: Color.fromARGB(255, 150, 111, 214),
+                      ),
+                    ),
                   ),
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.1,
-                right: MediaQuery.of(context).size.width * 0.1,
+                  Text(
+                    "Record $index",
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff966FD6)),
+                  ),
+                  const SizedBox(
+                    width: 24,
+                  ),
+                ],
               ),
-              child: Align(
-                alignment: Alignment.topCenter,
-                heightFactor: 0.8,
-                child: SfRadialGauge(axes: <RadialAxis>[
-                  RadialAxis(
-                      showAxisLine: false,
-                      showTicks: false,
-                      showLabels: false,
-                      backgroundImage:
-                          const AssetImage("lib/assets/images/bmi.png"),
-                      startAngle: 180,
-                      endAngle: 360,
-                      minimum: 15.0,
-                      maximum: 45.0,
-                      pointers: <GaugePointer>[
-                        NeedlePointer(
-                            value: BMI < 25 && BMI > 18.4
-                                ? 24.9 - ((24.9 - BMI) / (6.4 / 4.9))
-                                : BMI < 18.5 && BMI > 15
-                                    ? 15 + ((BMI - 15) / (3.4 / 4.9))
-                                    : BMI)
-                      ],
-                      annotations: <GaugeAnnotation>[
-                        GaugeAnnotation(
-                            widget: Text("$BMI",
-                                style: TextStyle(
-                                    fontSize: 30,
+            )),
+      ),
+      body: ListView(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.1,
+              right: MediaQuery.of(context).size.width * 0.1,
+            ),
+            child: Align(
+              alignment: Alignment.topCenter,
+              heightFactor: 0.8,
+              child: SfRadialGauge(axes: <RadialAxis>[
+                RadialAxis(
+                    showAxisLine: false,
+                    showTicks: false,
+                    showLabels: false,
+                    backgroundImage:
+                        const AssetImage("lib/assets/images/bmi.png"),
+                    startAngle: 180,
+                    endAngle: 360,
+                    minimum: 15.0,
+                    maximum: 45.0,
+                    pointers: <GaugePointer>[
+                      NeedlePointer(
+                          value: BMI < 25 && BMI > 18.4
+                              ? 24.9 - ((24.9 - BMI) / (6.4 / 4.9))
+                              : BMI < 18.5 && BMI > 15
+                                  ? 15 + ((BMI - 15) / (3.4 / 4.9))
+                                  : BMI)
+                    ],
+                    annotations: <GaugeAnnotation>[
+                      GaugeAnnotation(
+                          widget: Text("$BMI",
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: BMI < 18.5
+                                      ? const Color(0xff87ADC7)
+                                      : BMI < 25.0
+                                          ? const Color(0xff70C099)
+                                          : BMI < 30.0
+                                              ? const Color(0xffF9D230)
+                                              : BMI < 35
+                                                  ? const Color(0xffEF9852)
+                                                  : BMI < 40
+                                                      ? const Color(0xffDF434A)
+                                                      : const Color(0xffBD2B37),
+                                  fontWeight: FontWeight.w400)),
+                          angle: 90,
+                          positionFactor: 0.4)
+                    ])
+              ]),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.1,
+              right: MediaQuery.of(context).size.width * 0.1,
+            ),
+            child: Container(
+              height: 300,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 10.0,
+                    spreadRadius: -5,
+                  )
+                ],
+              ),
+              child: Stack(
+                children: [
+                  Card(
+                      color: const Color(0xFFffffff),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container()),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "$gender | ${age}y/o | ${height}cm | ${weight}kg",
+                              style: const TextStyle(
+                                  fontFamily: "LeagueSpartan",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.black),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                const Text(
+                                  "Weight Status",
+                                  style: TextStyle(
+                                      fontFamily: "LeagueSpartan",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: Color(0xffa6a6a6)),
+                                ),
+                                Text(
+                                  BMI < 18.5
+                                      ? "Underweight"
+                                      : BMI < 25.0
+                                          ? "Normal"
+                                          : BMI < 30.0
+                                              ? "Overweight"
+                                              : BMI < 35
+                                                  ? "Obese"
+                                                  : BMI < 40
+                                                      ? "Moderately Obese"
+                                                      : "Extremely Obese",
+                                  style: TextStyle(
+                                    fontFamily: "LeagueSpartan",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
                                     color: BMI < 18.5
                                         ? const Color(0xff87ADC7)
                                         : BMI < 25.0
@@ -1541,211 +1713,75 @@ class ResultsPage extends StatelessWidget {
                                                             0xffDF434A)
                                                         : const Color(
                                                             0xffBD2B37),
-                                    fontWeight: FontWeight.w400)),
-                            angle: 90,
-                            positionFactor: 0.4)
-                      ])
-                ]),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.1,
-                right: MediaQuery.of(context).size.width * 0.1,
-              ),
-              child: Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 10.0,
-                      spreadRadius: -5,
-                    )
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    Card(
-                        color: const Color(0xFFffffff),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                        child: Container()),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "$gender | ${age}y/o | ${height}cm | ${weight}kg",
-                                style: const TextStyle(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                const Text(
+                                  "Calculation Date",
+                                  style: TextStyle(
+                                      fontFamily: "LeagueSpartan",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: Color(0xffa6a6a6)),
+                                ),
+                                Text(
+                                  date,
+                                  style: const TextStyle(
                                     fontFamily: "LeagueSpartan",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: Colors.black),
-                              )
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  const Text(
-                                    "Weight Status",
-                                    style: TextStyle(
-                                        fontFamily: "LeagueSpartan",
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        color: Color(0xffa6a6a6)),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
+                                    color: Colors.black,
                                   ),
-                                  Text(
-                                    BMI < 18.5
-                                        ? "Underweight"
-                                        : BMI < 25.0
-                                            ? "Normal"
-                                            : BMI < 30.0
-                                                ? "Overweight"
-                                                : BMI < 35
-                                                    ? "Obese"
-                                                    : BMI < 40
-                                                        ? "Moderately Obese"
-                                                        : "Extremely Obese",
-                                    style: TextStyle(
-                                      fontFamily: "LeagueSpartan",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 24,
-                                      color: BMI < 18.5
-                                          ? const Color(0xff87ADC7)
-                                          : BMI < 25.0
-                                              ? const Color(0xff70C099)
-                                              : BMI < 30.0
-                                                  ? const Color(0xffF9D230)
-                                                  : BMI < 35
-                                                      ? const Color(0xffEF9852)
-                                                      : BMI < 40
-                                                          ? const Color(
-                                                              0xffDF434A)
-                                                          : const Color(
-                                                              0xffBD2B37),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  const Text(
-                                    "Calculation Date",
-                                    style: TextStyle(
-                                        fontFamily: "LeagueSpartan",
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        color: Color(0xffa6a6a6)),
-                                  ),
-                                  Text(
-                                    date,
-                                    style: const TextStyle(
-                                      fontFamily: "LeagueSpartan",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 24,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  const Text(
-                                    "Healthy Weight for You",
-                                    style: TextStyle(
-                                        fontFamily: "LeagueSpartan",
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        color: Color(0xffa6a6a6)),
-                                  ),
-                                  Text(
-                                    "${healthyweight1}kg - ${healthyweight2}kg",
-                                    style: const TextStyle(
-                                      fontFamily: "LeagueSpartan",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 24,
-                                      color: Color(0xff00bf63),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 50,
-                    width: 140,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      fit: StackFit.expand,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xff966fd6),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(40),
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Close",
-                                style: TextStyle(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                const Text(
+                                  "Healthy Weight for You",
+                                  style: TextStyle(
+                                      fontFamily: "LeagueSpartan",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: Color(0xffa6a6a6)),
+                                ),
+                                Text(
+                                  "${healthyweight1}kg - ${healthyweight2}kg",
+                                  style: const TextStyle(
                                     fontFamily: "LeagueSpartan",
-                                    fontSize: 20,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
+                                    color: Color(0xff00bf63),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+        ],
       ),
     );
   }

@@ -22,7 +22,7 @@ class _ConsentPageState extends State<ConsentPage> {
   final parentsICController = TextEditingController();
   final childNameController = TextEditingController();
   final childICController = TextEditingController();
-  String agreement = "";
+  bool agreement = false;
   String child = "";
 
   ScrollController listScrollController = ScrollController();
@@ -58,7 +58,7 @@ class _ConsentPageState extends State<ConsentPage> {
         error += 1;
       });
     }
-    if (agreement.isEmpty) {
+    if (!agreement) {
       setState(() {
         agreementErrorText = "Required";
         error += 1;
@@ -193,27 +193,29 @@ class _ConsentPageState extends State<ConsentPage> {
                       style: TextStyle(
                           fontWeight: FontWeight.normal, fontSize: 16),
                     ),
-                    FormBuilderRadioGroup(
-                        onChanged: (value) {
-                          setState(() {
-                            agreementErrorText = "";
-                            agreement = value;
-                          });
-                        },
-                        name: "a2",
-                        wrapAlignment: WrapAlignment.start,
-                        wrapSpacing: 10,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          checkColor: Colors.white,
+                          value: agreement,
+                          onChanged: (value) {
+                            setState(() {
+                              agreement = value!;
+                              agreementErrorText = "";
+                            });
+                          },
                         ),
-                        options: const <FormBuilderFieldOption>[
-                          FormBuilderFieldOption(
-                            value: 'Agree',
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: Text(
+                            "Agree",
                           ),
-                          FormBuilderFieldOption(
-                            value: 'Disagree',
-                          )
-                        ]),
+                        ),
+                      ],
+                    ),
                     if (agreementErrorText.isNotEmpty)
                       Text(
                         "Required",
