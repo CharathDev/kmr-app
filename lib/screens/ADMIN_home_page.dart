@@ -514,60 +514,88 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                       ),
                       body: TabBarView(
                         children: [
-                          ListView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.008,
-                                right:
-                                    MediaQuery.of(context).size.width * 0.008,
-                                top: 20,
-                              ),
-                              itemCount: snapshot.data!
+                          (snapshot.data!
                                   .where((element) => !element["reviewed"])
-                                  .length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  margin: const EdgeInsets.all(10.0),
-                                  child: UserRecords(
-                                    id: snapshot.data![index]['id'],
-                                    name: snapshot.data![index]['fullName'],
-                                    email: snapshot.data![index]['email'],
-                                    ic: snapshot.data![index]['icNumber'],
-                                    values: snapshot.data![index]['BSSK'],
-                                    reviewed: snapshot.data![index]['reviewed'],
-                                    colour: const Color(0xffe7ffce),
-                                    reviewedUser: reviewedUser,
+                                  .isNotEmpty)
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.008,
+                                    right: MediaQuery.of(context).size.width *
+                                        0.008,
+                                    top: 20,
                                   ),
-                                );
-                              }),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.008,
-                                right:
-                                    MediaQuery.of(context).size.width * 0.008,
-                                top: 20,
-                              ),
-                              itemCount: snapshot.data!
+                                  itemCount: snapshot.data!
+                                      .where((element) => !element["reviewed"])
+                                      .length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      margin: const EdgeInsets.all(10.0),
+                                      child: UserRecords(
+                                        id: snapshot.data![index]['id'],
+                                        name: snapshot.data![index]['fullName'],
+                                        email: snapshot.data![index]['email'],
+                                        ic: snapshot.data![index]['icNumber'],
+                                        values: snapshot.data![index]['BSSK'],
+                                        reviewed: snapshot.data![index]
+                                            ['reviewed'],
+                                        colour: const Color(0xffe7ffce),
+                                        reviewedUser: reviewedUser,
+                                      ),
+                                    );
+                                  })
+                              : Expanded(
+                                  child: Container(
+                                    child: Center(
+                                      child:
+                                          Text("No new user requests found."),
+                                    ),
+                                  ),
+                                ),
+                          (snapshot.data!
                                   .where((element) => element["reviewed"])
-                                  .length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  margin: const EdgeInsets.all(10.0),
-                                  child: UserRecords(
-                                    id: snapshot.data![index]['id'],
-                                    name: snapshot.data![index]['fullName'],
-                                    email: snapshot.data![index]['email'],
-                                    ic: snapshot.data![index]['icNumber'],
-                                    values: snapshot.data![index]['BSSK'],
-                                    reviewed: snapshot.data![index]['reviewed'],
-                                    colour: const Color(0xffe7ffce),
-                                    reviewedUser: reviewedUser,
+                                  .isNotEmpty)
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.008,
+                                    right: MediaQuery.of(context).size.width *
+                                        0.008,
+                                    top: 20,
                                   ),
-                                );
-                              }),
+                                  itemCount: snapshot.data!
+                                      .where((element) => element["reviewed"])
+                                      .length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      margin: const EdgeInsets.all(10.0),
+                                      child: UserRecords(
+                                        id: snapshot.data![index]['id'],
+                                        name: snapshot.data![index]['fullName'],
+                                        email: snapshot.data![index]['email'],
+                                        ic: snapshot.data![index]['icNumber'],
+                                        values: snapshot.data![index]['BSSK'],
+                                        reviewed: snapshot.data![index]
+                                            ['reviewed'],
+                                        colour: const Color(0xffe7ffce),
+                                        reviewedUser: reviewedUser,
+                                      ),
+                                    );
+                                  })
+                              : Expanded(
+                                  child: Container(
+                                    child: Center(
+                                      child: Text(
+                                          "No reviewed user requests found."),
+                                    ),
+                                  ),
+                                ),
                         ],
                       ),
                     ),

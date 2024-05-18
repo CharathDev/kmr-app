@@ -97,96 +97,96 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
   ScrollController listScrollController = ScrollController();
 
   Map<String, dynamic> values = {
-    'a1': 'u',
-    'a2': 'u',
-    'a3': 'u',
-    'a4': 'u',
-    'a5': 'u', //a5 == "Others" => check a5ii
-    'a5ii': 'u',
-    'a6': 'u',
-    'a7': 'u',
-    'a8': 'u', //a8 == "working" => check a8i elif (a8 == "school") check a8ii
-    'a8i': 'u',
-    'a8ii': 'u',
+    'a1': "-",
+    'a2': "-",
+    'a3': "-",
+    'a4': "-",
+    'a5': "-", //a5 == "Others" => check a5ii
+    'a5ii': "-",
+    'a6': "-",
+    'a7': "-",
+    'a8': "-", //a8 == "working" => check a8i elif (a8 == "school") check a8ii
+    'a8i': "-",
+    'a8ii': "-",
     'a9':
-        'u', //a9 =="married" => check a9i elif (a9 == "widow/widower") check a9ii
-    'a9i': 'u',
-    'a9ii': 'u',
-    'a10': 'u',
-    'a11a': 'u',
-    'a11b': 'u',
-    'a12': 'u',
-    'a13': 'u',
+        "-", //a9 =="married" => check a9i elif (a9 == "widow/widower") check a9ii
+    'a9i': "-",
+    'a9ii': "-",
+    'a10': "-",
+    'a11a': "-",
+    'a11b': "-",
+    'a12': "-",
+    'a13': "-",
     'b1a': [],
     'b1b': [],
     'b1c': [],
     'b1d': [],
     'b1e': [],
     'b1f': [],
-    'b2': 'u',
-    'b3a': 'u',
+    'b2': "-",
+    'b3a': "-",
 
-    'b3b': 'u',
-    'b3bi': 'u', // if b3b yes
-    'b4': 'u',
-    'b4i': 'u', //if b4 yes
-    'c1': 'u',
-    'd1a': 'u',
-    'd1b': 'u',
-    'd1c': 'u',
-    'd2a': 'u',
-    'd2b': 'u',
-    'd2c': 'u',
-    'd2d': 'u',
-    'd2e': 'u',
-    'd3': 'u',
-    'e1': 'u',
-    'e2': 'u',
-    'f1a': 'u',
-    'f1b': 'u',
-    'f1c': 'u',
-    'f1d': 'u',
-    'f1di': 'u', // if f1d yes
-    'f2a': 'u',
-    'f2b': 'u',
-    'f3': 'u',
-    'f4': 'u',
-    'f5': 'u',
-    'f6': 'u',
-    'f7a': 'u',
-    'f7b': 'u',
-    'f7c': 'u',
-    'f8': 'u',
-    'f9': 'u',
-    'f10': 'u',
-    'f11': 'u',
-    'f12': 'u',
-    'g1a': 'u',
-    'g1b': 'u',
-    'g1c': 'u',
-    'g1d': 'u',
-    'g1di': 'u', //if g1d yes
-    'h1a': 'u',
-    'h1b': 'u',
-    'h1c': 'u',
-    'h1d': 'u',
-    'h2a': 'u',
-    'h2b': 'u',
-    'h2c': 'u',
-    'h2d': 'u',
-    'h2e': 'u',
-    'h2f': 'u',
-    'i1': 'u',
+    'b3b': "-",
+    'b3bi': "-", // if b3b yes
+    'b4': "-",
+    'b4i': "-", //if b4 yes
+    'c1': "-",
+    'd1a': "-",
+    'd1b': "-",
+    'd1c': "-",
+    'd2a': "-",
+    'd2b': "-",
+    'd2c': "-",
+    'd2d': "-",
+    'd2e': "-",
+    'd3': "-",
+    'e1': "-",
+    'e2': "-",
+    'f1a': "-",
+    'f1b': "-",
+    'f1c': "-",
+    'f1d': "-",
+    'f1di': "-", // if f1d yes
+    'f2a': "-",
+    'f2b': "-",
+    'f3': "-",
+    'f4': "-",
+    'f5': "-",
+    'f6': "-",
+    'f7a': "-",
+    'f7b': "-",
+    'f7c': "-",
+    'f8': "-",
+    'f9': "-",
+    'f10': "-",
+    'f11': "-",
+    'f12': "-",
+    'g1a': "-",
+    'g1b': "-",
+    'g1c': "-",
+    'g1d': "-",
+    'g1di': "-", //if g1d yes
+    'h1a': "-",
+    'h1b': "-",
+    'h1c': "-",
+    'h1d': "-",
+    'h2a': "-",
+    'h2b': "-",
+    'h2c': "-",
+    'h2d': "-",
+    'h2e': "-",
+    'h2f': "-",
+    'i1': "-",
     'j1': [],
-    'j2': 'u',
-    'j3a': 'u',
-    'j3b': 'u',
-    'j3c': 'u',
-    'j3d': 'u',
-    'j3e': 'u',
-    'j3f': 'u',
-    'j3g': 'u',
-    'k1': 'u',
+    'j2': "-",
+    'j3a': "-",
+    'j3b': "-",
+    'j3c': "-",
+    'j3d': "-",
+    'j3e': "-",
+    'j3f': "-",
+    'j3g': "-",
+    'k1': "-",
   };
 
   changeValues(name, value) {
@@ -261,7 +261,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                     changeValues("a5", value);
                   },
                   validator: (value) {
-                    if (values['a5'] == "u") {
+                    if (values['a5'] == "-") {
                       return 'Required';
                     }
                     return null;
@@ -286,7 +286,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                           },
                           validator: (value) {
                             if (values['a5'] == 'Other' &&
-                                (values['a5ii'] == 'u' ||
+                                (values['a5ii'] == "-" ||
                                     values['a5ii'] == '')) {
                               return 'Required';
                             }
@@ -388,7 +388,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                 changeValues("a8", value);
               },
               validator: (value) {
-                if (values['a8'] == 'u') {
+                if (values['a8'] == "-") {
                   return 'Required';
                 }
                 return null;
@@ -416,7 +416,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                           child: FormBuilderTextField(
                             validator: (value) {
                               if (values['a8'] == 'working' &&
-                                  (values['a8i'] == 'u' ||
+                                  (values['a8i'] == "-" ||
                                       values['a8i'] == '')) {
                                 return 'Required';
                               }
@@ -452,7 +452,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                             },
                             validator: (value) {
                               if (values['a8'] == 'studying' &&
-                                  (values['a8ii'] == 'u' ||
+                                  (values['a8ii'] == "-" ||
                                       values['a8ii'] == '')) {
                                 return 'Required';
                               }
@@ -505,7 +505,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                           child: FormBuilderTextField(
                             validator: (value) {
                               if (values['a9'] == 'married' &&
-                                  (values['a9i'] == 'u' ||
+                                  (values['a9i'] == "-" ||
                                       values['a9i'] == '')) {
                                 return 'Required';
                               }
@@ -538,7 +538,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                           child: FormBuilderTextField(
                             validator: (value) {
                               if (values['a9'] == 'widow' &&
-                                  (values['a9ii'] == 'u' ||
+                                  (values['a9ii'] == "-" ||
                                       values['a9ii'] == '')) {
                                 return 'Required';
                               }
@@ -640,7 +640,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                     child: SizedBox(),
                   ),
                   Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -667,9 +667,9 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                       padding: EdgeInsets.only(right: 3),
                       child: Text("a."),
                     ),
-                    Expanded(flex: 11, child: Text("Hypertension")),
+                    Expanded(flex: 10, child: Text("Hypertension")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           onChanged: (value) {
                             changeValues('b1a', value);
@@ -707,9 +707,9 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         padding: EdgeInsets.only(right: 3),
                         child: Text("b."),
                       ),
-                      Expanded(flex: 11, child: Text("Diabetes")),
+                      Expanded(flex: 10, child: Text("Diabetes")),
                       Expanded(
-                        flex: 7,
+                        flex: 8,
                         child: FormBuilderCheckboxGroup(
                             onChanged: (value) {
                               changeValues('b1b', value);
@@ -742,9 +742,9 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                       padding: EdgeInsets.only(right: 3),
                       child: Text("c."),
                     ),
-                    Expanded(flex: 11, child: Text("Heart Disease")),
+                    Expanded(flex: 10, child: Text("Heart Disease")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           onChanged: (value) {
                             changeValues('b1c', value);
@@ -782,9 +782,9 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         padding: EdgeInsets.only(right: 3),
                         child: Text("d."),
                       ),
-                      Expanded(flex: 11, child: Text("Asthma")),
+                      Expanded(flex: 10, child: Text("Asthma")),
                       Expanded(
-                        flex: 7,
+                        flex: 8,
                         child: FormBuilderCheckboxGroup(
                             onChanged: (value) {
                               changeValues('b1d', value);
@@ -818,10 +818,10 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                       child: Text("e."),
                     ),
                     Expanded(
-                        flex: 11,
+                        flex: 10,
                         child: Text("Hereditary Disease (e.g. Thalassemia)")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           onChanged: (value) {
                             changeValues('b1e', value);
@@ -860,11 +860,11 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         child: Text("f."),
                       ),
                       Expanded(
-                          flex: 11,
+                          flex: 10,
                           child:
                               Text("Contagious Disease (e.g. TB, Hepatitis)")),
                       Expanded(
-                        flex: 7,
+                        flex: 8,
                         child: FormBuilderCheckboxGroup(
                             onChanged: (value) {
                               changeValues('b1f', value);
@@ -924,7 +924,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                       },
                       validator: (value) {
                         if (values['b3b'] == 'y' &&
-                            (values['b3bi'] == "u" || values['b3bi'] == "")) {
+                            (values['b3bi'] == "-" || values['b3bi'] == "")) {
                           return 'Required';
                         }
                         return null;
@@ -956,7 +956,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                   },
                   validator: (value) {
                     if (values['b4'] == 'y' &&
-                        (values['b4i'] == "u" || values['b4i'] == "")) {
+                        (values['b4i'] == "-" || values['b4i'] == "")) {
                       return 'Required';
                     }
                     return null;
@@ -1037,7 +1037,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                         changeValues("d3", value);
                       },
                       validator: (value) {
-                        if (values['d3'] == "u") {
+                        if (values['d3'] == "-") {
                           return 'Required';
                         }
                         return null;
@@ -1115,7 +1115,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                       },
                       validator: (value) {
                         if (values['f1d'] == 'y' &&
-                            (values['f1di'] == "u" || values['f1di'] == "")) {
+                            (values['f1di'] == "-" || values['f1di'] == "")) {
                           return 'Required';
                         }
                         return null;
@@ -1268,7 +1268,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                       },
                       validator: (value) {
                         if (values['g1d'] == 'y' &&
-                            (values['g1di'] == "u" || values['g1di'] == "")) {
+                            (values['g1di'] == "-" || values['g1di'] == "")) {
                           return 'Required';
                         }
                         return null;
@@ -2314,11 +2314,11 @@ class yesno extends StatelessWidget {
     return Row(
       children: const [
         Expanded(
-          flex: 12,
+          flex: 11,
           child: SizedBox(),
         ),
         Expanded(
-            flex: 7,
+            flex: 8,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -2387,9 +2387,9 @@ class _ListQuestionState extends State<ListQuestion> {
                                       ? "f."
                                       : "g."),
             ),
-            Expanded(flex: 11, child: Text(widget.text)),
+            Expanded(flex: 10, child: Text(widget.text)),
             Expanded(
-              flex: 7,
+              flex: 8,
               child: FormBuilderRadioGroup(
                   name: widget.name,
                   validator: (value) {
@@ -2403,10 +2403,10 @@ class _ListQuestionState extends State<ListQuestion> {
                       widget.callback(widget.name, value);
                     });
                   },
-                  wrapAlignment: WrapAlignment.spaceAround,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                   ),
+                  wrapAlignment: WrapAlignment.spaceAround,
                   options: const <FormBuilderFieldOption>[
                     FormBuilderFieldOption(
                       value: 'y',

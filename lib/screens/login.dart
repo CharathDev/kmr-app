@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:kmrapp/screens/ADMIN_home_page.dart';
 import 'package:kmrapp/screens/STAFF_root.dart';
-import 'package:kmrapp/screens/home_page.dart';
 import 'package:kmrapp/screens/register.dart';
 import 'package:kmrapp/screens/root.dart';
 import 'package:kmrapp/screens/ADMIN_root.dart';
@@ -17,6 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String errorMessage = '';
   final emailController = TextEditingController(
       text: "test@gmail.com"); //remove initial value later
   final passwordController =
@@ -57,6 +56,9 @@ class _LoginPageState extends State<LoginPage> {
       }
     } on FirebaseAuthException catch (e) {
       print(e);
+      setState(() {
+        errorMessage = "Invalid credentials";
+      });
       return;
     }
   }
@@ -75,9 +77,8 @@ class _LoginPageState extends State<LoginPage> {
         ),
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.only(left: 40, right: 40, bottom: 20),
             width: double.infinity,
-            height: 200,
             decoration: const BoxDecoration(
                 color: Color(0xffDFCEFA),
                 borderRadius: BorderRadius.only(
@@ -88,8 +89,9 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Text(
                   'User Login',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 35,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Color(0xff966FD6)),
                 ),
@@ -109,16 +111,22 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 70,
+                  height: 40,
                 ),
                 TextField(
                   decoration: InputDecoration(
+                    errorText: errorMessage.isNotEmpty ? errorMessage : null,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     labelText: 'Email',
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      errorMessage = "";
+                    });
+                  },
                   controller: emailController, //initial value: "test@gmail.com"
                 ),
                 const SizedBox(
@@ -127,38 +135,21 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
+                      errorText: errorMessage.isNotEmpty ? errorMessage : null,
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 30),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50)),
                       labelText: 'Password'),
+                  onChanged: (value) {
+                    setState(() {
+                      errorMessage = "";
+                    });
+                  },
                   controller: passwordController, //initial value: "123123"
                 ),
                 const SizedBox(
                   height: 30,
-                ),
-                Wrap(
-                  alignment: WrapAlignment.start,
-                  runAlignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    const Text(
-                      "Don't have an account?",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RegisterPage()),
-                          );
-                        },
-                        child: const Text('Register here'))
-                  ],
-                ),
-                const SizedBox(
-                  height: 50,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -188,7 +179,31 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ))
                   ],
-                )
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have an account?",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterPage()),
+                          );
+                        },
+                        child: const Text('Register here'))
+                  ],
+                ),
+                
               ],
             ),
           )

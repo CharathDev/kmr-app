@@ -106,7 +106,7 @@ class _RootPageState extends State<RootPage> {
                             submitted = data['BSSK'] != null;
 
                             return Text(
-                              'Hi, ' + data['fullName'] + '!',
+                              'Hi, ' + data['fullName'].split(" ")[0] + '!',
                               style: const TextStyle(
                                   fontSize: 40,
                                   fontWeight: FontWeight.bold,

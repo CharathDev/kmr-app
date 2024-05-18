@@ -46,15 +46,15 @@ class _ProfilePageState extends State<ProfilePage> {
           emailController.text = data["email"];
           return Column(
             children: [
-              Image.asset(
-                'lib/assets/images/profile.png',
-                width: 200,
-              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: ListView(
                     children: [
+                      Image.asset(
+                        'lib/assets/images/profile.png',
+                        height: 180,
+                      ),
                       const SizedBox(
                         height: 50,
                       ),
@@ -130,6 +130,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                   "email": emailController.text,
                                 });
                               });
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content:
+                                        Text("Profile updated successfully."),
+                                    actions: [
+                                      TextButton(
+                                        child: Text("OK"),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             style: ButtonStyle(
                               overlayColor:
@@ -137,7 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 50),
+                                  vertical: 15, horizontal: 30),
                               decoration: BoxDecoration(
                                 color: const Color(0xff966FD6),
                                 borderRadius: BorderRadius.circular(100),
@@ -147,6 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),

@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           textTheme: GoogleFonts.plusJakartaSansTextTheme(
               Theme.of(context).textTheme)),
-      home: const OnboardingScreen(),
-      // home: ADMINRootPage(),
+      // home: const VerificationPage(verificationId: "dsd"),
+      home: OnboardingScreen(),
     );
   }
 }

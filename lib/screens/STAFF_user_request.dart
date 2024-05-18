@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -379,7 +377,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   child: SizedBox(),
                 ),
                 Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -406,9 +404,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                     padding: EdgeInsets.only(right: 3),
                     child: Text("a."),
                   ),
-                  const Expanded(flex: 11, child: Text("Hypertension")),
+                  const Expanded(flex: 10, child: Text("Hypertension")),
                   Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: FormBuilderCheckboxGroup(
                         name: "s",
                         enabled: false,
@@ -445,9 +443,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       padding: EdgeInsets.only(right: 3),
                       child: Text("b."),
                     ),
-                    const Expanded(flex: 11, child: Text("Diabetes")),
+                    const Expanded(flex: 10, child: Text("Diabetes")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           name: "s",
                           enabled: false,
@@ -479,9 +477,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                     padding: EdgeInsets.only(right: 3),
                     child: Text("c."),
                   ),
-                  const Expanded(flex: 11, child: Text("Heart Disease")),
+                  const Expanded(flex: 10, child: Text("Heart Disease")),
                   Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: FormBuilderCheckboxGroup(
                         name: "s",
                         enabled: false,
@@ -518,9 +516,9 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       padding: EdgeInsets.only(right: 3),
                       child: Text("d."),
                     ),
-                    const Expanded(flex: 11, child: Text("Asthma")),
+                    const Expanded(flex: 10, child: Text("Asthma")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           name: "s",
                           enabled: false,
@@ -553,10 +551,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                     child: Text("e."),
                   ),
                   const Expanded(
-                      flex: 11,
+                      flex: 10,
                       child: Text("Hereditary Disease (e.g. Thalassemia)")),
                   Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: FormBuilderCheckboxGroup(
                         name: "s",
                         enabled: false,
@@ -594,10 +592,10 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                       child: Text("f."),
                     ),
                     const Expanded(
-                        flex: 11,
+                        flex: 10,
                         child: Text("Contagious Disease (e.g. TB, Hepatitis)")),
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: FormBuilderCheckboxGroup(
                           name: "s",
                           enabled: false,
@@ -1458,7 +1456,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 70,
+                                width: 65,
                                 child: Text(
                                   "Name",
                                   style: TextStyle(
@@ -1484,7 +1482,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 70,
+                                width: 65,
                                 child: Text(
                                   "E-mail",
                                   style: TextStyle(
@@ -1510,7 +1508,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                           const Row(
                             children: [
                               SizedBox(
-                                width: 70,
+                                width: 65,
                                 child: Text(
                                   "IC",
                                   style: TextStyle(
@@ -1542,7 +1540,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.02),
+                      horizontal: 3),
                   child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -1664,7 +1662,7 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                                           "Has the appointment successfully ended?"),
                                       actions: [
                                         TextButton(
-                                          child: const Text("OK"),
+                                          child: const Text("Yes"),
                                           onPressed: () {
                                             endAppointment();
                                             int count = 0;
@@ -1725,7 +1723,7 @@ class yesno extends StatelessWidget {
           child: SizedBox(),
         ),
         Expanded(
-            flex: 7,
+            flex: 8,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -1785,9 +1783,9 @@ class ListQuestion extends StatelessWidget {
                                       ? "f."
                                       : "g."),
             ),
-            Expanded(flex: 11, child: Text(text)),
+            Expanded(flex: 10, child: Text(text)),
             Expanded(
-              flex: 7,
+              flex: 8,
               child: FormBuilderRadioGroup(
                   enabled: false,
                   initialValue: values[name],
