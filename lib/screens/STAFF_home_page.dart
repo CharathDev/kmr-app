@@ -38,6 +38,7 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
               .doc(docSnapshot.data()["userID"])
               .get()
               .then((value) => value.data());
+          print(userInfo);
           var date = docSnapshot.data()["date"].toString().split(" ");
           var finalDate = date[0] + "/" + date[1] + "/" + date[2];
           var tempData = {
@@ -120,8 +121,12 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
               ],
             );
           } else if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error.toString()),
+            return Expanded(
+              child: Container(
+                child: Center(
+                  child: Text("No new user requests found."),
+                ),
+              ),
             );
           } else {
             return const Center(child: Text('Something went wrong'));
