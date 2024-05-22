@@ -1477,6 +1477,7 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
         },
       }.toSet(),
     ];
+
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd \n h:mm:ss a').format(now);
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -1992,309 +1993,335 @@ class _TCABSSKPageState extends State<TCABSSKPage> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        if (data['doctors'] != null)
-                                          Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text(
-                                                'Recommended for You!',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18),
-                                              ),
-                                              ListView.builder(
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  physics:
-                                                      const NeverScrollableScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  itemCount:
-                                                      data['doctors'].length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        FutureBuilder(
-                                                            future:
-                                                                getRecommendedStaffInfo(
+                                    LayoutBuilder(
+                                        builder: ((context, constraints) {
+                                      if (data['doctors'] != null) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            if (data['doctors'] != null)
+                                              Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    'Recommended for You!',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18),
+                                                  ),
+                                                  ListView.builder(
+                                                      scrollDirection:
+                                                          Axis.vertical,
+                                                      physics:
+                                                          const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: data['doctors']
+                                                          .length,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        return Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            FutureBuilder(
+                                                                future: getRecommendedStaffInfo(
                                                                     data['doctors']
                                                                         [
                                                                         index]),
-                                                            builder: ((context,
-                                                                snapshot) {
-                                                              if (!snapshot
-                                                                      .hasData &&
-                                                                  snapshot.connectionState !=
-                                                                      ConnectionState
-                                                                          .done) {
-                                                                return CircularProgressIndicator();
-                                                              } else {
-                                                                Map<String,
-                                                                        dynamic>
-                                                                    staffData =
-                                                                    snapshot
-                                                                        .data!
-                                                                        .data();
-                                                                return StaffInfo(
-                                                                  staffData:
-                                                                      snapshot
+                                                                builder: ((context,
+                                                                    snapshot) {
+                                                                  if (!snapshot
+                                                                          .hasData &&
+                                                                      snapshot.connectionState !=
+                                                                          ConnectionState
+                                                                              .done) {
+                                                                    return CircularProgressIndicator();
+                                                                  } else {
+                                                                    Map<String,
+                                                                            dynamic>
+                                                                        staffData =
+                                                                        snapshot
+                                                                            .data!
+                                                                            .data();
+                                                                    return StaffInfo(
+                                                                      staffData: snapshot
                                                                           .data!
                                                                           .reference,
-                                                                  staffName:
-                                                                      staffData[
-                                                                          "name"],
-                                                                  staffID: "0",
-                                                                  userData:
-                                                                      snapshotReference,
-                                                                );
-                                                              }
-                                                            }))
-                                                      ],
-                                                    );
-                                                  }),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              FutureBuilder(
-                                                  future:
-                                                      getRecommendedStaffListName(),
-                                                  builder: (context, string) {
-                                                    if (!string.hasData &&
-                                                        string.connectionState !=
-                                                            ConnectionState
-                                                                .done) {
-                                                      return CircularProgressIndicator();
-                                                    } else {
-                                                      var data = string.data!;
-                                                      return RichText(
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        text: TextSpan(
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              color:
-                                                                  Colors.black),
-                                                          children: <TextSpan>[
-                                                            TextSpan(
-                                                                text:
-                                                                    'Based on your previous '),
-                                                            TextSpan(
-                                                              text:
-                                                                  'BSSK results',
+                                                                      staffName:
+                                                                          staffData[
+                                                                              "name"],
+                                                                      staffID:
+                                                                          "0",
+                                                                      userData:
+                                                                          snapshotReference,
+                                                                    );
+                                                                  }
+                                                                }))
+                                                          ],
+                                                        );
+                                                      }),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  FutureBuilder(
+                                                      future:
+                                                          getRecommendedStaffListName(),
+                                                      builder:
+                                                          (context, string) {
+                                                        if (!string.hasData &&
+                                                            string.connectionState !=
+                                                                ConnectionState
+                                                                    .done) {
+                                                          return CircularProgressIndicator();
+                                                        } else {
+                                                          var data =
+                                                              string.data!;
+                                                          return RichText(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            text: TextSpan(
                                                               style: TextStyle(
                                                                   fontSize: 16,
                                                                   color: Colors
                                                                       .black),
+                                                              children: <TextSpan>[
+                                                                TextSpan(
+                                                                    text:
+                                                                        'Based on your previous '),
+                                                                TextSpan(
+                                                                  text:
+                                                                      'BSSK results',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                TextSpan(
+                                                                    text:
+                                                                        ', it looks like our '),
+                                                                TextSpan(
+                                                                  text: data,
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                                TextSpan(
+                                                                    text:
+                                                                        'will be the best option for you.'),
+                                                              ],
                                                             ),
-                                                            TextSpan(
-                                                                text:
-                                                                    ', it looks like our '),
-                                                            TextSpan(
-                                                              text: data,
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                            TextSpan(
-                                                                text:
-                                                                    'will be the best option for you.'),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    }
-                                                  }),
-                                              SizedBox(
-                                                height: 15,
+                                                          );
+                                                        }
+                                                      }),
+                                                  SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Divider(
+                                                    color: Colors.black,
+                                                  ),
+                                                  SizedBox(height: 15),
+                                                ],
                                               ),
-                                              Divider(
-                                                color: Colors.black,
-                                              ),
-                                              SizedBox(height: 15),
-                                            ],
-                                          ),
-                                        Text(
-                                          'Counsellors',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                        FutureBuilder(
-                                            future: getStaffInfo("Counsellor"),
-                                            builder: (context, list) {
-                                              if (!list.hasData &&
-                                                  list.connectionState !=
-                                                      ConnectionState.done) {
-                                                return CircularProgressIndicator();
-                                              } else {
-                                                final staffList = list.data!;
-                                                return ListView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    shrinkWrap: true,
-                                                    itemCount: staffList.length,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      var staffData =
-                                                          staffList[index]
-                                                              .data();
-                                                      return Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          StaffInfo(
-                                                            staffData:
-                                                                staffList[index]
+                                            Text(
+                                              'Counsellors',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                            FutureBuilder(
+                                                future:
+                                                    getStaffInfo("Counsellor"),
+                                                builder: (context, list) {
+                                                  if (!list.hasData &&
+                                                      list.connectionState !=
+                                                          ConnectionState
+                                                              .done) {
+                                                    return CircularProgressIndicator();
+                                                  } else {
+                                                    final staffList =
+                                                        list.data!;
+                                                    return ListView.builder(
+                                                        physics:
+                                                            const NeverScrollableScrollPhysics(),
+                                                        scrollDirection:
+                                                            Axis.vertical,
+                                                        shrinkWrap: true,
+                                                        itemCount:
+                                                            staffList.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          var staffData =
+                                                              staffList[index]
+                                                                  .data();
+                                                          return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              StaffInfo(
+                                                                staffData: staffList[
+                                                                        index]
                                                                     .reference,
-                                                            staffName:
-                                                                staffData[
-                                                                    "name"],
-                                                            staffID: "0",
-                                                            userData:
-                                                                snapshotReference,
-                                                          )
-                                                        ],
-                                                      );
-                                                    });
-                                              }
-                                            }),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        Text(
-                                          'Medical Officers',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                        FutureBuilder(
-                                            future:
-                                                getStaffInfo("Medical Officer"),
-                                            builder: (context, list) {
-                                              if (!list.hasData &&
-                                                  list.connectionState !=
-                                                      ConnectionState.done) {
-                                                return CircularProgressIndicator();
-                                              } else {
-                                                final staffList = list.data!;
-                                                return ListView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    shrinkWrap: true,
-                                                    itemCount: staffList.length,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      var staffData =
-                                                          staffList[index]
-                                                              .data();
-                                                      return Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          StaffInfo(
-                                                            staffData:
-                                                                staffList[index]
+                                                                staffName:
+                                                                    staffData[
+                                                                        "name"],
+                                                                staffID: "0",
+                                                                userData:
+                                                                    snapshotReference,
+                                                              )
+                                                            ],
+                                                          );
+                                                        });
+                                                  }
+                                                }),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            Text(
+                                              'Medical Officers',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                            FutureBuilder(
+                                                future: getStaffInfo(
+                                                    "Medical Officer"),
+                                                builder: (context, list) {
+                                                  if (!list.hasData &&
+                                                      list.connectionState !=
+                                                          ConnectionState
+                                                              .done) {
+                                                    return CircularProgressIndicator();
+                                                  } else {
+                                                    final staffList =
+                                                        list.data!;
+                                                    return ListView.builder(
+                                                        physics:
+                                                            const NeverScrollableScrollPhysics(),
+                                                        scrollDirection:
+                                                            Axis.vertical,
+                                                        shrinkWrap: true,
+                                                        itemCount:
+                                                            staffList.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          var staffData =
+                                                              staffList[index]
+                                                                  .data();
+                                                          return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              StaffInfo(
+                                                                staffData: staffList[
+                                                                        index]
                                                                     .reference,
-                                                            staffName:
-                                                                staffData[
-                                                                    "name"],
-                                                            staffID: "0",
-                                                            userData:
-                                                                snapshotReference,
-                                                          )
-                                                        ],
-                                                      );
-                                                    });
-                                              }
-                                            }),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        Text(
-                                          'Occupational Therapists',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                        FutureBuilder(
-                                            future: getStaffInfo(
-                                                "Occupational Therapist"),
-                                            builder: (context, list) {
-                                              if (!list.hasData &&
-                                                  list.connectionState !=
-                                                      ConnectionState.done) {
-                                                return CircularProgressIndicator();
-                                              } else {
-                                                final staffList = list.data!;
-                                                return ListView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    shrinkWrap: true,
-                                                    itemCount: staffList.length,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      var staffData =
-                                                          staffList[index]
-                                                              .data();
-                                                      return Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          StaffInfo(
-                                                            staffData:
-                                                                staffList[index]
+                                                                staffName:
+                                                                    staffData[
+                                                                        "name"],
+                                                                staffID: "0",
+                                                                userData:
+                                                                    snapshotReference,
+                                                              )
+                                                            ],
+                                                          );
+                                                        });
+                                                  }
+                                                }),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            Text(
+                                              'Occupational Therapists',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                            FutureBuilder(
+                                                future: getStaffInfo(
+                                                    "Occupational Therapist"),
+                                                builder: (context, list) {
+                                                  if (!list.hasData &&
+                                                      list.connectionState !=
+                                                          ConnectionState
+                                                              .done) {
+                                                    return CircularProgressIndicator();
+                                                  } else {
+                                                    final staffList =
+                                                        list.data!;
+                                                    return ListView.builder(
+                                                        physics:
+                                                            const NeverScrollableScrollPhysics(),
+                                                        scrollDirection:
+                                                            Axis.vertical,
+                                                        shrinkWrap: true,
+                                                        itemCount:
+                                                            staffList.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          var staffData =
+                                                              staffList[index]
+                                                                  .data();
+                                                          return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              StaffInfo(
+                                                                staffData: staffList[
+                                                                        index]
                                                                     .reference,
-                                                            staffName:
-                                                                staffData[
-                                                                    "name"],
-                                                            staffID: "0",
-                                                            userData:
-                                                                snapshotReference,
-                                                          )
-                                                        ],
-                                                      );
-                                                    });
-                                              }
-                                            }),
-                                        SizedBox(
-                                          height: 20,
-                                        )
-                                      ],
-                                    )
+                                                                staffName:
+                                                                    staffData[
+                                                                        "name"],
+                                                                staffID: "0",
+                                                                userData:
+                                                                    snapshotReference,
+                                                              )
+                                                            ],
+                                                          );
+                                                        });
+                                                  }
+                                                }),
+                                            SizedBox(
+                                              height: 20,
+                                            )
+                                          ],
+                                        );
+                                      } else {
+                                        return Center(
+                                          child: Text(
+                                              'Please fill in the bssk before booking an appointment.'),
+                                        );
+                                      }
+                                    }))
                                   ],
                                 ),
                               ),
