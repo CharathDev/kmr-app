@@ -501,9 +501,9 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                         bottom: MyTabBar(
                           child: TabBar(
                             padding: EdgeInsets.fromLTRB(
-                                MediaQuery.of(context).size.width * 0.15,
+                                MediaQuery.of(context).size.width * 0.05,
                                 0,
-                                MediaQuery.of(context).size.width * 0.15,
+                                MediaQuery.of(context).size.width * 0.05,
                                 0),
                             tabs: const [
                               Tab(text: "New"),
@@ -665,27 +665,33 @@ class UserRecords extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                        fontFamily: "LeagueSpartan",
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20,
-                        color: Colors.black),
-                  ),
-                  Text(
-                    email,
-                    style: const TextStyle(
-                        fontFamily: "LeagueSpartan",
-                        fontWeight: FontWeight.w300,
-                        fontSize: 16,
-                        color: Colors.black),
-                  ),
-                ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width *
+                                        0.55,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      name,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontFamily: "LeagueSpartan",
+                          fontWeight: FontWeight.w900,
+                          fontSize: 20,
+                          color: Colors.black),
+                    ),
+                    Text(
+                      email,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontFamily: "LeagueSpartan",
+                          fontWeight: FontWeight.w300,
+                          fontSize: 16,
+                          color: Colors.black),
+                    ),
+                  ],
+                ),
               ),
               const Spacer(),
               const Icon(

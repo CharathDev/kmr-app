@@ -213,9 +213,14 @@ class UserRecords extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(name,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
+                  Container(
+                    width: MediaQuery.of(context).size.width *
+                                        0.6,
+                    child: Text(name,
+                    overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                  ),
                   const Spacer(),
                   const Icon(
                     Icons.arrow_forward_ios,

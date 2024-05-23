@@ -1471,12 +1471,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                               ),
                             ],
                           ),
-                          Text(
-                            widget.name,
-                            style: const TextStyle(fontSize: 16),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width > 320
+                                ? MediaQuery.of(context).size.width * 0.55
+                                : MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              widget.name,
+                              style: const TextStyle(fontSize: 16),
+                            ),
                           )
                         ],
                       ),
+                      SizedBox(height: 5,),
                       Row(
                         children: [
                           const Row(
@@ -1497,12 +1503,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                               ),
                             ],
                           ),
-                          Text(
-                            widget.email,
-                            style: const TextStyle(fontSize: 16),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width > 320
+                                ? MediaQuery.of(context).size.width * 0.55
+                                : MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              widget.email,
+                              style: const TextStyle(fontSize: 16),
+                            ),
                           )
                         ],
                       ),
+                      SizedBox(height: 5,),
                       Row(
                         children: [
                           const Row(
@@ -1523,9 +1535,14 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                               ),
                             ],
                           ),
-                          Text(
-                            widget.ic,
-                            style: const TextStyle(fontSize: 16),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width > 320
+                                ? MediaQuery.of(context).size.width * 0.55
+                                : MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              widget.ic,
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           )
                         ],
                       ),
