@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/STAFF_user_request.dart';
-import 'material.dart';
 
 class STAFFHomePage extends StatefulWidget {
   const STAFFHomePage({super.key});
@@ -31,6 +30,8 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
         .get()
         .then((querySnapshot) async {
       for (var docSnapshot in querySnapshot.docs) {
+        print(docSnapshot.data());
+        print(user.uid);
         if (docSnapshot.data()["staffID"] == user.uid) {
           var userInfo = await FirebaseFirestore.instance
               .collection('users')
@@ -54,6 +55,7 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
         }
       }
     });
+    print(userList);
     return userList;
   }
 
@@ -99,7 +101,7 @@ class _STAFFHomePageState extends State<STAFFHomePage> {
                                 name: snapshot.data![index]['fullName'],
                                 email: snapshot.data![index]['email'],
                                 ic: snapshot.data![index]['icNumber'],
-                                values: snapshot.data![index]['BSSK'],
+                                values: snapshot.data![index]['BSSK'] == null? {"isNull": true}: snapshot.data![index]['BSSK'],
                                 phoneNumber: snapshot.data![index]
                                     ['phoneNumber'],
                                 date: snapshot.data![index]['date'],
@@ -211,9 +213,14 @@ class UserRecords extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(name,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
+                  Container(
+                    width: MediaQuery.of(context).size.width *
+                                        0.6,
+                    child: Text(name,
+                    overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                  ),
                   const Spacer(),
                   const Icon(
                     Icons.arrow_forward_ios,

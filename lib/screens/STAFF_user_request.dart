@@ -1471,12 +1471,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                               ),
                             ],
                           ),
-                          Text(
-                            widget.name,
-                            style: const TextStyle(fontSize: 16),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width > 320
+                                ? MediaQuery.of(context).size.width * 0.55
+                                : MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              widget.name,
+                              style: const TextStyle(fontSize: 16),
+                            ),
                           )
                         ],
                       ),
+                      SizedBox(height: 5,),
                       Row(
                         children: [
                           const Row(
@@ -1497,12 +1503,18 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                               ),
                             ],
                           ),
-                          Text(
-                            widget.email,
-                            style: const TextStyle(fontSize: 16),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width > 320
+                                ? MediaQuery.of(context).size.width * 0.55
+                                : MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              widget.email,
+                              style: const TextStyle(fontSize: 16),
+                            ),
                           )
                         ],
                       ),
+                      SizedBox(height: 5,),
                       Row(
                         children: [
                           const Row(
@@ -1523,9 +1535,14 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                               ),
                             ],
                           ),
-                          Text(
-                            widget.ic,
-                            style: const TextStyle(fontSize: 16),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width > 320
+                                ? MediaQuery.of(context).size.width * 0.55
+                                : MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              widget.ic,
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           )
                         ],
                       ),
@@ -1539,93 +1556,106 @@ class _STAFFUserRequestPageState extends State<STAFFUserRequestPage> {
                   height: 30,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 3),
-                  child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: STAFFUserRequestPage.title.length,
-                      itemBuilder: (BuildContext context, int i) {
-                        return Card(
-                          color: const Color(0xffededeb),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Theme(
-                            data: ThemeData()
-                                .copyWith(dividerColor: Colors.transparent),
-                            child: ExpansionTile(
-                                iconColor: Colors.black,
-                                collapsedIconColor: Colors.black,
-                                expandedCrossAxisAlignment:
-                                    CrossAxisAlignment.end,
-                                title: Text(
-                                  STAFFUserRequestPage.title[i],
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w900),
+                    padding: EdgeInsets.symmetric(horizontal: 3),
+                    child: widget.values["isNull"] == null
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: STAFFUserRequestPage.title.length,
+                            itemBuilder: (BuildContext context, int i) {
+                              return Card(
+                                color: const Color(0xffededeb),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: Theme(
+                                  data: ThemeData().copyWith(
+                                      dividerColor: Colors.transparent),
+                                  child: ExpansionTile(
+                                      iconColor: Colors.black,
+                                      collapsedIconColor: Colors.black,
+                                      expandedCrossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      title: Text(
+                                        STAFFUserRequestPage.title[i],
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w900),
+                                      ),
+                                      children: [
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        bottomLeft:
+                                                            Radius.circular(30),
+                                                        bottomRight:
+                                                            Radius.circular(
+                                                                30)),
+                                                border: Border.all(
+                                                    color:
+                                                        const Color(0xffd9d9d9),
+                                                    width: 3)),
+                                            padding: const EdgeInsets.all(8),
+                                            child: Container(
+                                              padding: const EdgeInsets.only(
+                                                top: 10,
+                                                left: 5,
+                                              ),
+                                              child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  itemCount:
+                                                      questions[i].length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 24,
+                                                              child: Text(
+                                                                  "${index + 1})"),
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(questions[
+                                                                          i]
+                                                                      .elementAt(
+                                                                          index)[
+                                                                  'text']),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left: 15),
+                                                          child: questions[i]
+                                                                  .elementAt(
+                                                                      index)[
+                                                              'child'],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }),
+                                            )),
+                                      ]),
                                 ),
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                              bottomLeft: Radius.circular(30),
-                                              bottomRight: Radius.circular(30)),
-                                          border: Border.all(
-                                              color: const Color(0xffd9d9d9),
-                                              width: 3)),
-                                      padding: const EdgeInsets.all(8),
-                                      child: Container(
-                                        padding: const EdgeInsets.only(
-                                          top: 10,
-                                          left: 5,
-                                        ),
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            itemCount: questions[i].length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 24,
-                                                        child: Text(
-                                                            "${index + 1})"),
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(questions[i]
-                                                            .elementAt(
-                                                                index)['text']),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 15),
-                                                    child: questions[i]
-                                                        .elementAt(
-                                                            index)['child'],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                ],
-                                              );
-                                            }),
-                                      )),
-                                ]),
-                          ),
-                        );
-                      }),
-                ),
+                              );
+                            })
+                        : Center(
+                            child: Text("User has not filled in HAF/BSSK."),
+                          )),
                 const SizedBox(
                   height: 40,
                 ),
