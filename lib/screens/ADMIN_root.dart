@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:kmrapp/screens/ADMIN_home_page.dart';
-import 'package:kmrapp/screens/login.dart';
 import 'package:kmrapp/screens/logout.dart';
 import 'package:kmrapp/screens/ADMIN_review_page.dart';
 

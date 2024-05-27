@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
   ];
 
   Future<List<Map<String, dynamic>>> appointmentList(String userId) async {
-    final user = FirebaseAuth.instance.currentUser!;
     List<Map<String, dynamic>> list = [];
     await FirebaseFirestore.instance
         .collection('Appointments')

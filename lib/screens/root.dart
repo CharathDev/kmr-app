@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:kmrapp/screens/ADMIN_home_page.dart';
 import 'package:kmrapp/screens/bmi_page.dart';
 import 'package:kmrapp/screens/infographics.dart';
 import 'package:kmrapp/screens/profile_page.dart';
