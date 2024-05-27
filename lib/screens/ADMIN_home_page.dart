@@ -590,13 +590,9 @@ class _ADMINHomePageState extends State<ADMINHomePage> {
                                       ),
                                     );
                                   })
-                              : Expanded(
-                                  child: Container(
-                                    child: Center(
-                                      child: Text(
-                                          "No reviewed user requests found."),
-                                    ),
-                                  ),
+                              : Center(
+                                  child: Text(
+                                      "No reviewed user requests found."),
                                 ),
                         ],
                       ),
