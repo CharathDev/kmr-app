@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kmrapp/screens/login.dart';
-import 'package:kmrapp/screens/verification_page.dart';
 import 'package:kmrapp/screens/consent_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -117,11 +116,11 @@ class _RegisterPageState extends State<RegisterPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Alert"),
-              content: Text("User registered successfully."),
+              title: const Text("Alert"),
+              content: const Text("User registered successfully."),
               actions: [
                 TextButton(
-                  child: Text("OK"),
+                  child: const Text("OK"),
                   onPressed: () {
                     Navigator.pop(context);
                   },
